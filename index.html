@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teogonía: Escape Room</title>
+    
+    <!-- Carga de React, ReactDOM y Babel para el navegador -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200 font-sans">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- ICONOS INTEGRADOS ---
+        // Se reemplazan los import de 'lucide-react' por SVGs en línea para evitar dependencias externas.
+        const Key = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></svg>;
+        const Unlock = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>;
+        const Lock = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>;
+        const Book = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>;
+        const Star = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
+        const ChevronRight = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"/></svg>;
+        const CheckCircle2 = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>;
+        const AlertCircle = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>;
+        const RefreshCw = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>;
+        const Eye = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>;
+
+
+        // --- DATOS DEL ESCAPE ROOM ---
+        const roomData = [
+          {
+            id: 1,
+            title: "Sala I: El Origen de Todo",
+            narrative: "Despiertas en el Tártaro, rodeado de niebla. Las Musas del Helicón susurran en la oscuridad. Para comenzar tu ascenso hacia el Olimpo, debes entender el principio de todas las cosas según el poeta Hesíodo.",
+            greekText: [
+              { word: "Ἤτοι", analysis: "Conjunción afirmativa / Partícula. 'En verdad', 'Ciertamente'." },
+              { word: "μὲν", analysis: "Partícula. 'Por un lado', 'Ciertamente'." },
+              { word: "πρώτιστα", analysis: "Adverbio, grado superlativo de πρῶτον. 'Primerísimamente', 'En primer lugar'." },
+              { word: "Χάος", analysis: "Sustantivo neutro, Nominativo singular. Sujeto de la oración. 'Caos', 'el Abismo'." },
+              { word: "γένετ'", analysis: "Verbo γίγνομαι. Aoristo radical, indicativo, voz media, 3ª persona singular. 'Nació', 'Surgió', 'Llegó a ser'." }
+            ],
+            translation: "En verdad, en primer lugar nació el Caos.",
+            question: "Toca las palabras para analizar su morfología. Para abrir la primera puerta, escribe en español la palabra que funciona como SUJETO de esta oración (la entidad original).",
+            answer: "caos",
+            hint: "Es un sustantivo neutro en nominativo. En español se escribe casi igual pero sin tilde en el griego original."
+          },
+          {
+            id: 2,
+            title: "Sala II: La Primera Sucesión",
+            narrative: "La niebla se disipa y pisas tierra firme, pero el cielo parece aplastarte. Estás presenciando la creación de los primeros soberanos.",
+            greekText: [
+              { word: "Γαῖα", analysis: "Sustantivo femenino, Nominativo singular. Sujeto. 'Gea', 'La Tierra'." },
+              { word: "δέ", analysis: "Partícula conectiva. 'Y', 'Pero'." },
+              { word: "τοι", analysis: "Partícula enclítica. 'Te aseguro', 'Ciertamente'." },
+              { word: "πρῶτον", analysis: "Adverbio. 'Primero'." },
+              { word: "μὲν", analysis: "Partícula correlativa con δέ." },
+              { word: "ἐγείνατο", analysis: "Verbo γείνομαι. Aoristo primero, indicativo, voz media, 3ª persona singular. 'Engendró', 'Dio a luz'." },
+              { word: "ἶσον", analysis: "Adjetivo, Acusativo masculino singular. Concuerda con Urano. 'Igual (a sí misma)'." },
+              { word: "ἑωυτῇ", analysis: "Pronombre reflexivo, Dativo femenino singular. 'A sí misma'." },
+              { word: "Οὐρανὸν", analysis: "Sustantivo masculino, Acusativo singular. Objeto Directo. 'Urano', 'El Cielo'." }
+            ],
+            translation: "Y Gea primero dio a luz a su igual, Urano.",
+            question: "Identifica la función de Οὐρανὸν (Urano). ¿En qué CASO gramatical se encuentra al ser el objeto directo de la acción de engendrar?",
+            answer: "acusativo",
+            hint: "Es el caso que recibe directamente la acción del verbo. Termina en -ν."
+          },
+          {
+            id: 3,
+            title: "Sala III: El Triunfo del Crónida",
+            narrative: "Sientes el poder del rayo. Has llegado a las puertas del Olimpo. El orden definitivo del cosmos ha sido establecido por el rey de los dioses.",
+            greekText: [
+              { word: "Ζεὺς", analysis: "Sustantivo masculino, Nominativo singular. Sujeto. 'Zeus'." },
+              { word: "δὲ", analysis: "Partícula conectiva. 'Y'." },
+              { word: "θεῶν", analysis: "Sustantivo masculino, Genitivo plural. Complemento del Nombre. 'De los dioses'." },
+              { word: "βασιλεὺς", analysis: "Sustantivo masculino, Nominativo singular. Atributo / Aposición. 'Rey'." }
+            ],
+            translation: "Y Zeus, rey de los dioses...",
+            question: "Para cruzar las puertas del Olimpo, observa la palabra θεῶν (theōn, 'de los dioses'). ¿Cuál es su caso gramatical, indicando posesión o pertenencia?",
+            answer: "genitivo",
+            hint: "Termina en -ων. Es el caso que suele traducirse con la preposición 'de'."
+          }
+        ];
+
+        const appendixData = {
+          title: "Apéndice Cultural: La Teogonía",
+          content: [
+            {
+              subtitle: "¿Quién fue Hesíodo?",
+              text: "Hesíodo fue un poeta de la Antigua Grecia (circa s. VIII a.C.). Junto con Homero, es considerado uno de los pilares de la literatura y mitología griegas. Era un pastor de Beocia que, según cuenta él mismo, fue inspirado por las Musas del monte Helicón."
+            },
+            {
+              subtitle: "¿Qué es la Teogonía?",
+              text: "La palabra proviene de 'theos' (dios) y 'goné' (origen/nacimiento). Es un poema épico que sintetiza una gran variedad de tradiciones locales griegas sobre el origen de los dioses y del universo, estableciendo una genealogía canónica."
+            },
+            {
+              subtitle: "El Mito de Sucesión",
+              text: "El poema describe cómo el poder supremo pasó de una generación de dioses a otra a través de la violencia: Urano fue derrocado por su hijo Cronos, y Cronos fue a su vez derrotado por su hijo Zeus. Zeus establece el orden definitivo (Cosmos) derrotando a monstruos como Tifón y los Titanes."
+            }
+          ]
+        };
+
+        function App() {
+          const [currentView, setCurrentView] = useState('intro'); // intro, room, appendix, end
+          const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
+          const [userInput, setUserInput] = useState('');
+          const [error, setError] = useState('');
+          const [selectedWord, setSelectedWord] = useState(null);
+          const [unlockedRooms, setUnlockedRooms] = useState([]);
+          
+          // Premium Features State
+          const [isPremium, setIsPremium] = useState(false);
+          const [premiumCode, setPremiumCode] = useState('');
+          const [showPremiumModal, setShowPremiumModal] = useState(false);
+
+          const room = roomData[currentRoomIndex];
+
+          const handleVerifyAnswer = (e) => {
+            e.preventDefault();
+            const cleanInput = userInput.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove accents
+            const cleanAnswer = room.answer.toLowerCase();
+
+            if (cleanInput === cleanAnswer || (isPremium && cleanInput === '')) {
+              // Correct!
+              setError('');
+              setUserInput('');
+              setSelectedWord(null);
+              if (!unlockedRooms.includes(room.id)) {
+                setUnlockedRooms([...unlockedRooms, room.id]);
+              }
+              
+              if (currentRoomIndex < roomData.length - 1) {
+                setCurrentRoomIndex(currentRoomIndex + 1);
+              } else {
+                setCurrentView('end');
+              }
+            } else {
+              setError('Respuesta incorrecta. Las Musas te niegan el paso.');
+            }
+          };
+
+          const handlePremiumUnlock = (e) => {
+            e.preventDefault();
+            if (premiumCode.toUpperCase() === 'HELICON') {
+              setIsPremium(true);
+              setShowPremiumModal(false);
+              setPremiumCode('');
+            } else {
+              alert("Código premium no válido. Las Musas guardan sus secretos.");
+            }
+          };
+
+          const resetGame = () => {
+            setCurrentView('intro');
+            setCurrentRoomIndex(0);
+            setUnlockedRooms([]);
+            setUserInput('');
+            setSelectedWord(null);
+            setError('');
+          };
+
+          const Header = () => (
+            <header className={`p-4 flex justify-between items-center border-b ${isPremium ? 'border-yellow-500 bg-yellow-900/20' : 'border-slate-800 bg-slate-900'}`}>
+              <div className="flex items-center space-x-2">
+                <Book className={isPremium ? "text-yellow-500" : "text-blue-400"} />
+                <h1 className={`text-xl font-bold ${isPremium ? 'text-yellow-500' : 'text-slate-100'}`}>
+                  Teogonía: Escape Room
+                </h1>
+              </div>
+              <div className="flex space-x-4">
+                <button 
+                  onClick={() => setCurrentView('appendix')}
+                  className="text-sm font-medium hover:text-blue-400 transition-colors"
+                >
+                  Apéndice Cultural
+                </button>
+                {!isPremium && (
+                  <button 
+                    onClick={() => setShowPremiumModal(true)}
+                    className="flex items-center space-x-1 text-sm font-medium text-yellow-500 hover:text-yellow-400 transition-colors"
+                  >
+                    <Star size={16} />
+                    <span>Premium</span>
+                  </button>
+                )}
+                {isPremium && (
+                  <div className="flex items-center space-x-1 text-sm font-medium text-yellow-500">
+                    <Eye size={16} />
+                    <span>Ojo de las Musas Activo</span>
+                  </div>
+                )}
+              </div>
+            </header>
+          );
+
+          return (
+            <div className={`min-h-screen flex flex-col font-sans ${isPremium ? 'bg-slate-950 text-yellow-50' : 'bg-slate-950 text-slate-200'}`}>
+              <Header />
+
+              <main className="flex-grow flex flex-col items-center justify-center p-4 md:p-8 relative">
+                
+                {/* --- PREMIUM MODAL --- */}
+                {showPremiumModal && (
+                  <div className="absolute inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+                    <div className="bg-slate-900 p-8 rounded-xl border border-yellow-500 max-w-md w-full shadow-2xl shadow-yellow-500/20">
+                      <h2 className="text-2xl font-bold text-yellow-500 mb-4 flex items-center gap-2">
+                        <Lock /> Desbloquear Premium
+                      </h2>
+                      <p className="text-sm text-slate-300 mb-6">
+                        Introduce el código secreto para obtener el "Ojo de las Musas". Obtendrás pistas instantáneas, traducciones directas y un aura divina.
+                        <br/><br/>
+                        <span className="italic text-xs text-slate-500">(Pista para el profesor: el código es HELICON)</span>
+                      </p>
+                      <form onSubmit={handlePremiumUnlock} className="space-y-4">
+                        <input 
+                          type="text" 
+                          value={premiumCode}
+                          onChange={(e) => setPremiumCode(e.target.value)}
+                          placeholder="Introduce el código..."
+                          className="w-full bg-slate-800 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-yellow-500 transition-colors"
+                        />
+                        <div className="flex justify-end gap-3">
+                          <button 
+                            type="button" 
+                            onClick={() => setShowPremiumModal(false)}
+                            className="px-4 py-2 text-slate-400 hover:text-white"
+                          >
+                            Cancelar
+                          </button>
+                          <button 
+                            type="submit"
+                            className="px-4 py-2 bg-yellow-600 hover:bg-yellow-500 text-white font-bold rounded flex items-center gap-2 transition-colors"
+                          >
+                            <Unlock size={18} /> Activar
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
+
+                {/* --- VIEWS --- */}
+                {currentView === 'intro' && (
+                  <div className="max-w-2xl text-center space-y-8 animate-fade-in">
+                    <h2 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
+                      Escapa del <span className="text-red-500">Tártaro</span>
+                    </h2>
+                    <p className="text-lg md:text-xl text-slate-400 leading-relaxed">
+                      Has caído en lo más profundo del inframundo. Las Musas del Monte Helicón te ofrecen un trato: demuestra tu conocimiento sobre los orígenes de los dioses y el universo cantados por Hesíodo, y te permitirán ascender al Olimpo.
+                    </p>
+                    <button 
+                      onClick={() => setCurrentView('room')}
+                      className="mt-8 px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-bold text-lg shadow-lg shadow-blue-500/30 transition-transform transform hover:scale-105 flex items-center mx-auto gap-2"
+                    >
+                      Comenzar la Prueba <ChevronRight />
+                    </button>
+                  </div>
+                )}
+
+                {currentView === 'room' && room && (
+                  <div className="max-w-4xl w-full flex flex-col md:flex-row gap-8 animate-fade-in">
+                    {/* Left Column: Puzzle Area */}
+                    <div className="flex-1 space-y-6">
+                      <div className="flex items-center justify-between">
+                        <h2 className={`text-2xl font-bold ${isPremium ? 'text-yellow-500' : 'text-blue-400'}`}>
+                          {room.title}
+                        </h2>
+                        <span className="text-sm font-mono text-slate-500">
+                          {currentRoomIndex + 1} / {roomData.length}
+                        </span>
+                      </div>
+                      
+                      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-inner">
+                        <p className="text-slate-300 italic mb-6 leading-relaxed">"{room.narrative}"</p>
+                        
+                        {/* Interactive Greek Text */}
+                        <div className="bg-slate-950 rounded-lg p-6 mb-6 font-serif text-2xl md:text-3xl leading-loose shadow-md border border-slate-800/50">
+                          {room.greekText.map((item, idx) => (
+                            <span 
+                              key={idx} 
+                              onClick={() => setSelectedWord(item)}
+                              className={`cursor-pointer mr-3 transition-colors inline-block
+                                ${selectedWord?.word === item.word 
+                                  ? (isPremium ? 'text-yellow-400 font-bold border-b-2 border-yellow-400' : 'text-blue-400 font-bold border-b-2 border-blue-400') 
+                                  : 'hover:text-slate-400'}`}
+                            >
+                              {item.word}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Question & Input */}
+                        <div className="space-y-4">
+                          <p className="font-medium text-slate-200 flex items-start gap-2">
+                            <Key className="shrink-0 mt-1 text-blue-500" size={18} />
+                            {room.question}
+                          </p>
+                          
+                          <form onSubmit={handleVerifyAnswer} className="flex gap-2">
+                            <input 
+                              type="text" 
+                              value={userInput}
+                              onChange={(e) => setUserInput(e.target.value)}
+                              placeholder="Tu respuesta..."
+                              className="flex-grow bg-slate-800 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-blue-500"
+                            />
+                            <button 
+                              type="submit"
+                              className={`px-6 py-3 rounded font-bold transition-colors ${
+                                isPremium 
+                                  ? 'bg-yellow-600 hover:bg-yellow-500 text-white' 
+                                  : 'bg-blue-600 hover:bg-blue-500 text-white'
+                              }`}
+                            >
+                              Resolver
+                            </button>
+                          </form>
+                          {error && (
+                            <p className="text-red-400 flex items-center gap-1 text-sm mt-2 animate-bounce">
+                              <AlertCircle size={16} /> {error}
+                            </p>
+                          )}
+                          {isPremium && (
+                            <div className="mt-4 p-3 bg-yellow-900/30 border border-yellow-700/50 rounded-lg text-yellow-200 text-sm flex flex-col gap-2">
+                              <p><strong>Ojo de las Musas (Premium):</strong> La respuesta es: <span className="uppercase font-mono font-bold tracking-wider">{room.answer}</span></p>
+                              <button onClick={(e) => { setUserInput(room.answer); handleVerifyAnswer(e); }} className="text-left text-yellow-400 underline hover:text-yellow-300">Saltar puzzle</button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Column: Analysis & Translation */}
+                    <div className="md:w-1/3 flex flex-col gap-6">
+                      {/* Word Analysis Box */}
+                      <div className={`flex-1 rounded-xl p-6 border transition-all ${
+                        selectedWord 
+                          ? (isPremium ? 'bg-slate-900 border-yellow-600/50 shadow-lg shadow-yellow-900/20' : 'bg-slate-900 border-blue-500/30') 
+                          : 'bg-slate-900/50 border-slate-800 border-dashed flex items-center justify-center text-center'
+                      }`}>
+                        {selectedWord ? (
+                          <div className="space-y-4 animate-fade-in">
+                            <h3 className="text-xl font-serif text-white border-b border-slate-700 pb-2">
+                              {selectedWord.word}
+                            </h3>
+                            <p className="text-slate-300 leading-relaxed text-sm">
+                              {selectedWord.analysis}
+                            </p>
+                          </div>
+                        ) : (
+                          <p className="text-slate-500 text-sm">
+                            Haz clic en una palabra en griego para ver su análisis morfosintáctico.
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Translation Box */}
+                      <div className="bg-slate-900 rounded-xl p-6 border border-slate-800">
+                        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 flex justify-between items-center">
+                          <span>Traducción</span>
+                          {isPremium && <Unlock size={14} className="text-yellow-500" />}
+                        </h3>
+                        {unlockedRooms.includes(room.id) || isPremium ? (
+                          <p className="text-white italic text-lg animate-fade-in">
+                            "{room.translation}"
+                          </p>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center py-4 text-slate-600 gap-2">
+                            <Lock size={24} />
+                            <p className="text-sm text-center">Resuelve la sala para revelar la traducción, o usa el poder de las Musas.</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {currentView === 'appendix' && (
+                  <div className="max-w-3xl w-full bg-slate-900 p-8 rounded-xl border border-slate-800 animate-fade-in space-y-6">
+                    <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3 border-b border-slate-700 pb-4">
+                      <Book className="text-blue-400" /> {appendixData.title}
+                    </h2>
+                    <div className="space-y-8">
+                      {appendixData.content.map((section, idx) => (
+                        <div key={idx}>
+                          <h3 className="text-xl font-bold text-blue-300 mb-2">{section.subtitle}</h3>
+                          <p className="text-slate-300 leading-relaxed">{section.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="pt-6 mt-6 border-t border-slate-800 text-center">
+                      <button 
+                        onClick={() => setCurrentView('intro')}
+                        className="px-6 py-2 bg-slate-800 hover:bg-slate-700 rounded font-medium transition-colors"
+                      >
+                        Volver al inicio
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {currentView === 'end' && (
+                  <div className="max-w-2xl text-center space-y-6 animate-fade-in bg-slate-900 p-12 rounded-2xl border border-yellow-600 shadow-2xl shadow-yellow-900/50">
+                    <div className="flex justify-center mb-6">
+                      <CheckCircle2 size={80} className="text-yellow-500" />
+                    </div>
+                    <h2 className="text-4xl font-extrabold text-white mb-4">
+                      ¡Has llegado al Olimpo!
+                    </h2>
+                    <p className="text-xl text-slate-300 leading-relaxed">
+                      Las Musas están complacidas con tu conocimiento de la antigua lengua y los mitos. Has demostrado ser digno de sentarte a la mesa de los dioses inmortales.
+                    </p>
+                    <div className="pt-8 flex justify-center gap-4">
+                      <button 
+                        onClick={() => setCurrentView('appendix')}
+                        className="px-6 py-3 border border-slate-600 hover:bg-slate-800 rounded font-medium transition-colors flex items-center gap-2"
+                      >
+                        <Book size={18} /> Leer Apéndice
+                      </button>
+                      <button 
+                        onClick={resetGame}
+                        className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded font-bold transition-colors flex items-center gap-2"
+                      >
+                        <RefreshCw size={18} /> Jugar de nuevo
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+              </main>
+
+              {/* Progress Footer */}
+              {(currentView === 'room') && (
+                <footer className="p-4 bg-slate-900 border-t border-slate-800">
+                  <div className="max-w-4xl mx-auto flex items-center gap-4">
+                    <span className="text-sm font-medium text-slate-400 whitespace-nowrap">Tu Ascenso:</span>
+                    <div className="flex-grow h-2 bg-slate-800 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full transition-all duration-500 ${isPremium ? 'bg-yellow-500' : 'bg-blue-500'}`}
+                        style={{ width: `${(currentRoomIndex / roomData.length) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </footer>
+              )}
+            </div>
+          );
+        }
+
+        // Renderizado de la aplicación React en el DOM
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
