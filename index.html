@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resolución Tarea 3 - Griego II</title>
     
-    <!-- Tailwind CSS (CDN para carga directa) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- React y ReactDOM (CDNs) -->
+    <!-- React y ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <!-- Babel (Compilador JSX en tiempo real) -->
+    <!-- Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <!-- Configuración Tailwind -->
@@ -37,10 +37,17 @@
       .rotate-y-180 { transform: rotateY(180deg); }
       .group:hover .group-hover\:rotate-y-180 { transform: rotateY(180deg); }
       
-      .animate-fade-in { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+      .animate-fade-in { animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
       @keyframes fadeIn { 
         from { opacity: 0; transform: translateY(10px); } 
         to { opacity: 1; transform: translateY(0); } 
+      }
+      
+      /* Evitar cortes en acentos griegos */
+      .greek-text {
+        line-height: 1.8;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
       }
       
       ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -56,7 +63,9 @@
     <script type="text/babel">
         const { useState } = React;
 
-        // --- DATOS GLOBALES ---
+        // ==========================================
+        // 1. DATOS GLOBALES (Texto y Quiz)
+        // ==========================================
         const textData = [
           { id: 1, text: "ὁ", lemma: "ὁ, ἡ, τό", morph: "Artículo, Nom. Sing. Masc.", sintax: "Determinante" },
           { id: 2, text: "Κροῖσος", lemma: "Κροῖσος, -ου", morph: "Sustantivo, Nom. Sing. Masc.", sintax: "Núcleo del Sujeto" },
@@ -130,165 +139,215 @@
 
         const quizData = [
           { q: "1. ¿A qué poeta se atribuye la Ilíada y la Odisea?", options: ["Hesíodo", "Píndaro", "Homero", "Teócrito"], answer: 2, 
-            explanation: "Homero es el aedo legendario al que se atribuyen las epopeyas fundacionales de Grecia (siglo VIII a.C.). La Ilíada narra la cólera de Aquiles en Troya; la Odisea, el arduo regreso de Ulises.",
-            curiosity: "La 'Cuestión Homérica' debate si Homero fue un autor real o el seudónimo de varias generaciones de poetas orales que cosieron canciones preexistentes." },
+            explanation: "Homero es el aedo legendario al que se atribuyen las epopeyas fundacionales de Grecia (siglo VIII a.C.). La Ilíada narra la cólera de Aquiles en Troya; la Odisea, el arduo regreso de Ulises.", curiosity: "La 'Cuestión Homérica' debate si Homero fue un autor real o el seudónimo de varias generaciones de poetas orales que cosieron canciones preexistentes." },
           { q: "2. ¿Qué autor escribió la 'Teogonía'?", options: ["Homero", "Hesíodo", "Calímaco", "Apolonio de Rodas"], answer: 1, 
-            explanation: "Hesíodo (siglo VII a.C.) estructuró la religión griega en la 'Teogonía' (origen de los dioses) y escribió 'Trabajos y Días', obra fundamental de la épica didáctica campesina.",
-            curiosity: "A diferencia de la épica homérica (centrada en aristócratas y guerra), Hesíodo eleva a categoría poética el trabajo agrícola y la justicia social." },
+            explanation: "Hesíodo (siglo VII a.C.) estructuró la religión griega en la 'Teogonía' (origen de los dioses) y escribió 'Trabajos y Días', obra fundamental de la épica didáctica campesina.", curiosity: "A diferencia de la épica homérica (centrada en aristócratas y guerra), Hesíodo eleva a categoría poética el trabajo agrícola y la justicia social." },
           { q: "3. ¿Poetisa de Lesbos, principal representante de la lírica monódica?", options: ["Corina", "Praxila", "Ánite", "Safo"], answer: 3, 
-            explanation: "Safo dirigía un círculo de mujeres en Lesbos. Su poesía (lírica monódica, cantada por una sola voz) explora el amor, el deseo y el sufrimiento emocional de forma magistral.",
-            curiosity: "Platón la denominó 'la décima Musa'. Pese a que su obra se perdió en gran parte (o fue destruida), los fragmentos hallados en papiros egipcios siguen fascinando al mundo." },
+            explanation: "Safo dirigía un círculo de mujeres en Lesbos. Su poesía (lírica monódica, cantada por una sola voz) explora el amor, el deseo y el sufrimiento emocional de forma magistral.", curiosity: "Platón la denominó 'la décima Musa'. Pese a que su obra se perdió en gran parte, los fragmentos hallados en papiros egipcios siguen fascinando." },
           { q: "4. ¿En honor a qué dios se celebraban las Grandes Dionisias?", options: ["Apolo", "Zeus", "Dioniso", "Hermes"], answer: 2, 
-            explanation: "Las Grandes Dionisias eran festivales atenienses en honor a Dioniso (dios del vino y el éxtasis) donde los coros cantaban ditirambos, origen directo del teatro (tragedia y comedia).",
-            curiosity: "La palabra 'Tragedia' significa 'canto del macho cabrío', aludiendo a los sátiros que acompañaban al dios o al premio que se daba a los vencedores." },
+            explanation: "Las Grandes Dionisias eran festivales atenienses en honor a Dioniso (dios del vino y el éxtasis) donde los coros cantaban ditirambos, origen directo del teatro (tragedia y comedia).", curiosity: "La palabra 'Tragedia' significa 'canto del macho cabrío', aludiendo a los sátiros que acompañaban al dios o al premio que se daba a los vencedores." },
           { q: "5. ¿Autor de 'Edipo Rey' y 'Antígona'?", options: ["Esquilo", "Sófocles", "Eurípides", "Aristófanes"], answer: 1, 
-            explanation: "Sófocles es la cima de la tragedia clásica. Sus obras exploran el enfrentamiento entre la ley humana y la divina (Antígona) y la inevitabilidad del destino (Edipo).",
-            curiosity: "Sófocles introdujo al 'triagonista' (tercer actor), lo que dotó a las obras de un dinamismo y una complejidad psicológica nunca antes vistos." },
+            explanation: "Sófocles es la cima de la tragedia clásica. Sus obras exploran el enfrentamiento entre la ley humana y la divina (Antígona) y la inevitabilidad del destino (Edipo).", curiosity: "Sófocles introdujo al 'triagonista' (tercer actor), lo que dotó a las obras de un dinamismo y una complejidad psicológica nunca antes vistos." },
           { q: "6. ¿Máximo representante de la Comedia Antigua ('Lisístrata', 'Las nubes')?", options: ["Menandro", "Plauto", "Aristófanes", "Terencio"], answer: 2, 
-            explanation: "Aristófanes usaba la Comedia Antigua para atacar con sátira feroz a políticos (Cleón), guerras (Peloponeso) y filósofos (escribió 'Las Nubes' para burlarse de Sócrates).",
-            curiosity: "En 'Lisístrata', las mujeres de toda Grecia acuerdan una huelga sexual hasta que los hombres firmen la paz, creando la primera gran comedia antibelicista." },
+            explanation: "Aristófanes usaba la Comedia Antigua para atacar con sátira feroz a políticos (Cleón), guerras (Peloponeso) y filósofos (escribió 'Las Nubes' para burlarse de Sócrates).", curiosity: "En 'Lisístrata', las mujeres de toda Grecia acuerdan una huelga sexual hasta que los hombres firmen la paz, creando la primera gran comedia antibelicista." },
           { q: "7. ¿Padre de la historia, narró las Guerras Médicas?", options: ["Tucídides", "Jenofonte", "Plutarco", "Heródoto"], answer: 3, 
-            explanation: "Cicerón llamó a Heródoto 'Padre de la Historia'. Su obra narra el gigantesco choque entre griegos y persas, buscando preservar la memoria de las hazañas de ambos bandos.",
-            curiosity: "Su método era la 'historiē' (pesquisa/investigación). Viajó por Egipto y Babilonia, mezclando historia con antropología, zoología y mitos locales." },
+            explanation: "Cicerón llamó a Heródoto 'Padre de la Historia'. Su obra narra el gigantesco choque entre griegos y persas, buscando preservar la memoria de las hazañas de ambos bandos.", curiosity: "Su método era la 'historiē' (pesquisa/investigación). Viajó por Egipto y Babilonia, mezclando historia con antropología, zoología y mitos locales." },
           { q: "8. ¿Autor de 'Historia de la Guerra del Peloponeso' (enfoque riguroso)?", options: ["Tucídides", "Jenofonte", "Polibio", "Heródoto"], answer: 0, 
-            explanation: "Tucídides fundó la historiografía científica. Narró la guerra entre Atenas y Esparta eliminando la intervención divina y buscando las causas reales (políticas y humanas).",
-            curiosity: "Sobrevivió a la Peste de Atenas y la describió con tal precisión clínica que los médicos modernos la estudian para identificar el patógeno." },
+            explanation: "Tucídides fundó la historiografía científica. Narró la guerra entre Atenas y Esparta eliminando la intervención divina y buscando las causas reales (políticas y humanas).", curiosity: "Sobrevivió a la Peste de Atenas y la describió con tal precisión clínica que los médicos modernos la estudian para identificar el patógeno." },
           { q: "9. ¿Orador ateniense autor de las 'Filípicas'?", options: ["Lisias", "Isócrates", "Demóstenes", "Cicerón"], answer: 2, 
-            explanation: "Demóstenes fue el cumbre de la oratoria griega. Sus discursos más famosos ('Filípicas') intentaban alertar a Atenas del peligro imperialista de Filipo II de Macedonia.",
-            curiosity: "Nació tartamudo. La leyenda dice que se curó ensayando con piedras en la boca, corriendo cuesta arriba y gritando para superar el ruido de las olas." },
+            explanation: "Demóstenes fue el cumbre de la oratoria griega. Sus discursos más famosos ('Filípicas') intentaban alertar a Atenas del peligro imperialista de Filipo II de Macedonia.", curiosity: "Nació tartamudo. La leyenda dice que se curó ensayando con piedras en la boca, corriendo cuesta arriba y gritando para superar el ruido de las olas." },
           { q: "10. ¿Creador de la fábula griega?", options: ["Esopo", "Fedro", "La Fontaine", "Píndaro"], answer: 0, 
-            explanation: "Esopo es un personaje legendario del s. VI a.C. (probablemente esclavo). Se le asocia la invención de la fábula: relatos breves de animales antropomorfos con una moraleja (epimitio).",
-            curiosity: "Nunca escribió sus fábulas. Se transmitieron oralmente durante siglos hasta ser puestas por escrito en época helenística y romana." },
+            explanation: "Esopo es un personaje legendario del s. VI a.C. (probablemente esclavo). Se le asocia la invención de la fábula: relatos breves de animales antropomorfos con una moraleja.", curiosity: "Nunca escribió sus fábulas. Se transmitieron oralmente durante siglos hasta ser puestas por escrito en época helenística y romana." },
         ];
 
-        // --- UTILIDADES DE RENDERIZADO (COLORES) ---
+        // ==========================================
+        // 2. COMPONENTES AUXILIARES (Colores Gramaticales)
+        // ==========================================
+        // W: Para Morfología Nominal (Raíz + Desinencia)
         const W = ({ r, e, t, extraClass = "" }) => (
-          <span className={`tracking-wide inline-block py-1 leading-loose ${extraClass}`}>
-            <span className="text-emerald-400 font-semibold" title="Raíz (Lexema)">{r}</span>
-            {t && <span className="text-blue-400 font-bold" title="Vocal Temática / Sufijo">{t}</span>}
-            {e && <span className="text-amber-500 font-bold" title="Desinencia (Caso/Número)">{e}</span>}
+          <span className={`greek-text inline-block tracking-wide ${extraClass}`}>
+            <span className="text-emerald-400 font-bold">{r}</span>
+            {t && <span className="text-blue-400 font-bold">{t}</span>}
+            {e && <span className="text-amber-500 font-bold">{e}</span>}
           </span>
         );
 
+        // V: Para Morfología Verbal (Aumento + Raíz + Caract + Voc Tem + Desinencia)
         const V = ({ a, r, c, t, e }) => (
-          <span className="font-serif">
-            {a && <span className="text-pink-400 font-bold" title="Aumento">{a}</span>}
-            <span className="text-emerald-400 font-bold" title="Raíz">{r}</span>
-            {c && <span className="text-purple-400 font-bold" title="Característica">{c}</span>}
-            {t && <span className="text-blue-400 font-bold" title="Voc. Temática">{t}</span>}
-            {e && <span className="text-amber-500 font-bold" title="Desinencia">{e}</span>}
-          </span>
-        );
-
-        const N = ({ r, e }) => (
-          <span className="font-serif">
-            <span className="text-emerald-400 font-bold">{r}</span><span className="text-amber-500 font-bold">{e}</span>
+          <span className="greek-text inline-block tracking-wide font-serif">
+            {a && <span className="text-pink-400 font-bold">{a}</span>}
+            <span className="text-emerald-400 font-bold">{r}</span>
+            {c && <span className="text-purple-400 font-bold">{c}</span>}
+            {t && <span className="text-blue-400 font-bold">{t}</span>}
+            {e && <span className="text-amber-500 font-bold">{e}</span>}
           </span>
         );
 
         // ==========================================
-        // COMPONENTES DE LAS SECCIONES
+        // 3. PREGUNTA 1: MORFOLOGÍA NOMINAL
         // ==========================================
-
         function MorfologiaNominal() {
-          const [subTab, setSubTab] = useState('sustantivos');
+          const [subTab, setSubTab] = useState('1decl');
+          const tabs = [
+            {id: '1decl', label: '1ª Declinación'},
+            {id: '2decl', label: '2ª Declinación'},
+            {id: '3decl', label: '3ª Declinación'},
+            {id: 'adj', label: 'Adjetivos'},
+            {id: 'pron', label: 'Pronombres'}
+          ];
 
           return (
-            <div className="space-y-8 animate-fade-in">
+            <div className="space-y-8 animate-fade-in pb-10">
               <header className="border-b border-slate-800 pb-6">
-                <h2 className="text-4xl font-black text-white mb-2">1. Morfología Nominal</h2>
-                <p className="text-slate-400 text-lg">Declinaciones, Adjetivos y Pronombres.</p>
+                <h2 className="text-3xl font-black text-white mb-2">1. Morfología Nominal y Pronominal</h2>
+                <p className="text-slate-400 text-base font-light">Exploración exhaustiva de las declinaciones, adjetivos y pronombres griegos.</p>
               </header>
 
-              <div className="flex space-x-2 bg-slate-900 p-2 rounded-xl border border-slate-800 w-fit">
-                {['sustantivos', 'adjetivos', 'pronombres'].map(t => (
-                  <button key={t} onClick={() => setSubTab(t)} className={`px-6 py-2 rounded-lg font-bold capitalize tracking-wider transition-colors ${subTab === t ? 'bg-amber-500 text-slate-900' : 'text-slate-400 hover:text-white'}`}>
-                    {t}
+              <div className="flex flex-wrap gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
+                {tabs.map(t => (
+                  <button key={t.id} onClick={() => setSubTab(t.id)} className={`px-4 py-2 rounded-lg font-bold tracking-wide transition-colors text-sm ${subTab === t.id ? 'bg-amber-500 text-slate-900 shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>
+                    {t.label}
                   </button>
                 ))}
               </div>
 
-              {subTab === 'sustantivos' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
-                    <h3 className="text-2xl font-bold text-amber-400 mb-4">La Primera Declinación (Temas en -α / -η)</h3>
-                    <div className="grid xl:grid-cols-2 gap-6">
-                      <div className="bg-slate-950 p-5 rounded-xl border border-slate-800">
-                        <h4 className="text-slate-300 font-bold mb-3 uppercase text-sm">Femeninos</h4>
-                        <table className="w-full text-center text-lg font-serif">
-                          <thead><tr className="text-slate-500 text-sm font-sans border-b border-slate-800"><th className="pb-2">Caso</th><th className="pb-2">Pura (-α)</th><th className="pb-2">Mixta (-α/-η)</th><th className="pb-2">Eta (-η)</th></tr></thead>
-                          <tbody className="divide-y divide-slate-800/50 text-slate-200">
-                            <tr><td className="py-2 text-slate-400 text-xs font-sans">Nom</td><td><N r="ἡμέρ" e="α"/></td><td><N r="δόξ" e="α"/></td><td><N r="νίκ" e="η"/></td></tr>
-                            <tr><td className="py-2 text-slate-400 text-xs font-sans">Voc</td><td><N r="ἡμέρ" e="α"/></td><td><N r="δόξ" e="α"/></td><td><N r="νίκ" e="η"/></td></tr>
-                            <tr><td className="py-2 text-slate-400 text-xs font-sans">Acu</td><td><N r="ἡμέρ" e="αν"/></td><td><N r="δόξ" e="αν"/></td><td><N r="νίκ" e="ην"/></td></tr>
-                            <tr><td className="py-2 text-slate-400 text-xs font-sans">Gen</td><td><N r="ἡμέρ" e="ας"/></td><td><N r="δόξ" e="ης"/></td><td><N r="νίκ" e="ης"/></td></tr>
-                            <tr><td className="py-2 text-slate-400 text-xs font-sans">Dat</td><td><N r="ἡμέρ" e="ᾳ"/></td><td><N r="δόξ" e="ῃ"/></td><td><N r="νίκ" e="ῃ"/></td></tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div className="bg-slate-950 p-5 rounded-xl border border-slate-800">
-                        <h4 className="text-slate-300 font-bold mb-3 uppercase text-sm">Masculinos (Llevan ς en Nom)</h4>
-                        <table className="w-full text-center text-lg font-serif">
-                          <thead><tr className="text-slate-500 text-sm font-sans border-b border-slate-800"><th className="pb-2">Caso</th><th className="pb-2">Alfa (-ας)</th><th className="pb-2">Eta (-ης)</th></tr></thead>
-                          <tbody className="divide-y divide-slate-800/50 text-slate-200">
-                            <tr><td className="py-2 text-slate-400 text-xs font-sans">Nom</td><td><N r="νεανί" e="ας"/></td><td><N r="πολίτ" e="ης"/></td></tr>
-                            <tr><td className="py-2 text-slate-400 text-xs font-sans">Voc</td><td><N r="νεανί" e="α"/></td><td><N r="πολῖτ" e="α"/></td></tr>
-                            <tr><td className="py-2 text-slate-400 text-xs font-sans">Acu</td><td><N r="νεανί" e="αν"/></td><td><N r="πολίτ" e="ην"/></td></tr>
-                            <tr><td className="py-2 text-slate-400 text-xs font-sans">Gen</td><td><N r="νεανί" e="ου"/></td><td><N r="πολίτ" e="ου"/></td></tr>
-                            <tr><td className="py-2 text-slate-400 text-xs font-sans">Dat</td><td><N r="νεανί" e="ᾳ"/></td><td><N r="πολίτ" e="ῃ"/></td></tr>
-                          </tbody>
-                        </table>
-                        <p className="text-xs text-slate-500 mt-3 text-center">*El plural de toda la 1ª declinación es idéntico: -αι, -αι, -ας, -ων, -αις.</p>
-                      </div>
+              {subTab === '1decl' && (
+                <div className="space-y-6 animate-fade-in">
+                  <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                    <h3 className="text-xl font-bold text-amber-400 mb-4 border-b border-slate-800 pb-2">1ª Declinación: Femeninos (Temas en -α y -η)</h3>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-center text-base font-serif bg-slate-950 rounded-xl">
+                        <thead>
+                          <tr className="text-slate-400 text-xs font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/50">
+                            <th className="p-3">Caso</th>
+                            <th className="p-3 border-l border-slate-800">Alfa Pura (tras ρ,ε,ι)<br/><span className="text-emerald-400 font-serif lowercase">ἡμέρα, -ας</span></th>
+                            <th className="p-3 border-l border-slate-800">Alfa Mixta<br/><span className="text-emerald-400 font-serif lowercase">δόξα, -ης</span></th>
+                            <th className="p-3 border-l border-slate-800">Eta<br/><span className="text-emerald-400 font-serif lowercase">νίκη, -ης</span></th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200">
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Nom Sg</td><td className="border-l border-slate-800/50"><W r="ἡμέρ" e="α"/></td><td className="border-l border-slate-800/50"><W r="δόξ" e="α"/></td><td className="border-l border-slate-800/50"><W r="νίκ" e="η"/></td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Voc Sg</td><td className="border-l border-slate-800/50"><W r="ἡμέρ" e="α"/></td><td className="border-l border-slate-800/50"><W r="δόξ" e="α"/></td><td className="border-l border-slate-800/50"><W r="νίκ" e="η"/></td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Acu Sg</td><td className="border-l border-slate-800/50"><W r="ἡμέρ" e="αν"/></td><td className="border-l border-slate-800/50"><W r="δόξ" e="αν"/></td><td className="border-l border-slate-800/50"><W r="νίκ" e="ην"/></td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Gen Sg</td><td className="border-l border-slate-800/50"><W r="ἡμέρ" e="ας"/></td><td className="border-l border-slate-800/50"><W r="δόξ" e="ης"/></td><td className="border-l border-slate-800/50"><W r="νίκ" e="ης"/></td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Dat Sg</td><td className="border-l border-slate-800/50"><W r="ἡμέρ" e="ᾳ"/></td><td className="border-l border-slate-800/50"><W r="δόξ" e="ῃ"/></td><td className="border-l border-slate-800/50"><W r="νίκ" e="ῃ"/></td></tr>
+                          <tr className="hover:bg-slate-900/50 bg-slate-900/20"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Nom Pl</td><td className="border-l border-slate-800/50"><W r="ἡμέρ" e="αι"/></td><td className="border-l border-slate-800/50"><W r="δόξ" e="αι"/></td><td className="border-l border-slate-800/50"><W r="νίκ" e="αι"/></td></tr>
+                          <tr className="hover:bg-slate-900/50 bg-slate-900/20"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Gen Pl</td><td className="border-l border-slate-800/50"><W r="ἡμερ" e="ῶν"/></td><td className="border-l border-slate-800/50"><W r="δοξ" e="ῶν"/></td><td className="border-l border-slate-800/50"><W r="νικ" e="ῶν"/></td></tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
 
-                  <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
-                    <h3 className="text-2xl font-bold text-amber-400 mb-4">La Tercera Declinación (Atemática)</h3>
+                  <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                    <h3 className="text-xl font-bold text-amber-400 mb-4 border-b border-slate-800 pb-2">1ª Declinación: Masculinos</h3>
+                    <p className="text-sm text-slate-400 mb-4">A diferencia de los femeninos, el Nominativo añade <strong className="text-amber-500">-ς</strong> y el Genitivo Singular utiliza la desinencia de la 2ª declinación <strong className="text-amber-500">-ου</strong>.</p>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <table className="w-full text-center text-base font-serif bg-slate-950 rounded-xl">
+                        <thead><tr className="text-slate-400 text-xs font-sans uppercase border-b border-slate-800"><th className="p-2">Caso</th><th className="p-2 border-l border-slate-800">Masculino Alfa (νεανίας)</th></tr></thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200">
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">N/V/A Sg</td><td className="border-l border-slate-800/50"><W r="νεανί" e="ας"/> / <W r="νεανί" e="α"/> / <W r="νεανί" e="αν"/></td></tr>
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">G/D Sg</td><td className="border-l border-slate-800/50"><W r="νεανί" e="ου"/> / <W r="νεανί" e="ᾳ"/></td></tr>
+                        </tbody>
+                      </table>
+                      <table className="w-full text-center text-base font-serif bg-slate-950 rounded-xl">
+                        <thead><tr className="text-slate-400 text-xs font-sans uppercase border-b border-slate-800"><th className="p-2">Caso</th><th className="p-2 border-l border-slate-800">Masculino Eta (πολίτης)</th></tr></thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200">
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">N/V/A Sg</td><td className="border-l border-slate-800/50"><W r="πολίτ" e="ης"/> / <W r="πολῖτ" e="α"/> / <W r="πολίτ" e="ην"/></td></tr>
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">G/D Sg</td><td className="border-l border-slate-800/50"><W r="πολίτ" e="ου"/> / <W r="πολίτ" e="ῃ"/></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {subTab === '2decl' && (
+                <div className="space-y-6 animate-fade-in">
+                  <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                    <h3 className="text-xl font-bold text-blue-400 mb-4 border-b border-slate-800 pb-2">2ª Declinación (Temas en -ο)</h3>
+                    <p className="text-sm text-slate-400 mb-4">Comprende palabras masculinas (la mayoría), femeninas (nombres de islas, ciudades, árboles) y neutras.</p>
                     <div className="overflow-x-auto">
-                      <table className="w-full text-center text-lg font-serif bg-slate-950 rounded-xl">
+                      <table className="w-full text-center text-base font-serif bg-slate-950 rounded-xl">
                         <thead>
-                          <tr className="text-slate-500 text-xs uppercase font-sans border-b-2 border-slate-800 bg-slate-900">
+                          <tr className="text-slate-400 text-xs font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/50">
+                            <th className="p-3">Caso</th>
+                            <th className="p-3 border-l border-slate-800">Masc / Fem<br/><span className="text-emerald-400 font-serif lowercase">λόγος, νῆσος</span></th>
+                            <th className="p-3 border-l border-slate-800">Neutro<br/><span className="text-emerald-400 font-serif lowercase">δῶρον</span></th>
+                            <th className="p-3 border-l border-slate-800">Contracto<br/><span className="text-emerald-400 font-serif lowercase">νοῦς</span></th>
+                            <th className="p-3 border-l border-slate-800">Ática<br/><span className="text-emerald-400 font-serif lowercase">νεώς</span></th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200">
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Nom Sg</td><td className="border-l border-slate-800/50"><W r="λόγ" e="ος"/></td><td className="border-l border-slate-800/50"><W r="δῶρ" e="ον"/></td><td className="border-l border-slate-800/50"><W r="νο" e="ῦς"/> <span className="text-xs text-slate-600">(&lt;νόος)</span></td><td className="border-l border-slate-800/50"><W r="νε" e="ώς"/></td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Voc Sg</td><td className="border-l border-slate-800/50"><W r="λόγ" e="ε"/></td><td className="border-l border-slate-800/50"><W r="δῶρ" e="ον"/></td><td className="border-l border-slate-800/50"><W r="νο" e="ῦ"/></td><td className="border-l border-slate-800/50"><W r="νε" e="ώς"/></td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Acu Sg</td><td className="border-l border-slate-800/50"><W r="λόγ" e="ον"/></td><td className="border-l border-slate-800/50"><W r="δῶρ" e="ον"/></td><td className="border-l border-slate-800/50"><W r="νο" e="ῦν"/></td><td className="border-l border-slate-800/50"><W r="νε" e="ών"/></td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Gen Sg</td><td className="border-l border-slate-800/50"><W r="λόγ" e="ου"/></td><td className="border-l border-slate-800/50"><W r="δώρ" e="ου"/></td><td className="border-l border-slate-800/50"><W r="ν" e="οῦ"/></td><td className="border-l border-slate-800/50"><W r="νε" e="ώ"/></td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">Dat Sg</td><td className="border-l border-slate-800/50"><W r="λόγ" e="ῳ"/></td><td className="border-l border-slate-800/50"><W r="δώρ" e="ῳ"/></td><td className="border-l border-slate-800/50"><W r="ν" e="ῷ"/></td><td className="border-l border-slate-800/50"><W r="νε" e="ῴ"/></td></tr>
+                          <tr className="hover:bg-slate-900/50 bg-slate-900/20"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase">N/V/A Pl</td><td className="border-l border-slate-800/50"><W r="λόγ" e="οι"/> / <W r="λόγ" e="ους"/></td><td className="border-l border-slate-800/50"><W r="δῶρ" e="α"/></td><td className="border-l border-slate-800/50"><W r="νο" e="ῖ"/> / <W r="νο" e="ῦς"/></td><td className="border-l border-slate-800/50"><W r="νε" e="ῴ"/> / <W r="νε" e="ώς"/></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {subTab === '3decl' && (
+                <div className="space-y-6 animate-fade-in">
+                  <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                    <h3 className="text-xl font-bold text-emerald-400 mb-4 border-b border-slate-800 pb-2">3ª Declinación (Atemática)</h3>
+                    <p className="text-sm text-slate-400 mb-4">Los temas terminan en consonante (oclusivas, líquidas, nasales, silbantes) o en vocal cerrada/diptongo (ι, υ, ευ). Las desinencias se añaden directamente a la raíz.</p>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-center text-base font-serif bg-slate-950 rounded-xl">
+                        <thead>
+                          <tr className="text-slate-400 text-xs uppercase font-sans border-b border-slate-800 bg-slate-900/50">
                             <th className="p-3 text-left">Caso</th>
-                            <th className="p-3 border-l border-slate-800">Oclusiva Velar<br/>(κόραξ)</th>
-                            <th className="p-3 border-l border-slate-800">Nasal<br/>(ἀγών)</th>
-                            <th className="p-3 border-l border-slate-800">Silbante Neutro<br/>(γένος)</th>
-                            <th className="p-3 border-l border-slate-800">Vocal -ι<br/>(πόλις)</th>
-                            <th className="p-3 border-l border-slate-800">Diptongo -ευ<br/>(βασιλεύς)</th>
+                            <th className="p-3 border-l border-slate-800">Oclusiva Velar<br/><span className="text-emerald-400 font-serif lowercase">κόραξ</span></th>
+                            <th className="p-3 border-l border-slate-800">Nasal<br/><span className="text-emerald-400 font-serif lowercase">ἀγών</span></th>
+                            <th className="p-3 border-l border-slate-800">Silbante Neutro<br/><span className="text-emerald-400 font-serif lowercase">γένος</span></th>
+                            <th className="p-3 border-l border-slate-800">Vocal -ι<br/><span className="text-emerald-400 font-serif lowercase">πόλις</span></th>
+                            <th className="p-3 border-l border-slate-800">Diptongo -ευ<br/><span className="text-emerald-400 font-serif lowercase">βασιλεύς</span></th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-800/50 text-slate-200">
                           <tr className="hover:bg-slate-900/50">
-                            <td className="p-3 text-slate-400 text-xs font-sans text-left uppercase">Nom Sg</td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="κόρα" e="ξ"/> <span className="text-xs text-slate-600">(κ+ς)</span></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="ἀγών" e=""/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="γένος" e=""/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="πόλι" e="ς"/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="βασιλε" e="ύς"/></td>
+                            <td className="p-3 text-slate-500 text-xs font-sans text-left uppercase">Nom Sg</td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="κόρα" e="ξ"/> <span className="text-xs text-slate-600 block">(κ+ς)</span></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="ἀγών" e=""/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="γένος" e=""/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="πόλι" e="ς"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="βασιλε" e="ύς"/></td>
                           </tr>
                           <tr className="hover:bg-slate-900/50">
-                            <td className="p-3 text-slate-400 text-xs font-sans text-left uppercase">Acu Sg</td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="κόρακ" e="α"/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="ἀγῶν" e="α"/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="γένος" e=""/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="πόλι" e="ν"/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="βασιλ" e="έα"/></td>
+                            <td className="p-3 text-slate-500 text-xs font-sans text-left uppercase">Acu Sg</td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="κόρακ" e="α"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="ἀγῶν" e="α"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="γένος" e=""/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="πόλι" e="ν"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="βασιλ" e="έα"/></td>
                           </tr>
                           <tr className="hover:bg-slate-900/50">
-                            <td className="p-3 text-slate-400 text-xs font-sans text-left uppercase">Gen Sg</td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="κόρακ" e="ος"/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="ἀγῶν" e="ος"/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="γέν" e="ους"/> <span className="text-xs text-slate-600">(&lt;εσ-ος)</span></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="πόλε" e="ως"/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="βασιλ" e="έως"/></td>
+                            <td className="p-3 text-slate-500 text-xs font-sans text-left uppercase">Gen Sg</td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="κόρακ" e="ος"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="ἀγῶν" e="ος"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="γέν" e="ους"/> <span className="text-xs text-slate-600 block">(&lt;εσ-ος)</span></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="πόλε" e="ως"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="βασιλ" e="έως"/></td>
                           </tr>
                           <tr className="hover:bg-slate-900/50">
-                            <td className="p-3 text-slate-400 text-xs font-sans text-left uppercase">Nom Pl</td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="κόρακ" e="ες"/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="ἀγῶν" e="ες"/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="γέν" e="η"/> <span className="text-xs text-slate-600">(&lt;εσ-α)</span></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="πόλε" e="ις"/></td>
-                            <td className="p-3 border-l border-slate-800/50"><N r="βασιλ" e="εῖς"/></td>
+                            <td className="p-3 text-slate-500 text-xs font-sans text-left uppercase">Nom Pl</td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="κόρακ" e="ες"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="ἀγῶν" e="ες"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="γέν" e="η"/> <span className="text-xs text-slate-600 block">(&lt;εσ-α)</span></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="πόλε" e="ις"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="βασιλ" e="εῖς"/></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-3 text-slate-500 text-xs font-sans text-left uppercase">Dat Pl</td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="κόρα" e="ξι"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="ἀγῶ" e="σι"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="γένε" e="σι"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="πόλε" e="σι"/></td>
+                            <td className="p-3 border-l border-slate-800/50"><W r="βασιλε" e="ῦσι"/></td>
                           </tr>
                         </tbody>
                       </table>
@@ -297,46 +356,50 @@
                 </div>
               )}
 
-              {subTab === 'adjetivos' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="grid lg:grid-cols-2 gap-8">
-                    <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl">
-                      <h3 className="text-2xl font-bold text-blue-400 mb-6 border-b border-slate-800 pb-4">Clase 1 (Declinación 2ª y 1ª)</h3>
+              {subTab === 'adj' && (
+                <div className="space-y-6 animate-fade-in">
+                  <div className="grid lg:grid-cols-2 gap-6">
+                    <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                      <h3 className="text-xl font-bold text-indigo-400 mb-4 border-b border-slate-800 pb-2">Clase 1 (Declinación 2ª y 1ª)</h3>
                       <div className="space-y-6">
-                        <div>
-                          <p className="text-white font-bold mb-2">3 Terminaciones (Tipo 2-1-2)</p>
-                          <p className="text-sm text-slate-400 mb-3">Masc y Neutro por la 2ª decl., Fem por la 1ª.</p>
-                          <div className="bg-slate-950 p-4 rounded-xl font-serif text-2xl flex justify-between px-10 text-slate-200 border border-slate-800">
-                            <N r="δίκαι" e="ος"/> <N r="δικαί" e="α"/> <N r="δίκαι" e="ον"/>
+                        <div className="bg-slate-950 p-5 rounded-xl border border-slate-800">
+                          <p className="text-white font-bold mb-1">3 Terminaciones (Tipo 2-1-2)</p>
+                          <p className="text-xs text-slate-400 mb-3">Masc y Neutro por la 2ª, Fem por la 1ª.</p>
+                          <div className="font-serif text-xl flex justify-between text-slate-200">
+                            <span className="flex flex-col items-center"><span className="text-[10px] font-sans text-slate-500 uppercase tracking-widest mb-1">Masc</span><W r="δίκαι" e="ος"/></span>
+                            <span className="flex flex-col items-center"><span className="text-[10px] font-sans text-slate-500 uppercase tracking-widest mb-1">Fem</span><W r="δικαί" e="α"/></span>
+                            <span className="flex flex-col items-center"><span className="text-[10px] font-sans text-slate-500 uppercase tracking-widest mb-1">Neu</span><W r="δίκαι" e="ον"/></span>
                           </div>
                         </div>
-                        <div>
-                          <p className="text-white font-bold mb-2">2 Terminaciones (Tipo 2-2)</p>
-                          <p className="text-sm text-slate-400 mb-3">Común en compuestos. Masc y Fem comparten la forma.</p>
-                          <div className="bg-slate-950 p-4 rounded-xl font-serif text-2xl flex justify-around px-10 text-slate-200 border border-slate-800">
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 mb-1">Masc/Fem</span><N r="ἄλογ" e="ος"/></span>
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 mb-1">Neutro</span><N r="ἄλογ" e="ον"/></span>
+                        <div className="bg-slate-950 p-5 rounded-xl border border-slate-800">
+                          <p className="text-white font-bold mb-1">2 Terminaciones (Tipo 2-2)</p>
+                          <p className="text-xs text-slate-400 mb-3">Compuestos. Masc/Fem comparten forma.</p>
+                          <div className="font-serif text-xl flex justify-around text-slate-200">
+                            <span className="flex flex-col items-center"><span className="text-[10px] font-sans text-slate-500 uppercase tracking-widest mb-1">Masc/Fem</span><W r="ἄλογ" e="ος"/></span>
+                            <span className="flex flex-col items-center"><span className="text-[10px] font-sans text-slate-500 uppercase tracking-widest mb-1">Neutro</span><W r="ἄλογ" e="ον"/></span>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl">
-                      <h3 className="text-2xl font-bold text-emerald-400 mb-6 border-b border-slate-800 pb-4">Clase 2 (Declinación 3ª)</h3>
+                    <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                      <h3 className="text-xl font-bold text-emerald-400 mb-4 border-b border-slate-800 pb-2">Clase 2 (Declinación 3ª)</h3>
                       <div className="space-y-6">
-                        <div>
-                          <p className="text-white font-bold mb-2">3 Terminaciones (Tipo 3-1-3)</p>
-                          <p className="text-sm text-slate-400 mb-3">M/N por la 3ª, Fem por la 1ª (alfa impura). Tema -ντ.</p>
-                          <div className="bg-slate-950 p-4 rounded-xl font-serif text-2xl flex justify-between px-10 text-slate-200 border border-slate-800">
-                            <N r="πᾶς" e=""/> <N r="πᾶσ" e="α"/> <N r="πᾶν" e=""/>
+                        <div className="bg-slate-950 p-5 rounded-xl border border-slate-800">
+                          <p className="text-white font-bold mb-1">3 Terminaciones (Tipo 3-1-3)</p>
+                          <p className="text-xs text-slate-400 mb-3">M/N por la 3ª, Fem por la 1ª mixta.</p>
+                          <div className="font-serif text-xl flex justify-between text-slate-200">
+                            <span className="flex flex-col items-center"><span className="text-[10px] font-sans text-slate-500 uppercase tracking-widest mb-1">Masc</span><W r="πᾶς" e=""/></span>
+                            <span className="flex flex-col items-center"><span className="text-[10px] font-sans text-slate-500 uppercase tracking-widest mb-1">Fem</span><W r="πᾶσ" e="α"/></span>
+                            <span className="flex flex-col items-center"><span className="text-[10px] font-sans text-slate-500 uppercase tracking-widest mb-1">Neu</span><W r="πᾶν" e=""/></span>
                           </div>
                         </div>
-                        <div>
-                          <p className="text-white font-bold mb-2">2 Terminaciones (Tipo 3-3)</p>
-                          <p className="text-sm text-slate-400 mb-3">Temas en silbante (-ες) o nasal. Íntegramente por la 3ª.</p>
-                          <div className="bg-slate-950 p-4 rounded-xl font-serif text-2xl flex justify-around px-10 text-slate-200 border border-slate-800">
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 mb-1">Masc/Fem</span><N r="ἀληθ" e="ής"/></span>
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 mb-1">Neutro</span><N r="ἀληθ" e="ές"/></span>
+                        <div className="bg-slate-950 p-5 rounded-xl border border-slate-800">
+                          <p className="text-white font-bold mb-1">2 Terminaciones (Tipo 3-3)</p>
+                          <p className="text-xs text-slate-400 mb-3">Temas en silbante o nasal (todo por 3ª).</p>
+                          <div className="font-serif text-xl flex justify-around text-slate-200">
+                            <span className="flex flex-col items-center"><span className="text-[10px] font-sans text-slate-500 uppercase tracking-widest mb-1">Masc/Fem</span><W r="ἀληθ" e="ής"/></span>
+                            <span className="flex flex-col items-center"><span className="text-[10px] font-sans text-slate-500 uppercase tracking-widest mb-1">Neutro</span><W r="ἀληθ" e="ές"/></span>
                           </div>
                         </div>
                       </div>
@@ -346,224 +409,215 @@
               )}
 
               {subTab === 'pronombres' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="overflow-x-auto bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl">
-                    <table className="w-full text-left border-collapse">
-                      <thead>
-                        <tr className="bg-slate-950 border-b border-slate-800">
-                          <th className="p-6 text-sm uppercase tracking-widest text-slate-400 font-bold">Tipo</th>
-                          <th className="p-6 text-sm uppercase tracking-widest text-slate-400 font-bold">Enunciado Principal</th>
-                          <th className="p-6 text-sm uppercase tracking-widest text-slate-400 font-bold">Características</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-800/50 text-slate-200 text-lg">
-                        <tr className="hover:bg-slate-800/30">
-                          <td className="p-6 font-bold text-blue-400">Personales</td>
-                          <td className="p-6 font-serif text-2xl">ἐγώ, σύ, ἡμεῖς, ὑμεῖς...</td>
-                          <td className="p-6 text-slate-400 text-base">Tienen formas átonas (enclíticas) y tónicas para indicar énfasis.</td>
-                        </tr>
-                        <tr className="hover:bg-slate-800/30">
-                          <td className="p-6 font-bold text-emerald-400">Demostrativos</td>
-                          <td className="p-6 font-serif text-2xl">οὗτος, αὕτη, τοῦτο <br/><span className="text-lg text-slate-500">ὅδε... / ἐκεῖνος...</span></td>
-                          <td className="p-6 text-slate-400 text-base">οὗτος (Ese) tiene un paradigma complejo mezclando raíz en ο-/του-/ταυ-.</td>
-                        </tr>
-                        <tr className="hover:bg-slate-800/30">
-                          <td className="p-6 font-bold text-purple-400">Relativos</td>
-                          <td className="p-6 font-serif text-2xl">ὅς, ἥ, ὅ</td>
-                          <td className="p-6 text-slate-400 text-base">Llevan siempre espíritu áspero. Introducen subordinadas adjetivas.</td>
-                        </tr>
-                        <tr className="hover:bg-slate-800/30">
-                          <td className="p-6 font-bold text-pink-400">Interrogativos</td>
-                          <td className="p-6 font-serif text-2xl">τίς, τί</td>
-                          <td className="p-6 text-slate-400 text-base">¿Quién? ¿Qué? Siempre llevan acento agudo, nunca se clitizan.</td>
-                        </tr>
-                        <tr className="hover:bg-slate-800/30">
-                          <td className="p-6 font-bold text-amber-500">Indefinidos</td>
-                          <td className="p-6 font-serif text-2xl">τις, τι</td>
-                          <td className="p-6 text-slate-400 text-base border-l-4 border-amber-500 pl-3">¡Cuidado! Son <strong>enclíticos</strong> (no llevan acento en el diccionario). Significan "alguien, alguno, un tal".</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                <div className="space-y-6 animate-fade-in">
+                  
+                  {/* PERSONALES */}
+                  <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                    <h3 className="text-xl font-bold text-blue-400 mb-4">Pronombres Personales</h3>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <table className="w-full text-center text-base font-serif bg-slate-950 rounded-xl">
+                        <thead><tr className="text-slate-400 text-xs font-sans uppercase border-b border-slate-800"><th className="p-2">Caso</th><th className="p-2 border-l border-slate-800">1ª Persona (Yo)</th><th className="p-2 border-l border-slate-800">2ª Persona (Tú)</th></tr></thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200">
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">Nom</td><td className="border-l border-slate-800/50">ἐγώ</td><td className="border-l border-slate-800/50">σύ</td></tr>
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">Acu</td><td className="border-l border-slate-800/50">ἐμέ / με</td><td className="border-l border-slate-800/50">σέ / σε</td></tr>
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">Gen</td><td className="border-l border-slate-800/50">ἐμοῦ / μου</td><td className="border-l border-slate-800/50">σοῦ / σου</td></tr>
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">Dat</td><td className="border-l border-slate-800/50">ἐμοί / μοι</td><td className="border-l border-slate-800/50">σοί / σοι</td></tr>
+                        </tbody>
+                      </table>
+                      <table className="w-full text-center text-base font-serif bg-slate-950 rounded-xl">
+                        <thead><tr className="text-slate-400 text-xs font-sans uppercase border-b border-slate-800"><th className="p-2">Caso</th><th className="p-2 border-l border-slate-800">1ª Plural (Nos)</th><th className="p-2 border-l border-slate-800">2ª Plural (Vos)</th></tr></thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200">
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">Nom</td><td className="border-l border-slate-800/50">ἡμεῖς</td><td className="border-l border-slate-800/50">ὑμεῖς</td></tr>
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">Acu</td><td className="border-l border-slate-800/50">ἡμᾶς</td><td className="border-l border-slate-800/50">ὑμᾶς</td></tr>
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">Gen</td><td className="border-l border-slate-800/50">ἡμῶν</td><td className="border-l border-slate-800/50">ὑμῶν</td></tr>
+                          <tr><td className="py-2 text-slate-500 text-xs font-sans">Dat</td><td className="border-l border-slate-800/50">ἡμῖν</td><td className="border-l border-slate-800/50">ὑμῖν</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
+
+                  {/* OTROS PRONOMBRES */}
+                  <div className="grid lg:grid-cols-2 gap-6">
+                    <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                      <h3 className="text-xl font-bold text-amber-500 mb-4">Posesivos</h3>
+                      <p className="text-sm text-slate-300 mb-3">Se declinan como adjetivos de 3 terminaciones (clase 1):</p>
+                      <ul className="space-y-2 text-base font-serif text-slate-200 bg-slate-950 p-4 rounded-xl border border-slate-800">
+                        <li><span className="font-sans text-xs text-slate-500 mr-2 uppercase">1ª Sg (Mío)</span> ἐμός, ἐμή, ἐμόν</li>
+                        <li><span className="font-sans text-xs text-slate-500 mr-2 uppercase">2ª Sg (Tuyo)</span> σός, σή, σόν</li>
+                        <li><span className="font-sans text-xs text-slate-500 mr-2 uppercase">3ª Sg (Suyo)</span> ἑός, ἑή, ἑόν</li>
+                        <li><span className="font-sans text-xs text-slate-500 mr-2 uppercase">1ª Pl (Ntro)</span> ἡμέτερος, -α, -ον</li>
+                        <li><span className="font-sans text-xs text-slate-500 mr-2 uppercase">2ª Pl (Vtro)</span> ὑμέτερος, -α, -ον</li>
+                      </ul>
+                    </div>
+
+                    <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                      <h3 className="text-xl font-bold text-pink-400 mb-4">Interrogativo vs Indefinido</h3>
+                      <p className="text-sm text-slate-300 mb-3">Comparten la misma declinación por la 3ª (tema -ν), pero se distinguen por el acento:</p>
+                      <table className="w-full text-center text-base font-serif bg-slate-950 rounded-xl">
+                        <thead><tr className="text-slate-400 text-xs font-sans uppercase border-b border-slate-800"><th className="p-2">TIPO</th><th className="p-2 border-l border-slate-800">Masc/Fem</th><th className="p-2 border-l border-slate-800">Neutro</th></tr></thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200">
+                          <tr><td className="py-2 text-slate-400 text-xs font-sans font-bold">Interrogativo<br/><span className="font-normal text-[10px]">¿Quién? ¿Qué?</span></td><td className="border-l border-slate-800/50">τίς <span className="text-xs text-pink-400 block">(siempre tónico)</span></td><td className="border-l border-slate-800/50">τί</td></tr>
+                          <tr><td className="py-2 text-slate-400 text-xs font-sans font-bold">Indefinido<br/><span className="font-normal text-[10px]">Alguien, un tal</span></td><td className="border-l border-slate-800/50">τις <span className="text-xs text-slate-500 block">(enclítico)</span></td><td className="border-l border-slate-800/50">τι</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
                 </div>
               )}
             </div>
           );
         }
 
+        // ==========================================
+        // 4. PREGUNTA 2: ANÁLISIS PROFUNDO
+        // ==========================================
         function Pregunta2() {
           return (
-            <div className="space-y-16 animate-fade-in pb-10">
-              <header className="border-b border-slate-800 pb-8 flex flex-col md:flex-row justify-between md:items-end gap-6">
+            <div className="space-y-10 animate-fade-in pb-10">
+              <header className="border-b border-slate-800 pb-6 flex flex-col md:flex-row justify-between md:items-end gap-6">
                 <div>
-                  <h2 className="text-5xl font-bold text-white mb-4">2. Análisis Morfológico Profundo</h2>
-                  <p className="text-slate-400 text-xl font-light">Declinación pormenorizada con disección del lexema y morfema.</p>
+                  <h2 className="text-3xl font-black text-white mb-2">2. Análisis Morfológico Profundo</h2>
+                  <p className="text-slate-400 text-base font-light">Declinación pormenorizada con disección del lexema y morfema.</p>
                 </div>
-                <div className="bg-slate-900/90 flex space-x-6 px-8 py-4 rounded-2xl border border-slate-700 shadow-2xl backdrop-blur-md">
-                  <span className="text-sm uppercase tracking-widest text-slate-400 font-black flex items-center">Leyenda visual:</span>
-                  <span className="text-lg text-emerald-400 font-bold flex items-center bg-emerald-950/30 px-3 py-1 rounded border border-emerald-900/50"><div className="w-3 h-3 rounded-full bg-emerald-400 mr-2 shadow-[0_0_8px_#34d399]"></div>Raíz</span>
-                  <span className="text-lg text-amber-500 font-bold flex items-center bg-amber-950/30 px-3 py-1 rounded border border-amber-900/50"><div className="w-3 h-3 rounded-full bg-amber-500 mr-2 shadow-[0_0_8px_#f59e0b]"></div>Desinencia</span>
+                <div className="bg-slate-900/90 flex space-x-6 px-6 py-3 rounded-xl border border-slate-700 shadow-xl">
+                  <span className="text-xs uppercase tracking-widest text-slate-400 font-bold flex items-center">Leyenda:</span>
+                  <span className="text-sm text-emerald-400 font-bold flex items-center"><div className="w-2 h-2 rounded-full bg-emerald-400 mr-2 shadow-[0_0_8px_#34d399]"></div>Raíz</span>
+                  <span className="text-sm text-amber-500 font-bold flex items-center"><div className="w-2 h-2 rounded-full bg-amber-500 mr-2 shadow-[0_0_8px_#f59e0b]"></div>Desinencia</span>
                 </div>
               </header>
               
-              <div className="bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden relative group transition-all duration-500 hover:border-blue-500/50">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-blue-500/20 transition-all duration-700"></div>
+              {/* PALABRA 1 */}
+              <div className="bg-slate-900/50 rounded-3xl border border-slate-800 shadow-xl overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px]"></div>
                 
-                <div className="p-10 border-b border-slate-800/80 bg-gradient-to-r from-slate-950 to-slate-900">
-                  <div className="flex items-center space-x-6 mb-6">
-                    <h3 className="text-4xl font-serif font-bold text-white flex items-center bg-slate-950 px-6 py-4 rounded-2xl border border-slate-800 shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">
-                      <W r="πολ" e="-ύς" />, <W r="πολλ" e="-ή" />, <W r="πολ" e="-ύ" />
-                    </h3>
-                    <span className="text-slate-500 font-sans text-3xl font-light">+</span> 
-                    <h3 className="text-4xl font-serif font-bold text-white flex items-center bg-slate-950 px-6 py-4 rounded-2xl border border-slate-800 shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">
-                      <W r="ἄργυρ" e="-ος, -ου" />
-                    </h3>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-8 mt-8">
-                    <div className="bg-blue-950/20 border border-blue-900/40 p-6 rounded-2xl relative overflow-hidden">
-                      <div className="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
-                      <h4 className="text-blue-400 font-black mb-3 uppercase tracking-widest text-sm flex items-center"><svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Concordancia</h4>
-                      <p className="text-slate-300 text-lg leading-relaxed font-light">
-                        El adjetivo <strong>πολύς</strong> concuerda obligatoriamente en <strong>género (masculino), número y caso</strong> con el sustantivo de la segunda declinación <strong>ἄργυρος</strong> (plata).
-                      </p>
+                <div className="p-8 border-b border-slate-800/80">
+                  <h3 className="text-2xl font-serif font-bold text-white mb-6 flex flex-wrap items-center gap-3">
+                    <span className="bg-slate-950 px-4 py-2 rounded-xl border border-slate-800"><W r="πολ" e="-ύς" />, <W r="πολλ" e="-ή" />, <W r="πολ" e="-ύ" /></span>
+                    <span className="text-slate-500 font-sans text-xl">+</span> 
+                    <span className="bg-slate-950 px-4 py-2 rounded-xl border border-slate-800"><W r="ἄργυρ" e="-ος, -ου" /> <span className="text-sm text-slate-500 font-sans ml-2">(Masc)</span></span>
+                  </h3>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="bg-blue-950/20 border border-blue-900/40 p-5 rounded-xl border-l-4 border-l-blue-500">
+                      <h4 className="text-blue-400 font-bold mb-1 text-sm uppercase">Concordancia</h4>
+                      <p className="text-slate-300 text-sm">El adjetivo <strong>πολύς</strong> concuerda en género (masculino), número y caso con el sustantivo de la 2ª declinación <strong>ἄργυρος</strong> (plata).</p>
                     </div>
-                    <div className="bg-emerald-950/20 border border-emerald-900/40 p-6 rounded-2xl relative overflow-hidden">
-                      <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
-                      <h4 className="text-emerald-400 font-black mb-3 uppercase tracking-widest text-sm flex items-center"><svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg> Anomalía Fonética</h4>
-                      <p className="text-slate-300 text-lg leading-relaxed font-light">
-                        Es un adjetivo irregular. Utiliza una raíz breve <strong className="text-emerald-400 bg-emerald-900/30 px-2 py-0.5 rounded">πολ-</strong> (para Nom/Acu/Voc singular masc y neutro) y una raíz extensa <strong className="text-emerald-400 bg-emerald-900/30 px-2 py-0.5 rounded">πολλ-</strong> para todo el resto de la flexión.
-                      </p>
+                    <div className="bg-emerald-950/20 border border-emerald-900/40 p-5 rounded-xl border-l-4 border-l-emerald-500">
+                      <h4 className="text-emerald-400 font-bold mb-1 text-sm uppercase">Anomalía Fonética</h4>
+                      <p className="text-slate-300 text-sm">Utiliza raíz breve <strong className="text-emerald-400">πολ-</strong> (Nom/Acu/Voc singular masc y neutro) y raíz extensa <strong className="text-emerald-400">πολλ-</strong> para el resto.</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="overflow-x-auto p-10 bg-slate-950/30">
-                  <table className="w-full text-center border-collapse">
+                <div className="overflow-x-auto p-6 bg-slate-950/30">
+                  <table className="w-full text-center border-collapse text-xl">
                     <thead>
-                      <tr className="border-b-2 border-slate-800">
-                        <th className="p-6 text-left font-sans text-sm uppercase tracking-widest text-slate-500 font-black">Caso</th>
-                        <th className="p-6 font-sans text-sm uppercase tracking-widest text-slate-500 font-black bg-slate-900/30 rounded-t-xl">Singular</th>
-                        <th className="p-6 font-sans text-sm uppercase tracking-widest text-slate-500 font-black bg-slate-900/30 rounded-t-xl ml-2">Plural</th>
+                      <tr className="border-b border-slate-800">
+                        <th className="p-4 text-left font-sans text-xs uppercase tracking-widest text-slate-500">Caso</th>
+                        <th className="p-4 font-sans text-xs uppercase tracking-widest text-slate-500">Singular</th>
+                        <th className="p-4 font-sans text-xs uppercase tracking-widest text-slate-500">Plural</th>
                       </tr>
                     </thead>
-                    <tbody className="text-slate-200 text-3xl font-serif divide-y divide-slate-800/30">
-                      <tr className="hover:bg-slate-800/30 transition-colors"><td className="p-8 text-left font-sans text-base font-bold text-slate-400 uppercase">Nominativo</td><td className="p-8 bg-slate-900/10"><W r="πολ" e="ὺς" extraClass="mr-4"/> <W r="ἄργυρ" e="ος" /></td><td className="p-8 bg-slate-900/10"><W r="πολλ" e="οὶ" extraClass="mr-4"/> <W r="ἄργυρ" e="οι" /></td></tr>
-                      <tr className="hover:bg-slate-800/30 transition-colors"><td className="p-8 text-left font-sans text-base font-bold text-slate-400 uppercase">Vocativo</td><td className="p-8 bg-slate-900/10"><W r="πολ" e="ὺ" extraClass="mr-4"/> <W r="ἄργυρ" e="ε" /></td><td className="p-8 bg-slate-900/10"><W r="πολλ" e="οὶ" extraClass="mr-4"/> <W r="ἄργυρ" e="οι" /></td></tr>
-                      <tr className="hover:bg-slate-800/30 transition-colors"><td className="p-8 text-left font-sans text-base font-bold text-slate-400 uppercase">Acusativo</td><td className="p-8 bg-slate-900/10"><W r="πολ" e="ὺν" extraClass="mr-4"/> <W r="ἄργυρ" e="ον" /></td><td className="p-8 bg-slate-900/10"><W r="πολλ" e="οὺς" extraClass="mr-4"/> <W r="ἀργύρ" e="ους" /></td></tr>
-                      <tr className="hover:bg-slate-800/30 transition-colors"><td className="p-8 text-left font-sans text-base font-bold text-slate-400 uppercase">Genitivo</td><td className="p-8 bg-slate-900/10"><W r="πολλ" e="οῦ" extraClass="mr-4"/> <W r="ἀργύρ" e="ου" /></td><td className="p-8 bg-slate-900/10"><W r="πολλ" e="ῶν" extraClass="mr-4"/> <W r="ἀργύρ" e="ων" /></td></tr>
-                      <tr className="hover:bg-slate-800/30 transition-colors"><td className="p-8 text-left font-sans text-base font-bold text-slate-400 uppercase">Dativo</td><td className="p-8 bg-slate-900/10 rounded-b-xl"><W r="πολλ" e="ῷ" extraClass="mr-4"/> <W r="ἀργύρ" e="ῳ" /></td><td className="p-8 bg-slate-900/10 rounded-b-xl"><W r="πολλ" e="οῖς" extraClass="mr-4"/> <W r="ἀργύρ" e="οις" /></td></tr>
+                    <tbody className="text-slate-200 font-serif divide-y divide-slate-800/30">
+                      <tr className="hover:bg-slate-800/30"><td className="p-4 text-left font-sans text-sm text-slate-400">NOM</td><td><W r="πολ" e="ὺς" extraClass="mr-3"/> <W r="ἄργυρ" e="ος" /></td><td><W r="πολλ" e="οὶ" extraClass="mr-3"/> <W r="ἄργυρ" e="οι" /></td></tr>
+                      <tr className="hover:bg-slate-800/30"><td className="p-4 text-left font-sans text-sm text-slate-400">VOC</td><td><W r="πολ" e="ὺ" extraClass="mr-3"/> <W r="ἄργυρ" e="ε" /></td><td><W r="πολλ" e="οὶ" extraClass="mr-3"/> <W r="ἄργυρ" e="οι" /></td></tr>
+                      <tr className="hover:bg-slate-800/30"><td className="p-4 text-left font-sans text-sm text-slate-400">ACU</td><td><W r="πολ" e="ὺν" extraClass="mr-3"/> <W r="ἄργυρ" e="ον" /></td><td><W r="πολλ" e="οὺς" extraClass="mr-3"/> <W r="ἀργύρ" e="ους" /></td></tr>
+                      <tr className="hover:bg-slate-800/30"><td className="p-4 text-left font-sans text-sm text-slate-400">GEN</td><td><W r="πολλ" e="οῦ" extraClass="mr-3"/> <W r="ἀργύρ" e="ου" /></td><td><W r="πολλ" e="ῶν" extraClass="mr-3"/> <W r="ἀργύρ" e="ων" /></td></tr>
+                      <tr className="hover:bg-slate-800/30"><td className="p-4 text-left font-sans text-sm text-slate-400">DAT</td><td><W r="πολλ" e="ῷ" extraClass="mr-3"/> <W r="ἀργύρ" e="ῳ" /></td><td><W r="πολλ" e="οῖς" extraClass="mr-3"/> <W r="ἀργύρ" e="οις" /></td></tr>
                     </tbody>
                   </table>
                 </div>
               </div>
 
-              <div className="bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden relative group transition-all duration-500 hover:border-purple-500/50">
-                <div className="absolute top-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-purple-500/20 transition-all duration-700"></div>
+              {/* PALABRA 2 */}
+              <div className="bg-slate-900/50 rounded-3xl border border-slate-800 shadow-xl overflow-hidden relative">
+                <div className="absolute top-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px]"></div>
                 
-                <div className="p-10 border-b border-slate-800/80 bg-gradient-to-l from-slate-950 to-slate-900">
-                  <h3 className="text-4xl font-serif font-bold text-white mb-6 inline-block bg-slate-950 px-8 py-5 rounded-2xl border border-slate-800 shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">
-                    <W r="βασιλε" e="-ύς" />, <W r="βασιλ" e="-έως" /> <span className="text-xl text-slate-500 font-sans ml-3 tracking-widest uppercase">(Masc)</span>
+                <div className="p-8 border-b border-slate-800/80">
+                  <h3 className="text-2xl font-serif font-bold text-white mb-4 bg-slate-950 px-4 py-2 rounded-xl border border-slate-800 inline-block">
+                    <W r="βασιλε" e="-ύς" />, <W r="βασιλ" e="-έως" /> <span className="text-sm text-slate-500 font-sans ml-2">(Masc)</span>
                   </h3>
-                  <div className="bg-purple-950/20 border border-purple-900/40 p-8 rounded-2xl mt-4 relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
-                    <h4 className="text-purple-400 font-black mb-3 uppercase tracking-widest text-sm">Tercera Declinación (Temas en Diptongo -ευ)</h4>
-                    <p className="text-slate-300 text-xl leading-relaxed font-light">
-                      La vocal ípsilon (<em>-υ-</em>) del diptongo proviene de una antigua digamma (<em>*w</em>). Esta consonante "cayó" ante las desinencias que empezaban por vocal, dejando un hiato. 
-                      <br/><br/>
-                      Además, en los dialectos jónico-áticos, el Genitivo Singular y Plural sufrió <strong>metátesis de cantidad</strong>: las vocales intercambiaron mágicamente su duración (*βασιλῆος &gt; <strong className="text-purple-300">βασιλέως</strong>), un fenómeno fascinante de la fonética histórica.
+                  <div className="bg-purple-950/20 border border-purple-900/40 p-5 rounded-xl border-l-4 border-l-purple-500">
+                    <h4 className="text-purple-400 font-bold mb-1 text-sm uppercase">Tercera Declinación (Diptongo -ευ)</h4>
+                    <p className="text-slate-300 text-sm">
+                      La ípsilon (<em>-υ-</em>) proviene de la digamma (<em>*w</em>), que cayó ante desinencias vocálicas. El Genitivo sufre <strong>metátesis de cantidad</strong> (las vocales intercambian su duración: *βασιλῆος &gt; βασιλέως).
                     </p>
                   </div>
                 </div>
 
-                <div className="overflow-x-auto p-10 bg-slate-950/30">
-                  <table className="w-full text-center border-collapse">
+                <div className="overflow-x-auto p-6 bg-slate-950/30">
+                  <table className="w-full text-center border-collapse text-xl">
                     <thead>
-                      <tr className="border-b-2 border-slate-800">
-                        <th className="p-6 text-left font-sans text-sm uppercase tracking-widest text-slate-500 font-black">Caso</th>
-                        <th className="p-6 font-sans text-sm uppercase tracking-widest text-slate-500 font-black bg-slate-900/30 rounded-t-xl">Singular</th>
-                        <th className="p-6 font-sans text-sm uppercase tracking-widest text-slate-500 font-black bg-slate-900/30 rounded-t-xl ml-2">Plural</th>
+                      <tr className="border-b border-slate-800">
+                        <th className="p-4 text-left font-sans text-xs uppercase tracking-widest text-slate-500">Caso</th>
+                        <th className="p-4 font-sans text-xs uppercase tracking-widest text-slate-500">Singular</th>
+                        <th className="p-4 font-sans text-xs uppercase tracking-widest text-slate-500">Plural</th>
                       </tr>
                     </thead>
-                    <tbody className="text-slate-200 text-3xl font-serif divide-y divide-slate-800/30">
-                      <tr className="hover:bg-slate-800/30 transition-colors"><td className="p-8 text-left font-sans text-base font-bold text-slate-400 uppercase">Nominativo</td><td className="p-8 bg-slate-900/10"><W r="βασιλε" e="ύς" /></td><td className="p-8 bg-slate-900/10"><W r="βασιλ" e="εῖς" /></td></tr>
-                      <tr className="hover:bg-slate-800/30 transition-colors"><td className="p-8 text-left font-sans text-base font-bold text-slate-400 uppercase">Vocativo</td><td className="p-8 bg-slate-900/10"><W r="βασιλε" e="ῦ" /></td><td className="p-8 bg-slate-900/10"><W r="βασιλ" e="εῖς" /></td></tr>
-                      <tr className="hover:bg-slate-800/30 transition-colors"><td className="p-8 text-left font-sans text-base font-bold text-slate-400 uppercase">Acusativo</td><td className="p-8 bg-slate-900/10"><W r="βασιλ" e="έα" /></td><td className="p-8 bg-slate-900/10"><W r="βασιλ" e="έας" /> <span className="text-slate-600 text-2xl mx-3 font-sans italic">o</span> <W r="βασιλ" e="εῖς" /></td></tr>
-                      <tr className="hover:bg-slate-800/30 transition-colors"><td className="p-8 text-left font-sans text-base font-bold text-slate-400 uppercase">Genitivo</td><td className="p-8 bg-slate-900/10"><W r="βασιλ" e="έως" /></td><td className="p-8 bg-slate-900/10"><W r="βασιλ" e="έων" /></td></tr>
-                      <tr className="hover:bg-slate-800/30 transition-colors"><td className="p-8 text-left font-sans text-base font-bold text-slate-400 uppercase">Dativo</td><td className="p-8 bg-slate-900/10 rounded-b-xl"><W r="βασιλ" e="εῖ" /></td><td className="p-8 bg-slate-900/10 rounded-b-xl"><W r="βασιλ" e="εῦσι" /><span className="text-slate-600">(ν)</span></td></tr>
+                    <tbody className="text-slate-200 font-serif divide-y divide-slate-800/30">
+                      <tr className="hover:bg-slate-800/30"><td className="p-4 text-left font-sans text-sm text-slate-400">NOM</td><td><W r="βασιλε" e="ύς" /></td><td><W r="βασιλ" e="εῖς" /></td></tr>
+                      <tr className="hover:bg-slate-800/30"><td className="p-4 text-left font-sans text-sm text-slate-400">VOC</td><td><W r="βασιλε" e="ῦ" /></td><td><W r="βασιλ" e="εῖς" /></td></tr>
+                      <tr className="hover:bg-slate-800/30"><td className="p-4 text-left font-sans text-sm text-slate-400">ACU</td><td><W r="βασιλ" e="έα" /></td><td><W r="βασιλ" e="έας" /> <span className="text-slate-600 text-lg mx-2 italic">o</span> <W r="βασιλ" e="εῖς" /></td></tr>
+                      <tr className="hover:bg-slate-800/30"><td className="p-4 text-left font-sans text-sm text-slate-400">GEN</td><td><W r="βασιλ" e="έως" /></td><td><W r="βασιλ" e="έων" /></td></tr>
+                      <tr className="hover:bg-slate-800/30"><td className="p-4 text-left font-sans text-sm text-slate-400">DAT</td><td><W r="βασιλ" e="εῖ" /></td><td><W r="βασιλ" e="εῦσι" /><span className="text-slate-600">(ν)</span></td></tr>
                     </tbody>
                   </table>
                 </div>
               </div>
 
-              <div className="bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden relative group transition-all duration-500 hover:border-emerald-500/50">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-emerald-500/20 transition-all duration-700"></div>
+              {/* PALABRA 3 */}
+              <div className="bg-slate-900/50 rounded-3xl border border-slate-800 shadow-xl overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px]"></div>
                 
-                <div className="p-10 border-b border-slate-800/80 bg-gradient-to-r from-slate-950 to-slate-900">
-                  <h3 className="text-4xl font-serif font-bold text-white mb-6 inline-block bg-slate-950 px-8 py-5 rounded-2xl border border-slate-800 shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">
-                    <span className="text-amber-500">πᾶς, πᾶσα, πᾶν</span> <span className="text-xl text-slate-500 font-sans ml-3 tracking-widest uppercase">(Todo, Cada)</span>
+                <div className="p-8 border-b border-slate-800/80">
+                  <h3 className="text-2xl font-serif font-bold text-white mb-4 bg-slate-950 px-4 py-2 rounded-xl border border-slate-800 inline-block text-amber-500">
+                    πᾶς, πᾶσα, πᾶν <span className="text-sm text-slate-500 font-sans ml-2">(Todo, Cada)</span>
                   </h3>
-                  <div className="bg-emerald-950/20 border border-emerald-900/40 p-8 rounded-2xl mt-4 relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
-                    <h4 className="text-emerald-400 font-black mb-3 uppercase tracking-widest text-sm">Adjetivo de 3 Terminaciones (Tema -ντ)</h4>
-                    <p className="text-slate-300 text-xl leading-relaxed font-light">
-                      El nominativo masculino <strong>πᾶς</strong> proviene de la raíz original <strong className="text-emerald-400 bg-emerald-900/30 px-2 py-0.5 rounded">*παντ-ς</strong>. Ante la sigma, la tau (τ) cae y la nu (ν) desaparece provocando un <strong>alargamiento compensatorio</strong> de la alfa (*παν-ς &gt; πᾶς). El femenino sigue la primera declinación en alfa impura.
+                  <div className="bg-emerald-950/20 border border-emerald-900/40 p-5 rounded-xl border-l-4 border-l-emerald-500">
+                    <h4 className="text-emerald-400 font-bold mb-1 text-sm uppercase">Adjetivo de 3 Terminaciones (Tema -ντ)</h4>
+                    <p className="text-slate-300 text-sm">
+                      Raíz original <strong className="text-emerald-400">*παντ-ς</strong>. Ante la sigma, la τ cae y la ν desaparece provocando <strong>alargamiento compensatorio</strong> de la alfa (*παν-ς &gt; πᾶς). El femenino va por la 1ª mixta.
                     </p>
                   </div>
                 </div>
 
-                <div className="overflow-x-auto p-10 bg-slate-950/30">
-                  <table className="w-full text-center border-collapse">
+                <div className="overflow-x-auto p-6 bg-slate-950/30">
+                  <table className="w-full text-center border-collapse text-lg">
                     <thead>
                       <tr>
-                        <th rowSpan="2" className="p-6 border-b-2 border-r border-slate-800 text-left font-sans text-sm uppercase tracking-widest text-slate-500 font-black">Caso</th>
-                        <th colSpan="3" className="p-6 border-b-2 border-r border-slate-800 bg-slate-900/30 rounded-tl-xl font-sans text-base uppercase tracking-widest text-slate-300 font-black">Singular</th>
-                        <th colSpan="3" className="p-6 border-b-2 border-slate-800 bg-slate-900/30 rounded-tr-xl font-sans text-base uppercase tracking-widest text-slate-300 font-black">Plural</th>
+                        <th rowSpan="2" className="p-3 border-b border-r border-slate-800 text-left font-sans text-xs uppercase tracking-widest text-slate-500">Caso</th>
+                        <th colSpan="3" className="p-3 border-b border-r border-slate-800 bg-slate-900/30 font-sans text-sm uppercase tracking-widest text-slate-400">Singular</th>
+                        <th colSpan="3" className="p-3 border-b border-slate-800 bg-slate-900/30 font-sans text-sm uppercase tracking-widest text-slate-400">Plural</th>
                       </tr>
                       <tr className="bg-slate-900/10">
-                        <th className="p-4 border-b border-r border-slate-800 text-slate-400 text-sm font-bold uppercase">Masc</th>
-                        <th className="p-4 border-b border-r border-slate-800 text-slate-400 text-sm font-bold uppercase">Fem</th>
-                        <th className="p-4 border-b border-r border-slate-800 text-slate-400 text-sm font-bold uppercase">Neutro</th>
-                        <th className="p-4 border-b border-r border-slate-800 text-slate-400 text-sm font-bold uppercase">Masc</th>
-                        <th className="p-4 border-b border-r border-slate-800 text-slate-400 text-sm font-bold uppercase">Fem</th>
-                        <th className="p-4 border-b border-slate-800 text-slate-400 text-sm font-bold uppercase">Neutro</th>
+                        <th className="p-2 border-b border-r border-slate-800 text-slate-500 text-xs">Masc</th>
+                        <th className="p-2 border-b border-r border-slate-800 text-slate-500 text-xs">Fem</th>
+                        <th className="p-2 border-b border-r border-slate-800 text-slate-500 text-xs">Neu</th>
+                        <th className="p-2 border-b border-r border-slate-800 text-slate-500 text-xs">Masc</th>
+                        <th className="p-2 border-b border-r border-slate-800 text-slate-500 text-xs">Fem</th>
+                        <th className="p-2 border-b border-slate-800 text-slate-500 text-xs">Neu</th>
                       </tr>
                     </thead>
-                    <tbody className="text-slate-200 text-3xl font-serif divide-y divide-slate-800/30">
-                      <tr className="hover:bg-slate-800/30 transition-colors">
-                        <td className="p-6 text-left font-sans text-base font-bold text-slate-400 uppercase border-r border-slate-800">Nom/Voc</td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10"><W r="πᾶ" e="ς" /></td>
-                        <td className="p-6 border-r border-slate-800"><W r="πᾶσ" e="α" /></td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10"><W r="πᾶν" e="" /></td>
-                        <td className="p-6 border-r border-slate-800"><W r="πάντ" e="ες" /></td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10"><W r="πᾶσ" e="αι" /></td>
-                        <td className="p-6"><W r="πάντ" e="α" /></td>
+                    <tbody className="text-slate-200 font-serif divide-y divide-slate-800/30">
+                      <tr className="hover:bg-slate-800/30">
+                        <td className="p-4 text-left font-sans text-sm text-slate-400 border-r border-slate-800">Nom/Voc</td>
+                        <td className="p-4 border-r border-slate-800"><W r="πᾶ" e="ς" /></td><td className="p-4 border-r border-slate-800"><W r="πᾶσ" e="α" /></td><td className="p-4 border-r border-slate-800"><W r="πᾶν" e="" /></td>
+                        <td className="p-4 border-r border-slate-800"><W r="πάντ" e="ες" /></td><td className="p-4 border-r border-slate-800"><W r="πᾶσ" e="αι" /></td><td className="p-4"><W r="πάντ" e="α" /></td>
                       </tr>
-                      <tr className="hover:bg-slate-800/30 transition-colors">
-                        <td className="p-6 text-left font-sans text-base font-bold text-slate-400 uppercase border-r border-slate-800">Acusativo</td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10"><W r="πάντ" e="α" /></td>
-                        <td className="p-6 border-r border-slate-800"><W r="πᾶσ" e="αν" /></td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10"><W r="πᾶν" e="" /></td>
-                        <td className="p-6 border-r border-slate-800"><W r="πάντ" e="ας" /></td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10"><W r="πάσ" e="ας" /></td>
-                        <td className="p-6"><W r="πάντ" e="α" /></td>
+                      <tr className="hover:bg-slate-800/30">
+                        <td className="p-4 text-left font-sans text-sm text-slate-400 border-r border-slate-800">Acu</td>
+                        <td className="p-4 border-r border-slate-800"><W r="πάντ" e="α" /></td><td className="p-4 border-r border-slate-800"><W r="πᾶσ" e="αν" /></td><td className="p-4 border-r border-slate-800"><W r="πᾶν" e="" /></td>
+                        <td className="p-4 border-r border-slate-800"><W r="πάντ" e="ας" /></td><td className="p-4 border-r border-slate-800"><W r="πάσ" e="ας" /></td><td className="p-4"><W r="πάντ" e="α" /></td>
                       </tr>
-                      <tr className="hover:bg-slate-800/30 transition-colors">
-                        <td className="p-6 text-left font-sans text-base font-bold text-slate-400 uppercase border-r border-slate-800">Genitivo</td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10"><W r="παντ" e="ός" /></td>
-                        <td className="p-6 border-r border-slate-800"><W r="πάσ" e="ης" /></td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10"><W r="παντ" e="ός" /></td>
-                        <td className="p-6 border-r border-slate-800"><W r="πάντ" e="ων" /></td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10"><W r="πασ" e="ῶν" /></td>
-                        <td className="p-6"><W r="πάντ" e="ων" /></td>
+                      <tr className="hover:bg-slate-800/30">
+                        <td className="p-4 text-left font-sans text-sm text-slate-400 border-r border-slate-800">Gen</td>
+                        <td className="p-4 border-r border-slate-800"><W r="παντ" e="ός" /></td><td className="p-4 border-r border-slate-800"><W r="πάσ" e="ης" /></td><td className="p-4 border-r border-slate-800"><W r="παντ" e="ός" /></td>
+                        <td className="p-4 border-r border-slate-800"><W r="πάντ" e="ων" /></td><td className="p-4 border-r border-slate-800"><W r="πασ" e="ῶν" /></td><td className="p-4"><W r="πάντ" e="ων" /></td>
                       </tr>
-                      <tr className="hover:bg-slate-800/30 transition-colors">
-                        <td className="p-6 text-left font-sans text-base font-bold text-slate-400 uppercase border-r border-slate-800">Dativo</td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10 rounded-bl-xl"><W r="παντ" e="ί" /></td>
-                        <td className="p-6 border-r border-slate-800"><W r="πάσ" e="ῃ" /></td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10"><W r="παντ" e="ί" /></td>
-                        <td className="p-6 border-r border-slate-800"><W r="πᾶ" e="σι" /><span className="text-slate-600 font-sans text-lg">(ν)</span></td>
-                        <td className="p-6 border-r border-slate-800 bg-slate-900/10"><W r="πάσ" e="αις" /></td>
-                        <td className="p-6 rounded-br-xl"><W r="πᾶ" e="σι" /><span className="text-slate-600 font-sans text-lg">(ν)</span></td>
+                      <tr className="hover:bg-slate-800/30">
+                        <td className="p-4 text-left font-sans text-sm text-slate-400 border-r border-slate-800">Dat</td>
+                        <td className="p-4 border-r border-slate-800"><W r="παντ" e="ί" /></td><td className="p-4 border-r border-slate-800"><W r="πάσ" e="ῃ" /></td><td className="p-4 border-r border-slate-800"><W r="παντ" e="ί" /></td>
+                        <td className="p-4 border-r border-slate-800"><W r="πᾶ" e="σι" /><span className="text-slate-600 text-sm">(ν)</span></td><td className="p-4 border-r border-slate-800"><W r="πάσ" e="αις" /></td><td className="p-4"><W r="πᾶ" e="σι" /><span className="text-slate-600 text-sm">(ν)</span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -573,150 +627,144 @@
           );
         }
 
+        // ==========================================
+        // 5. PREGUNTA 3: SISTEMA VERBAL
+        // ==========================================
         function SistemaVerbal() {
           const [tense, setTense] = useState('teoria');
 
           const tenses = [
-            { id: 'teoria', name: 'Teoría y Formación' },
+            { id: 'teoria', name: 'Teoría' },
             { id: 'presente', name: 'Presente' },
-            { id: 'imperfecto', name: 'Pret. Imperfecto' },
+            { id: 'imperfecto', name: 'Imperfecto' },
             { id: 'futuro', name: 'Futuro' },
             { id: 'aoristo', name: 'Aoristo' }
           ];
 
           return (
-            <div className="space-y-10 animate-fade-in">
+            <div className="space-y-8 animate-fade-in pb-10">
               <header className="border-b border-slate-800 pb-6">
-                <h2 className="text-4xl font-black text-white mb-2">3. El Sistema Verbal Griego</h2>
-                <p className="text-slate-400 text-lg">Paradigmas completos del verbo regular (ej. λύω).</p>
+                <h2 className="text-3xl font-black text-white mb-2">3. El Sistema Verbal Griego</h2>
+                <p className="text-slate-400 text-base font-light">Estructura y conjugación (Verbo regular temático λύω).</p>
               </header>
 
               <div className="flex flex-wrap gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
                 {tenses.map(t => (
-                  <button key={t.id} onClick={() => setTense(t.id)} className={`px-5 py-2.5 rounded-lg font-bold tracking-wide transition-colors ${tense === t.id ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>
+                  <button key={t.id} onClick={() => setTense(t.id)} className={`px-4 py-2 rounded-lg font-bold tracking-wide transition-colors text-sm ${tense === t.id ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>
                     {t.name}
                   </button>
                 ))}
               </div>
 
               {tense === 'teoria' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="bg-slate-900 p-10 rounded-3xl border border-slate-800 shadow-xl">
-                    <h3 className="text-3xl font-serif text-amber-500 mb-8 text-center font-bold">La Ecuación del Verbo</h3>
-                    <div className="flex flex-col md:flex-row justify-center items-center gap-6 text-2xl font-serif">
-                      <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center">
-                        <span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-3">Aumento (Pasado)</span>
-                        <span className="text-pink-400 font-bold bg-pink-500/10 px-4 py-2 rounded-lg">ἐ</span>
+                <div className="space-y-6 animate-fade-in">
+                  <div className="bg-slate-900/80 p-8 rounded-2xl border border-slate-800 shadow-xl text-center">
+                    <h3 className="text-2xl font-serif text-amber-500 mb-6 font-bold">La Ecuación del Verbo</h3>
+                    <div className="flex flex-wrap justify-center items-center gap-4 text-xl font-serif">
+                      <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col">
+                        <span className="text-[10px] font-sans text-slate-500 uppercase mb-2">Aumento (Pasado)</span>
+                        <span className="text-pink-400 font-bold bg-pink-500/10 py-1 rounded">ἐ</span>
                       </div>
                       <span className="text-slate-700">+</span>
-                      <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center">
-                        <span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-3">Raíz</span>
-                        <span className="text-emerald-400 font-bold bg-emerald-500/10 px-4 py-2 rounded-lg">λύ</span>
+                      <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col">
+                        <span className="text-[10px] font-sans text-slate-500 uppercase mb-2">Raíz Verbal</span>
+                        <span className="text-emerald-400 font-bold bg-emerald-500/10 py-1 rounded">λύ</span>
                       </div>
                       <span className="text-slate-700">+</span>
-                      <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center">
-                        <span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-3">Caract. / Sufijo</span>
-                        <span className="text-purple-400 font-bold bg-purple-500/10 px-4 py-2 rounded-lg">σ</span>
+                      <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col">
+                        <span className="text-[10px] font-sans text-slate-500 uppercase mb-2">Caract. / Sufijo</span>
+                        <span className="text-purple-400 font-bold bg-purple-500/10 py-1 rounded">σ</span>
                       </div>
                       <span className="text-slate-700">+</span>
-                      <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center">
-                        <span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-3">V. Temática</span>
-                        <span className="text-blue-400 font-bold bg-blue-500/10 px-4 py-2 rounded-lg">α</span>
+                      <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col">
+                        <span className="text-[10px] font-sans text-slate-500 uppercase mb-2">V. Temática</span>
+                        <span className="text-blue-400 font-bold bg-blue-500/10 py-1 rounded">α</span>
                       </div>
                       <span className="text-slate-700">+</span>
-                      <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center">
-                        <span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-3">Desinencia</span>
-                        <span className="text-amber-500 font-bold bg-amber-500/10 px-4 py-2 rounded-lg">μεν</span>
+                      <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col">
+                        <span className="text-[10px] font-sans text-slate-500 uppercase mb-2">Desinencia</span>
+                        <span className="text-amber-500 font-bold bg-amber-500/10 py-1 rounded">μεν</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid lg:grid-cols-2 gap-8">
-                    <div className="bg-slate-900 p-8 rounded-3xl border border-slate-800">
-                      <h4 className="text-xl font-bold text-white mb-4 border-b border-slate-800 pb-3">El Aumento</h4>
-                      <p className="text-slate-400 text-sm mb-4">Marca exclusiva de los tiempos de pasado del modo indicativo (Imperfecto, Aoristo, Pluscuamperfecto).</p>
-                      <ul className="space-y-3">
-                        <li className="bg-slate-950 p-3 rounded-lg"><span className="text-pink-400 font-bold mr-2">Silábico:</span> Añade ἐ- a verbos que empiezan por consonante (λύω &gt; ἔλυον).</li>
-                        <li className="bg-slate-950 p-3 rounded-lg"><span className="text-pink-400 font-bold mr-2">Temporal:</span> Alarga la vocal inicial (α/ε &gt; η, ο &gt; ω) (ἄγω &gt; ἦγον).</li>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800">
+                      <h4 className="text-lg font-bold text-pink-400 mb-3 border-b border-slate-800 pb-2">El Aumento</h4>
+                      <p className="text-slate-400 text-sm mb-3">Marca exclusiva de tiempos históricos en Indicativo.</p>
+                      <ul className="space-y-2 text-sm text-slate-300">
+                        <li className="bg-slate-950 p-2 rounded"><strong className="text-pink-400">Silábico:</strong> Añade ἐ- a raíces consonánticas (λύω &gt; ἔλυον).</li>
+                        <li className="bg-slate-950 p-2 rounded"><strong className="text-pink-400">Temporal:</strong> Alarga vocales (α/ε &gt; η, ο &gt; ω) (ἄγω &gt; ἦγον).</li>
                       </ul>
                     </div>
-                    <div className="bg-slate-900 p-8 rounded-3xl border border-slate-800">
-                      <h4 className="text-xl font-bold text-white mb-4 border-b border-slate-800 pb-3">Las Voces</h4>
-                      <ul className="space-y-3">
-                        <li className="bg-slate-950 p-3 rounded-lg text-sm"><span className="text-blue-400 font-bold mr-2">Activa:</span> El sujeto ejecuta la acción (λούω = lavo a otro).</li>
-                        <li className="bg-slate-950 p-3 rounded-lg text-sm"><span className="text-purple-400 font-bold mr-2">Media:</span> El sujeto ejecuta la acción en su propio interés o sobre sí mismo (λούομαι = me lavo).</li>
-                        <li className="bg-slate-950 p-3 rounded-lg text-sm"><span className="text-emerald-400 font-bold mr-2">Pasiva:</span> El sujeto sufre la acción. En presente/imperfecto comparte formas con la Media.</li>
-                      </ul>
+                    <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800">
+                      <h4 className="text-lg font-bold text-amber-500 mb-3 border-b border-slate-800 pb-2">Las Desinencias Universales</h4>
+                      <table className="w-full text-center text-sm font-serif bg-slate-950 rounded border border-slate-800">
+                        <thead className="bg-slate-900"><tr className="text-slate-500 text-xs font-sans uppercase"><th>Pers</th><th>Primarias (Pres/Fut)</th><th>Secundarias (Pasado)</th></tr></thead>
+                        <tbody className="divide-y divide-slate-800/50 text-amber-500">
+                          <tr><td>1S</td><td>-ω / -μι / -μαι</td><td>-ν / -μην</td></tr>
+                          <tr><td>2S</td><td>-εις / -ς / -σαι</td><td>-ς / -σο</td></tr>
+                          <tr><td>3S</td><td>-ει / -σι / -ται</td><td>— / -το</td></tr>
+                          <tr><td>1P</td><td>-μεν / -μεθα</td><td>-μεν / -μεθα</td></tr>
+                          <tr><td>2P</td><td>-τε / -σθε</td><td>-τε / -σθε</td></tr>
+                          <tr><td>3P</td><td>-ουσι / -νται</td><td>-ν / -ντο</td></tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
               )}
 
               {tense === 'presente' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="bg-indigo-900/20 border border-indigo-500/30 p-6 rounded-2xl">
-                    <h3 className="text-2xl font-bold text-indigo-400 mb-2">Tema de Presente</h3>
-                    <p className="text-slate-300">Expresa una acción en desarrollo o habitual en el presente. Usa <strong>desinencias primarias</strong>. Construcción: Raíz + Vocal Temática (ο/ε) + Desinencias Primarias.</p>
+                <div className="space-y-6 animate-fade-in">
+                  <div className="bg-slate-900 p-6 rounded-2xl border-l-4 border-indigo-500 text-sm text-slate-300">
+                    Tema de Presente: Acción en desarrollo. Usa <strong>desinencias primarias</strong> sin aumento. Raíz + Vocal Temática (ο/ε) + Desinencias Primarias.
                   </div>
-
-                  <div className="grid xl:grid-cols-2 gap-8">
-                    <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
-                      <h4 className="bg-slate-950 text-center py-4 font-black uppercase tracking-widest text-slate-400 border-b border-slate-800">Voz Activa</h4>
-                      <div className="p-6 space-y-6">
-                        <div>
-                          <p className="text-xs uppercase text-slate-500 font-bold mb-2">Indicativo</p>
-                          <div className="grid grid-cols-2 gap-4 font-serif text-2xl text-slate-200">
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" e="ω"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" t="ο" e="μεν"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" e="εις"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" t="ε" e="τε"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" e="ει"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" e="ουσι"/><span className="text-sm text-slate-500">(ν)</span></div>
-                          </div>
+                  <div className="grid xl:grid-cols-2 gap-6">
+                    <div className="bg-slate-900/80 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h4 className="bg-slate-950 text-center py-3 font-black uppercase text-sm tracking-widest text-slate-400">Voz Activa</h4>
+                      <div className="p-6">
+                        <p className="text-xs uppercase text-slate-500 font-bold mb-2">Indicativo</p>
+                        <div className="grid grid-cols-2 gap-3 font-serif text-xl text-slate-200 mb-6">
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" e="ω"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" t="ο" e="μεν"/></div>
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" e="εις"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" t="ε" e="τε"/></div>
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" e="ει"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" e="ουσι"/></div>
                         </div>
-                        <div className="flex gap-4">
-                          <div className="flex-1">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
                             <p className="text-xs uppercase text-slate-500 font-bold mb-2">Imperativo</p>
-                            <div className="bg-slate-950 p-4 rounded-xl font-serif text-xl text-slate-200 flex flex-col space-y-2">
-                              <span>Sg: <V r="λῦ" e="ε"/></span>
-                              <span>Pl: <V r="λύ" t="ε" e="τε"/></span>
+                            <div className="bg-slate-950 p-3 rounded-lg font-serif text-lg text-slate-200 text-center space-y-1">
+                              <div>Sg: <V r="λῦ" e="ε"/></div><div>Pl: <V r="λύ" t="ε" e="τε"/></div>
                             </div>
                           </div>
-                          <div className="flex-1">
+                          <div>
                             <p className="text-xs uppercase text-slate-500 font-bold mb-2">Infinitivo</p>
-                            <div className="bg-slate-950 p-4 rounded-xl font-serif text-2xl text-center text-slate-200 h-full flex items-center justify-center">
+                            <div className="bg-slate-950 p-3 rounded-lg font-serif text-xl text-center text-slate-200 h-full flex items-center justify-center">
                               <V r="λύ" e="ειν"/>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-
-                    <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
-                      <h4 className="bg-slate-950 text-center py-4 font-black uppercase tracking-widest text-slate-400 border-b border-slate-800">Voz Medio-Pasiva</h4>
-                      <div className="p-6 space-y-6">
-                        <div>
-                          <p className="text-xs uppercase text-slate-500 font-bold mb-2">Indicativo</p>
-                          <div className="grid grid-cols-2 gap-4 font-serif text-2xl text-slate-200">
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" t="ο" e="μαι"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λυ" t="ό" e="μεθα"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" e="ῃ"/> / <V r="λύ" e="ει"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" t="ε" e="σθε"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" t="ε" e="ται"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" t="ο" e="νται"/></div>
-                          </div>
+                    <div className="bg-slate-900/80 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h4 className="bg-slate-950 text-center py-3 font-black uppercase text-sm tracking-widest text-slate-400">Voz Medio-Pasiva</h4>
+                      <div className="p-6">
+                        <p className="text-xs uppercase text-slate-500 font-bold mb-2">Indicativo</p>
+                        <div className="grid grid-cols-2 gap-3 font-serif text-xl text-slate-200 mb-6">
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" t="ο" e="μαι"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λυ" t="ό" e="μεθα"/></div>
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" e="ῃ"/> / <V r="λύ" e="ει"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" t="ε" e="σθε"/></div>
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" t="ε" e="ται"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" t="ο" e="νται"/></div>
                         </div>
-                        <div className="flex gap-4">
-                          <div className="flex-1">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
                             <p className="text-xs uppercase text-slate-500 font-bold mb-2">Imperativo</p>
-                            <div className="bg-slate-950 p-4 rounded-xl font-serif text-xl text-slate-200 flex flex-col space-y-2">
-                              <span>Sg: <V r="λύ" e="ου"/></span>
-                              <span>Pl: <V r="λύ" t="ε" e="σθε"/></span>
+                            <div className="bg-slate-950 p-3 rounded-lg font-serif text-lg text-slate-200 text-center space-y-1">
+                              <div>Sg: <V r="λύ" e="ου"/></div><div>Pl: <V r="λύ" t="ε" e="σθε"/></div>
                             </div>
                           </div>
-                          <div className="flex-1">
+                          <div>
                             <p className="text-xs uppercase text-slate-500 font-bold mb-2">Infinitivo</p>
-                            <div className="bg-slate-950 p-4 rounded-xl font-serif text-2xl text-center text-slate-200 h-full flex items-center justify-center">
+                            <div className="bg-slate-950 p-3 rounded-lg font-serif text-xl text-center text-slate-200 h-full flex items-center justify-center">
                               <V r="λύ" t="ε" e="σθαι"/>
                             </div>
                           </div>
@@ -728,37 +776,28 @@
               )}
 
               {tense === 'imperfecto' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="bg-pink-900/20 border border-pink-500/30 p-6 rounded-2xl">
-                    <h3 className="text-2xl font-bold text-pink-400 mb-2">Pretérito Imperfecto</h3>
-                    <p className="text-slate-300">Expresa una acción en desarrollo en el pasado. Se forma sobre la raíz de presente, añadiendo el <strong>Aumento</strong> y <strong>desinencias secundarias</strong>. <br/><span className="text-sm italic">Solo existe en modo Indicativo.</span></p>
+                <div className="space-y-6 animate-fade-in">
+                  <div className="bg-pink-900/20 border border-pink-500/30 p-6 rounded-2xl border-l-4 border-l-pink-500 text-sm text-slate-300">
+                    Pretérito Imperfecto: Expresa una acción en desarrollo en el pasado. <strong>Aumento</strong> + Raíz + V.T. + <strong>Desinencias Secundarias</strong>. <br/><span className="italic text-slate-400">Nota: Al indicar pasado, solo existe en modo Indicativo (no hay imperativo ni infinitivo).</span>
                   </div>
-
-                  <div className="grid xl:grid-cols-2 gap-8">
-                    <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
-                      <h4 className="bg-slate-950 text-center py-4 font-black uppercase tracking-widest text-slate-400 border-b border-slate-800">Voz Activa</h4>
+                  <div className="grid xl:grid-cols-2 gap-6">
+                    <div className="bg-slate-900/80 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h4 className="bg-slate-950 text-center py-3 font-black uppercase text-sm tracking-widest text-slate-400">Voz Activa</h4>
                       <div className="p-6">
-                        <div className="grid grid-cols-2 gap-4 font-serif text-2xl text-slate-200">
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἔ" r="λυ" t="ο" e="ν"/></div>
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἐ" r="λύ" t="ο" e="μεν"/></div>
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἔ" r="λυ" t="ε" e="ς"/></div>
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἐ" r="λύ" t="ε" e="τε"/></div>
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἔ" r="λυ" t="ε" e=""/> <span className="text-sm text-slate-500">(ν)</span></div>
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἔ" r="λυ" t="ο" e="ν"/></div>
+                        <div className="grid grid-cols-2 gap-3 font-serif text-xl text-slate-200">
+                          <div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἔ" r="λυ" t="ο" e="ν"/></div><div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἐ" r="λύ" t="ο" e="μεν"/></div>
+                          <div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἔ" r="λυ" t="ε" e="ς"/></div><div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἐ" r="λύ" t="ε" e="τε"/></div>
+                          <div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἔ" r="λυ" t="ε" e=""/> <span className="text-slate-600 text-sm">(ν)</span></div><div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἔ" r="λυ" t="ο" e="ν"/></div>
                         </div>
                       </div>
                     </div>
-
-                    <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
-                      <h4 className="bg-slate-950 text-center py-4 font-black uppercase tracking-widest text-slate-400 border-b border-slate-800">Voz Medio-Pasiva</h4>
+                    <div className="bg-slate-900/80 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h4 className="bg-slate-950 text-center py-3 font-black uppercase text-sm tracking-widest text-slate-400">Voz Medio-Pasiva</h4>
                       <div className="p-6">
-                        <div className="grid grid-cols-2 gap-4 font-serif text-2xl text-slate-200">
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἐ" r="λυ" t="ό" e="μην"/></div>
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἐ" r="λυ" t="ό" e="μεθα"/></div>
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἐ" r="λύ" e="ου"/></div>
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἐ" r="λύ" t="ε" e="σθε"/></div>
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἐ" r="λύ" t="ε" e="το"/></div>
-                          <div className="bg-slate-950 p-5 rounded-xl text-center"><V a="ἐ" r="λύ" t="ο" e="ντο"/></div>
+                        <div className="grid grid-cols-2 gap-3 font-serif text-xl text-slate-200">
+                          <div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἐ" r="λυ" t="ό" e="μην"/></div><div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἐ" r="λυ" t="ό" e="μεθα"/></div>
+                          <div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἐ" r="λύ" e="ου"/></div><div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἐ" r="λύ" t="ε" e="σθε"/></div>
+                          <div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἐ" r="λύ" t="ε" e="το"/></div><div className="bg-slate-950 p-4 rounded-lg text-center"><V a="ἐ" r="λύ" t="ο" e="ντο"/></div>
                         </div>
                       </div>
                     </div>
@@ -767,55 +806,34 @@
               )}
 
               {tense === 'futuro' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="bg-purple-900/20 border border-purple-500/30 p-6 rounded-2xl">
-                    <h3 className="text-2xl font-bold text-purple-400 mb-2">Futuro Sigmático</h3>
-                    <p className="text-slate-300">Expresa una acción en el futuro. Se forma insertando la característica temporal <strong className="text-purple-400">-σ-</strong> entre la raíz y la vocal temática, usando desinencias primarias. No tiene Imperativo.</p>
+                <div className="space-y-6 animate-fade-in">
+                  <div className="bg-purple-900/20 border border-purple-500/30 p-6 rounded-2xl border-l-4 border-l-purple-500 text-sm text-slate-300">
+                    Futuro Sigmático: Inserción de la característica <strong className="text-purple-400">-σ-</strong>. Raíz + <strong className="text-purple-400">σ</strong> + V.T. + <strong>Des. Primarias</strong>. (Sin aumento, sin imperativo).
                   </div>
-
-                  <div className="grid xl:grid-cols-2 gap-8">
-                    <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
-                      <h4 className="bg-slate-950 text-center py-4 font-black uppercase tracking-widest text-slate-400 border-b border-slate-800">Voz Activa</h4>
-                      <div className="p-6 space-y-6">
-                        <div>
-                          <p className="text-xs uppercase text-slate-500 font-bold mb-2">Indicativo</p>
-                          <div className="grid grid-cols-2 gap-4 font-serif text-2xl text-slate-200">
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" c="σ" e="ω"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" c="σ" t="ο" e="μεν"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" c="σ" e="εις"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" c="σ" t="ε" e="τε"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" c="σ" e="ει"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" c="σ" e="ουσι"/><span className="text-sm text-slate-500">(ν)</span></div>
-                          </div>
+                  <div className="grid xl:grid-cols-2 gap-6">
+                    <div className="bg-slate-900/80 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h4 className="bg-slate-950 text-center py-3 font-black uppercase text-sm tracking-widest text-slate-400">Voz Activa</h4>
+                      <div className="p-6 space-y-4">
+                        <div className="grid grid-cols-2 gap-3 font-serif text-xl text-slate-200">
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" c="σ" e="ω"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" c="σ" t="ο" e="μεν"/></div>
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" c="σ" e="εις"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" c="σ" t="ε" e="τε"/></div>
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" c="σ" e="ει"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" c="σ" e="ουσι"/></div>
                         </div>
-                        <div>
-                          <p className="text-xs uppercase text-slate-500 font-bold mb-2">Infinitivo</p>
-                          <div className="bg-slate-950 p-4 rounded-xl font-serif text-2xl text-center text-slate-200">
-                            <V r="λύ" c="σ" e="ειν"/>
-                          </div>
+                        <div className="bg-slate-950 p-3 rounded-lg font-serif text-xl text-center text-slate-200 flex justify-center items-center gap-4 border border-slate-800">
+                          <span className="text-xs uppercase text-slate-500 font-sans font-bold">Infinitivo:</span> <V r="λύ" c="σ" e="ειν"/>
                         </div>
                       </div>
                     </div>
-
-                    <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
-                      <h4 className="bg-slate-950 text-center py-4 font-black uppercase tracking-widest text-slate-400 border-b border-slate-800">Voz Media</h4>
-                      <div className="p-6 space-y-6">
-                        <div>
-                          <p className="text-xs uppercase text-slate-500 font-bold mb-2">Indicativo</p>
-                          <div className="grid grid-cols-2 gap-4 font-serif text-2xl text-slate-200">
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" c="σ" t="ο" e="μαι"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λυ" c="σ" t="ό" e="μεθα"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" c="σ" e="ῃ"/> / <V r="λύ" c="σ" e="ει"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" c="σ" t="ε" e="σθε"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" c="σ" t="ε" e="ται"/></div>
-                            <div className="bg-slate-950 p-4 rounded-xl text-center"><V r="λύ" c="σ" t="ο" e="νται"/></div>
-                          </div>
+                    <div className="bg-slate-900/80 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h4 className="bg-slate-950 text-center py-3 font-black uppercase text-sm tracking-widest text-slate-400">Voz Media</h4>
+                      <div className="p-6 space-y-4">
+                        <div className="grid grid-cols-2 gap-3 font-serif text-xl text-slate-200">
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" c="σ" t="ο" e="μαι"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λυ" c="σ" t="ό" e="μεθα"/></div>
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" c="σ" e="ῃ"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" c="σ" t="ε" e="σθε"/></div>
+                          <div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" c="σ" t="ε" e="ται"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V r="λύ" c="σ" t="ο" e="νται"/></div>
                         </div>
-                        <div>
-                          <p className="text-xs uppercase text-slate-500 font-bold mb-2">Infinitivo</p>
-                          <div className="bg-slate-950 p-4 rounded-xl font-serif text-2xl text-center text-slate-200">
-                            <V r="λύ" c="σ" t="ε" e="σθαι"/>
-                          </div>
+                        <div className="bg-slate-950 p-3 rounded-lg font-serif text-xl text-center text-slate-200 flex justify-center items-center gap-4 border border-slate-800">
+                          <span className="text-xs uppercase text-slate-500 font-sans font-bold">Infinitivo:</span> <V r="λύ" c="σ" t="ε" e="σθαι"/>
                         </div>
                       </div>
                     </div>
@@ -824,70 +842,59 @@
               )}
 
               {tense === 'aoristo' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="bg-amber-900/20 border border-amber-500/30 p-6 rounded-2xl">
-                    <h3 className="text-2xl font-bold text-amber-500 mb-2">Aoristo Sigmático (1º Aoristo)</h3>
-                    <p className="text-slate-300">Expresa una acción pasada puntual (aspecto perfectivo). Se forma con: <strong>Aumento + Raíz + Característica (-σ-) + Vocal Temática (-α-) + Desinencias Secundarias.</strong></p>
+                <div className="space-y-6 animate-fade-in">
+                  <div className="bg-amber-900/20 border border-amber-500/30 p-6 rounded-2xl border-l-4 border-l-amber-500 text-sm text-slate-300">
+                    Aoristo Sigmático: Acción pasada de aspecto perfectivo (puntual). <strong>Aum</strong> + Raíz + <strong className="text-purple-400">σ</strong> + V.T. <strong className="text-blue-400">α</strong> + <strong>Des. Secundarias</strong>. <br/><span className="italic text-slate-400">Recuerda: El Imperativo y el Infinitivo NUNCA llevan aumento.</span>
                   </div>
-
-                  <div className="grid xl:grid-cols-2 gap-8">
-                    <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
-                      <h4 className="bg-slate-950 text-center py-4 font-black uppercase tracking-widest text-slate-400 border-b border-slate-800">Voz Activa</h4>
+                  <div className="grid xl:grid-cols-2 gap-6">
+                    <div className="bg-slate-900/80 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h4 className="bg-slate-950 text-center py-3 font-black uppercase text-sm tracking-widest text-slate-400">Voz Activa</h4>
                       <div className="p-6 space-y-6">
                         <div>
-                          <p className="text-xs uppercase text-slate-500 font-bold mb-2">Indicativo (Lleva Aumento)</p>
-                          <div className="grid grid-cols-2 gap-4 font-serif text-2xl text-slate-200">
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἔ" r="λυ" c="σ" e="α"/></div>
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἐ" r="λύ" c="σ" t="α" e="μεν"/></div>
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἔ" r="λυ" c="σ" t="α" e="ς"/></div>
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἐ" r="λύ" c="σ" t="α" e="τε"/></div>
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἔ" r="λυ" c="σ" e="ε"/><span className="text-sm text-slate-500">(ν)</span></div>
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἔ" r="λυ" c="σ" t="α" e="ν"/></div>
+                          <p className="text-xs uppercase text-slate-500 font-bold mb-2">Indicativo (Con Aumento)</p>
+                          <div className="grid grid-cols-2 gap-3 font-serif text-xl text-slate-200">
+                            <div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἔ" r="λυ" c="σ" e="α"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἐ" r="λύ" c="σ" t="α" e="μεν"/></div>
+                            <div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἔ" r="λυ" c="σ" t="α" e="ς"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἐ" r="λύ" c="σ" t="α" e="τε"/></div>
+                            <div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἔ" r="λυ" c="σ" e="ε"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἔ" r="λυ" c="σ" t="α" e="ν"/></div>
                           </div>
                         </div>
-                        <div className="flex gap-4">
-                          <div className="flex-1">
-                            <p className="text-xs uppercase text-slate-500 font-bold mb-2">Imperativo (Sin Aum)</p>
-                            <div className="bg-slate-950 p-4 rounded-xl font-serif text-xl text-slate-200 flex flex-col space-y-2">
-                              <span>Sg: <V r="λῦ" c="σ" e="ον"/></span>
-                              <span>Pl: <V r="λύ" c="σ" t="α" e="τε"/></span>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <p className="text-xs uppercase text-slate-500 font-bold mb-2">Imperativo</p>
+                            <div className="bg-slate-950 p-3 rounded-lg font-serif text-lg text-slate-200 text-center space-y-1">
+                              <div>Sg: <V r="λῦ" c="σ" e="ον"/></div><div>Pl: <V r="λύ" c="σ" t="α" e="τε"/></div>
                             </div>
                           </div>
-                          <div className="flex-1">
-                            <p className="text-xs uppercase text-slate-500 font-bold mb-2">Infinitivo (Sin Aum)</p>
-                            <div className="bg-slate-950 p-4 rounded-xl font-serif text-2xl text-center text-slate-200 h-full flex items-center justify-center">
+                          <div>
+                            <p className="text-xs uppercase text-slate-500 font-bold mb-2">Infinitivo</p>
+                            <div className="bg-slate-950 p-3 rounded-lg font-serif text-xl text-center text-slate-200 h-full flex items-center justify-center">
                               <V r="λῦ" c="σ" e="αι"/>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-
-                    <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
-                      <h4 className="bg-slate-950 text-center py-4 font-black uppercase tracking-widest text-slate-400 border-b border-slate-800">Voz Media</h4>
+                    <div className="bg-slate-900/80 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h4 className="bg-slate-950 text-center py-3 font-black uppercase text-sm tracking-widest text-slate-400">Voz Media</h4>
                       <div className="p-6 space-y-6">
                         <div>
-                          <p className="text-xs uppercase text-slate-500 font-bold mb-2">Indicativo (Lleva Aumento)</p>
-                          <div className="grid grid-cols-2 gap-4 font-serif text-2xl text-slate-200">
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἐ" r="λυ" c="σ" t="ά" e="μην"/></div>
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἐ" r="λυ" c="σ" t="ά" e="μεθα"/></div>
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἐ" r="λύ" c="σ" e="ω"/></div>
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἐ" r="λύ" c="σ" t="α" e="σθε"/></div>
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἐ" r="λύ" c="σ" t="α" e="το"/></div>
-                            <div className="bg-slate-950 p-3 rounded-xl text-center"><V a="ἐ" r="λύ" c="σ" t="α" e="ντο"/></div>
+                          <p className="text-xs uppercase text-slate-500 font-bold mb-2">Indicativo (Con Aumento)</p>
+                          <div className="grid grid-cols-2 gap-3 font-serif text-xl text-slate-200">
+                            <div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἐ" r="λυ" c="σ" t="ά" e="μην"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἐ" r="λυ" c="σ" t="ά" e="μεθα"/></div>
+                            <div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἐ" r="λύ" c="σ" e="ω"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἐ" r="λύ" c="σ" t="α" e="σθε"/></div>
+                            <div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἐ" r="λύ" c="σ" t="α" e="το"/></div><div className="bg-slate-950 p-3 rounded-lg text-center"><V a="ἐ" r="λύ" c="σ" t="α" e="ντο"/></div>
                           </div>
                         </div>
-                        <div className="flex gap-4">
-                          <div className="flex-1">
-                            <p className="text-xs uppercase text-slate-500 font-bold mb-2">Imperativo (Sin Aum)</p>
-                            <div className="bg-slate-950 p-4 rounded-xl font-serif text-xl text-slate-200 flex flex-col space-y-2">
-                              <span>Sg: <V r="λῦ" c="σ" e="αι"/></span>
-                              <span>Pl: <V r="λύ" c="σ" t="α" e="σθε"/></span>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <p className="text-xs uppercase text-slate-500 font-bold mb-2">Imperativo</p>
+                            <div className="bg-slate-950 p-3 rounded-lg font-serif text-lg text-slate-200 text-center space-y-1">
+                              <div>Sg: <V r="λῦ" c="σ" e="αι"/></div><div>Pl: <V r="λύ" c="σ" t="α" e="σθε"/></div>
                             </div>
                           </div>
-                          <div className="flex-1">
-                            <p className="text-xs uppercase text-slate-500 font-bold mb-2">Infinitivo (Sin Aum)</p>
-                            <div className="bg-slate-950 p-4 rounded-xl font-serif text-2xl text-center text-slate-200 h-full flex items-center justify-center">
+                          <div>
+                            <p className="text-xs uppercase text-slate-500 font-bold mb-2">Infinitivo</p>
+                            <div className="bg-slate-950 p-3 rounded-lg font-serif text-xl text-center text-slate-200 h-full flex items-center justify-center">
                               <V r="λύ" c="σ" t="α" e="σθαι"/>
                             </div>
                           </div>
@@ -901,6 +908,9 @@
           );
         }
 
+        // ==========================================
+        // 6. PREGUNTA 4: ANÁLISIS TEXTUAL
+        // ==========================================
         function Pregunta4() {
           const [selectedWord, setSelectedWord] = useState(null);
 
@@ -910,31 +920,29 @@
           };
 
           return (
-            <div className="space-y-16 animate-fade-in pb-10">
-              <header className="border-b border-slate-800 pb-8 flex flex-col md:flex-row justify-between md:items-end gap-6">
-                <div>
-                  <h2 className="text-5xl font-bold text-white mb-4">4. Análisis y Traducción Textual</h2>
-                  <p className="text-slate-400 text-xl font-light">Papiro interactivo: Selecciona cada término para desentrañar su morfología y sintaxis.</p>
-                </div>
+            <div className="space-y-10 animate-fade-in pb-10">
+              <header className="border-b border-slate-800 pb-6">
+                <h2 className="text-3xl font-black text-white mb-2">4. Análisis y Traducción Textual</h2>
+                <p className="text-slate-400 text-base font-light">Papiro interactivo: Selecciona cada término para desentrañar su morfología y sintaxis.</p>
               </header>
 
-              <div className="grid xl:grid-cols-12 gap-12">
-                <div className="xl:col-span-7 bg-slate-900/80 p-14 rounded-[2.5rem] border border-slate-800 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] leading-[5.5rem] text-[2.8rem] font-serif text-justify relative overflow-hidden backdrop-blur-xl">
+              <div className="grid xl:grid-cols-12 gap-8">
+                <div className="xl:col-span-8 bg-slate-900/80 p-10 rounded-3xl border border-slate-800 shadow-xl leading-[4.5rem] text-3xl font-serif text-justify relative overflow-hidden">
                   <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
-                    <svg width="250" height="250" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2.5L17.5 9H13V4.5zM6 20V4h5v6h6v10H6z"/></svg>
+                    <svg width="200" height="200" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2.5L17.5 9H13V4.5zM6 20V4h5v6h6v10H6z"/></svg>
                   </div>
                   {textData.map((item, idx) => (
                     <React.Fragment key={idx}>
                       {item.isPunct ? (
-                        <span className="text-slate-600 mr-5 font-sans font-light">{item.text}</span>
+                        <span className="text-slate-600 mr-3 font-sans font-light">{item.text}</span>
                       ) : (
                         <span 
                           onClick={() => handleWordClick(item)}
-                          className={`cursor-pointer transition-all duration-300 ease-in-out pb-2 border-b-4 
+                          className={`cursor-pointer transition-all duration-300 ease-in-out pb-1 border-b-[3px] 
                             ${selectedWord?.id === item.id 
-                              ? "text-amber-400 border-amber-500 bg-amber-500/15 drop-shadow-[0_0_15px_rgba(245,158,11,0.5)] scale-105 rounded-t-xl px-2 z-10 relative" 
-                              : "text-slate-200 border-transparent hover:text-blue-400 hover:border-blue-500 hover:bg-blue-500/10 rounded-t-xl px-2"
-                            } mr-4 inline-block`}
+                              ? "text-amber-400 border-amber-500 bg-amber-500/15 scale-105 rounded-t-lg px-2 z-10 relative greek-text" 
+                              : "text-slate-200 border-transparent hover:text-blue-400 hover:border-blue-500 hover:bg-blue-500/10 rounded-t-lg px-2 greek-text"
+                            } mr-3 inline-block`}
                         >
                           {item.text}
                         </span>
@@ -943,58 +951,56 @@
                   ))}
                 </div>
 
-                <div className="xl:col-span-5">
-                  <div className="sticky top-10 bg-slate-900 rounded-[2.5rem] border border-slate-800 p-10 shadow-2xl min-h-[550px] flex flex-col relative overflow-hidden transition-all duration-500">
+                <div className="xl:col-span-4">
+                  <div className="sticky top-6 bg-slate-900 rounded-3xl border border-slate-800 p-8 shadow-xl min-h-[450px] flex flex-col relative overflow-hidden transition-all duration-300">
                     {selectedWord ? (
                       <div className="animate-fade-in h-full flex flex-col">
-                        <div className="absolute top-0 right-0 bg-blue-500/10 text-blue-400 text-sm px-5 py-2.5 rounded-bl-3xl font-mono font-bold border-b border-l border-blue-500/20 shadow-sm">
+                        <div className="absolute top-0 right-0 bg-blue-500/10 text-blue-400 text-xs px-4 py-2 rounded-bl-2xl font-mono font-bold border-b border-l border-blue-500/20">
                           ID_{String(selectedWord.id).padStart(3, '0')}
                         </div>
                         
-                        <h3 className="text-7xl font-serif text-amber-500 mb-8 drop-shadow-xl leading-tight mt-6">{selectedWord.text}</h3>
+                        <h3 className="text-5xl font-serif text-amber-500 mb-6 drop-shadow-md leading-tight mt-4 greek-text">{selectedWord.text}</h3>
                         
-                        <div className="bg-slate-950/60 rounded-2xl p-6 border border-slate-800 mb-8 flex-shrink-0 shadow-inner">
-                          <p className="text-sm text-slate-500 uppercase tracking-widest font-black mb-2 flex items-center"><svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg> Lema (Diccionario)</p>
-                          <p className="text-3xl text-emerald-400 font-serif">{selectedWord.lemma}</p>
+                        <div className="bg-slate-950/60 rounded-xl p-5 border border-slate-800 mb-6 shadow-inner">
+                          <p className="text-xs text-slate-500 uppercase tracking-widest font-black mb-1">Lema</p>
+                          <p className="text-2xl text-emerald-400 font-serif greek-text">{selectedWord.lemma}</p>
                         </div>
                         
-                        <div className="space-y-8 flex-1">
-                          <div className="relative pl-8 border-l-4 border-blue-500/60 bg-slate-950/30 p-6 rounded-r-2xl">
-                            <div className="absolute w-4 h-4 bg-blue-500 rounded-full -left-[10px] top-7 shadow-[0_0_15px_rgba(59,130,246,0.8)]"></div>
-                            <p className="text-sm text-blue-400 uppercase tracking-widest font-black mb-3">Análisis Morfológico</p>
-                            <p className="text-slate-200 text-2xl leading-relaxed">{selectedWord.morph}</p>
+                        <div className="space-y-6 flex-1">
+                          <div className="relative pl-6 border-l-4 border-blue-500/60 bg-slate-950/30 p-5 rounded-r-xl">
+                            <p className="text-xs text-blue-400 uppercase tracking-widest font-black mb-2">Morfología</p>
+                            <p className="text-slate-200 text-lg leading-relaxed">{selectedWord.morph}</p>
                           </div>
                           
-                          <div className="relative pl-8 border-l-4 border-purple-500/60 bg-slate-950/30 p-6 rounded-r-2xl">
-                            <div className="absolute w-4 h-4 bg-purple-500 rounded-full -left-[10px] top-7 shadow-[0_0_15px_rgba(168,85,247,0.8)]"></div>
-                            <p className="text-sm text-purple-400 uppercase tracking-widest font-black mb-3">Función Sintáctica</p>
-                            <div className="inline-block bg-purple-900/40 text-purple-200 border border-purple-500/50 px-5 py-2.5 rounded-xl font-medium text-xl shadow-md">
+                          <div className="relative pl-6 border-l-4 border-purple-500/60 bg-slate-950/30 p-5 rounded-r-xl">
+                            <p className="text-xs text-purple-400 uppercase tracking-widest font-black mb-2">Sintaxis</p>
+                            <div className="inline-block bg-purple-900/40 text-purple-200 border border-purple-500/50 px-4 py-2 rounded-lg font-medium shadow-sm">
                               {selectedWord.sintax}
                             </div>
                           </div>
                         </div>
                       </div>
                     ) : (
-                      <div className="flex flex-col items-center justify-center h-full text-slate-500 text-center space-y-8 opacity-40 my-auto p-6">
-                        <div className="w-32 h-32 bg-slate-950 rounded-full flex items-center justify-center shadow-[inset_0_5px_20px_rgba(0,0,0,0.5)] border border-slate-800">
-                          <svg className="w-16 h-16 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className="flex flex-col items-center justify-center h-full text-slate-500 text-center space-y-6 opacity-40 my-auto p-4">
+                        <div className="w-24 h-24 bg-slate-950 rounded-full flex items-center justify-center shadow-inner border border-slate-800">
+                          <svg className="w-12 h-12 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
                           </svg>
                         </div>
-                        <p className="text-2xl font-medium px-4 leading-relaxed">Haz clic sobre cualquier término en el papiro griego para revelar su análisis en este cajón.</p>
+                        <p className="text-lg font-medium leading-relaxed">Haz clic sobre cualquier término en el papiro griego para revelar su análisis en este cajón.</p>
                       </div>
                     )}
                   </div>
                 </div>
               </div>
 
-              <div className="bg-slate-900 p-12 rounded-[2.5rem] border-l-[12px] border-amber-500 shadow-2xl relative overflow-hidden mt-16">
-                <div className="absolute opacity-5 top-[-60px] left-[-20px] text-[300px] font-serif text-amber-500 leading-none pointer-events-none">“</div>
-                <h3 className="text-3xl font-bold text-amber-500 mb-8 uppercase tracking-widest relative z-10 flex items-center">
-                  <svg className="w-10 h-10 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" /></svg>
-                  Traducción Literal del Texto
+              <div className="bg-slate-900 p-10 rounded-3xl border-l-[8px] border-amber-500 shadow-xl relative overflow-hidden mt-10">
+                <div className="absolute opacity-5 top-[-40px] left-[-10px] text-[200px] font-serif text-amber-500 leading-none pointer-events-none">“</div>
+                <h3 className="text-2xl font-bold text-amber-500 mb-6 uppercase tracking-widest relative z-10 flex items-center">
+                  <svg className="w-8 h-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" /></svg>
+                  Traducción Literal
                 </h3>
-                <p className="text-4xl text-slate-300 italic leading-[1.8] font-serif relative z-10 pl-6 border-l-4 border-slate-700/50">
+                <p className="text-2xl text-slate-300 italic leading-relaxed font-serif relative z-10 pl-6 border-l-2 border-slate-700/50">
                   "Creso, rey de los lidios, tras mostrar su riqueza a Solón, preguntó quién es el más feliz. Y el sabio respondió que es necesario examinar el final de todo asunto. Y más tarde, cuando los persas vencieron, Creso, estando de pie sobre la pira, se acordó de Solón y gritó. Entonces Ciro, tras haber aprendido la sabiduría del hombre, apagó el fuego y salvó a Creso."
                 </p>
               </div>
@@ -1002,6 +1008,9 @@
           );
         }
 
+        // ==========================================
+        // 7. PREGUNTA 5: LITERATURA
+        // ==========================================
         function Pregunta5() {
           const [score, setScore] = useState(0);
           const [answered, setAnswered] = useState(Array(quizData.length).fill(null));
@@ -1021,68 +1030,65 @@
             const ans = answered[qIndex];
             const isCorrect = quizData[qIndex].answer === oIndex;
             
-            if (ans === null) return "bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-700 hover:border-blue-500/50 shadow-md";
-            if (isCorrect) return "bg-emerald-900/90 text-emerald-100 border-emerald-400 shadow-[0_0_25px_rgba(16,185,129,0.4)] scale-[1.03] z-10 font-bold";
-            if (ans === oIndex && !isCorrect) return "bg-red-900/90 text-red-100 border-red-500 shadow-[0_0_25px_rgba(239,68,68,0.4)]";
+            if (ans === null) return "bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-700 hover:border-blue-500/50";
+            if (isCorrect) return "bg-emerald-900/90 text-emerald-100 border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.3)] font-bold";
+            if (ans === oIndex && !isCorrect) return "bg-red-900/90 text-red-100 border-red-500";
             return "bg-slate-950 text-slate-600 border-slate-900 opacity-40";
           };
 
           return (
-            <div className="space-y-16 animate-fade-in pb-10">
-              <header className="border-b border-slate-800 pb-8 flex flex-col md:flex-row justify-between md:items-end gap-6">
+            <div className="space-y-12 animate-fade-in pb-10">
+              <header className="border-b border-slate-800 pb-6 flex flex-col md:flex-row justify-between md:items-end gap-6">
                 <div>
-                  <h2 className="text-5xl font-bold text-white mb-4">5. Literatura Griega</h2>
-                  <p className="text-slate-400 text-xl font-light">Cuestionario con retroalimentación y curiosidades históricas.</p>
+                  <h2 className="text-3xl font-black text-white mb-2">5. Literatura Griega</h2>
+                  <p className="text-slate-400 text-base font-light">Cuestionario con retroalimentación y curiosidades históricas.</p>
                 </div>
-                <div className="bg-slate-900 px-10 py-5 rounded-3xl border border-slate-800 flex items-center space-x-5 shadow-2xl backdrop-blur-md">
-                  <span className="text-slate-500 text-base uppercase tracking-widest font-black">Puntuación Total</span>
-                  <span className="text-5xl font-black text-amber-500 drop-shadow-xl">{score}<span className="text-3xl text-slate-600 font-normal">/10</span></span>
+                <div className="bg-slate-900 px-6 py-3 rounded-2xl border border-slate-800 flex items-center space-x-4 shadow-xl">
+                  <span className="text-slate-500 text-sm uppercase tracking-widest font-black">Puntuación Total</span>
+                  <span className="text-3xl font-black text-amber-500">{score}<span className="text-xl text-slate-600 font-normal">/10</span></span>
                 </div>
               </header>
 
-              <div className="grid xl:grid-cols-2 gap-12">
+              <div className="grid xl:grid-cols-2 gap-8">
                 {quizData.map((q, qIndex) => (
-                  <div key={qIndex} className="bg-slate-900 p-10 rounded-[2.5rem] border border-slate-800 shadow-2xl flex flex-col justify-between overflow-hidden relative transition-all duration-300 hover:border-slate-600">
-                    <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none text-9xl font-serif font-black">
+                  <div key={qIndex} className="bg-slate-900 p-8 rounded-3xl border border-slate-800 shadow-xl flex flex-col justify-between relative transition-all duration-300">
+                    <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none text-7xl font-serif font-black">
                       {qIndex + 1}
                     </div>
                     <div className="relative z-10">
-                      <h3 className="text-3xl font-medium text-white mb-10 leading-[1.6]">{q.q}</h3>
-                      <div className="grid grid-cols-1 gap-5">
+                      <h3 className="text-xl font-medium text-white mb-6 leading-relaxed">{q.q}</h3>
+                      <div className="grid grid-cols-1 gap-3">
                         {q.options.map((opt, oIndex) => (
                           <button
                             key={oIndex}
                             onClick={() => handleAnswer(qIndex, oIndex)}
                             disabled={answered[qIndex] !== null}
-                            className={`p-6 rounded-2xl text-left transition-all duration-300 border-2 flex items-center group ${getOptionClass(qIndex, oIndex)}`}
+                            className={`p-4 rounded-xl text-left transition-all duration-300 border-2 flex items-center group ${getOptionClass(qIndex, oIndex)}`}
                           >
-                            <span className={`font-black mr-5 w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl transition-colors text-xl ${answered[qIndex] === null ? 'bg-slate-800 text-slate-400 group-hover:bg-blue-500 group-hover:text-white' : 'bg-black/30 text-white/90'}`}>
+                            <span className={`font-black mr-4 w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-lg text-sm ${answered[qIndex] === null ? 'bg-slate-800 text-slate-400 group-hover:bg-blue-500 group-hover:text-white' : 'bg-black/30 text-white/90'}`}>
                               {['A', 'B', 'C', 'D'][oIndex]}
                             </span>
-                            <span className="text-2xl">{opt}</span>
+                            <span className="text-lg">{opt}</span>
                             
                             {answered[qIndex] !== null && quizData[qIndex].answer === oIndex && (
-                              <svg className="w-10 h-10 ml-auto text-emerald-400 drop-shadow-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                              <svg className="w-6 h-6 ml-auto text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                             )}
                             {answered[qIndex] === oIndex && quizData[qIndex].answer !== oIndex && (
-                              <svg className="w-10 h-10 ml-auto text-red-400 drop-shadow-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
+                              <svg className="w-6 h-6 ml-auto text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
                             )}
                           </button>
                         ))}
                       </div>
                     </div>
                     
-                    <div className={`mt-8 overflow-hidden transition-all duration-[800ms] ease-in-out ${answered[qIndex] !== null ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                      <div className="bg-slate-950 p-8 rounded-2xl border-l-4 border-blue-500 shadow-[inset_0_2px_15px_rgba(0,0,0,0.5)] mt-6 mb-4 relative">
-                        <div className="absolute top-4 right-4 text-4xl opacity-20">📚</div>
-                        <p className="text-blue-400 font-black uppercase tracking-widest text-sm mb-3">Contexto Histórico</p>
-                        <p className="text-slate-300 text-xl leading-relaxed font-light">{q.explanation}</p>
+                    <div className={`mt-6 overflow-hidden transition-all duration-[800ms] ease-in-out ${answered[qIndex] !== null ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <div className="bg-slate-950 p-6 rounded-xl border-l-4 border-blue-500 mt-4 mb-3 relative">
+                        <p className="text-blue-400 font-black uppercase tracking-widest text-xs mb-2">Contexto Histórico</p>
+                        <p className="text-slate-300 text-sm leading-relaxed font-light">{q.explanation}</p>
                       </div>
-                      
-                      <div className="bg-slate-950 p-8 rounded-2xl border-l-4 border-amber-500 shadow-[inset_0_2px_15px_rgba(0,0,0,0.5)] relative">
-                        <div className="absolute top-4 right-4 text-4xl opacity-20">💡</div>
-                        <p className="text-amber-500 font-black uppercase tracking-widest text-sm mb-3">Dato Curioso</p>
-                        <p className="text-slate-300 text-xl leading-relaxed font-light italic">{q.curiosity}</p>
+                      <div className="bg-slate-950 p-6 rounded-xl border-l-4 border-amber-500 relative">
+                        <p className="text-amber-500 font-black uppercase tracking-widest text-xs mb-2">Dato Curioso</p>
+                        <p className="text-slate-300 text-sm leading-relaxed font-light italic">{q.curiosity}</p>
                       </div>
                     </div>
                   </div>
@@ -1092,50 +1098,49 @@
           );
         }
 
+        // ==========================================
+        // 8. PREGUNTA 6: ETIMOLOGÍA
+        // ==========================================
         function Pregunta6() {
           const derivados = [
-            { hel: "ἄνθρωπος (hombre)", der: ["Antropología", "Filántropo", "Licántropo", "Misántropo"], icon: "👤" },
-            { hel: "θεός (dios)", der: ["Teología", "Ateo", "Politeísmo", "Panteón"], icon: "⚡" },
+            { hel: "ἄνθρωπος (hombre)", der: ["Antropología", "Filántropo", "Licántropo"], icon: "👤" },
+            { hel: "θεός (dios)", der: ["Teología", "Ateo", "Politeísmo"], icon: "⚡" },
             { hel: "πόλεμος (guerra)", der: ["Polémica", "Polemista", "Polemología"], icon: "⚔️" },
             { hel: "πῦρ, πυρός (fuego)", der: ["Pirómano", "Pirotecnia", "Antipirético"], icon: "🔥" },
-            { hel: "φίλος (amigo)", der: ["Filosofía", "Filología", "Pedófilo", "Bibliofilia"], icon: "🤝" },
-            { hel: "χρόνος (tiempo)", der: ["Cronología", "Cronómetro", "Sincronizar", "Anacrónico"], icon: "⏳" },
-            { hel: "χρυσός (oro)", der: ["Crisantemo", "Crisálida", "Crisóstomo", "Crisoelefantino"], icon: "✨" },
-            { hel: "γῆ (tierra)", der: ["Geografía", "Geología", "Apogeo", "Geometría"], icon: "🌍" },
-            { hel: "ὕδωρ, ὕδατος (agua)", der: ["Hidráulica", "Hidrocarburo", "Deshidratar", "Clepsidra"], icon: "💧" },
-            { hel: "ψυχή (alma)", der: ["Psicología", "Psiquiatra", "Psicosis", "Metempsicosis"], icon: "🧠" },
-            { hel: "ἰατρός (médico)", der: ["Pediatra", "Psiquiatra", "Foniatra", "Iatrogénico"], icon: "⚕️" },
-            { hel: "δήμος (pueblo)", der: ["Democracia", "Demografía", "Epidemia", "Endémico"], icon: "🏛️" },
+            { hel: "φίλος (amigo)", der: ["Filosofía", "Filología", "Pedófilo"], icon: "🤝" },
+            { hel: "χρόνος (tiempo)", der: ["Cronología", "Cronómetro", "Anacrónico"], icon: "⏳" },
+            { hel: "χρυσός (oro)", der: ["Crisantemo", "Crisálida", "Crisoelefantino"], icon: "✨" },
+            { hel: "γῆ (tierra)", der: ["Geografía", "Geología", "Apogeo"], icon: "🌍" },
+            { hel: "ὕδωρ, ὕδατος (agua)", der: ["Hidráulica", "Deshidratar", "Clepsidra"], icon: "💧" },
+            { hel: "ψυχή (alma)", der: ["Psicología", "Psiquiatra", "Metempsicosis"], icon: "🧠" },
+            { hel: "ἰατρός (médico)", der: ["Pediatra", "Psiquiatra", "Iatrogénico"], icon: "⚕️" },
+            { hel: "δήμος (pueblo)", der: ["Democracia", "Demografía", "Endémico"], icon: "🏛️" },
           ];
 
           return (
-            <div className="space-y-16 animate-fade-in pb-10">
-              <header className="border-b border-slate-800 pb-8 flex flex-col md:flex-row justify-between md:items-end gap-6">
-                <div>
-                  <h2 className="text-5xl font-bold text-white mb-4">6. Etimología y Helenismos</h2>
-                  <p className="text-slate-400 text-xl font-light">Pasa el ratón sobre cada lexema griego para desvelar su legado léxico en el castellano.</p>
-                </div>
+            <div className="space-y-12 animate-fade-in pb-10">
+              <header className="border-b border-slate-800 pb-6">
+                <h2 className="text-3xl font-black text-white mb-2">6. Etimología y Helenismos</h2>
+                <p className="text-slate-400 text-base font-light">Pasa el ratón sobre cada lexema griego para desvelar su legado léxico en el castellano.</p>
               </header>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {derivados.map((item, idx) => (
-                  <div key={idx} className="group perspective bg-transparent h-[320px] cursor-pointer">
-                    <div className="relative preserve-3d w-full h-full duration-700 group-hover:rotate-y-180 shadow-2xl rounded-[2.5rem]">
+                  <div key={idx} className="group perspective bg-transparent h-64 cursor-pointer">
+                    <div className="relative preserve-3d w-full h-full duration-700 group-hover:rotate-y-180 shadow-xl rounded-3xl">
                       
-                      <div className="absolute backface-hidden w-full h-full bg-slate-900 rounded-[2.5rem] border border-slate-800 flex flex-col justify-center items-center p-10 shadow-[inset_0_0_50px_rgba(0,0,0,0.4)]">
-                        <span className="text-[5rem] mb-6 opacity-80 group-hover:scale-125 transition-transform duration-[600ms]">{item.icon}</span>
-                        <span className="text-5xl font-serif text-amber-500 mb-3 font-bold drop-shadow-lg text-center">{item.hel.split(' ')[0]}</span>
-                        <span className="text-slate-400 font-medium text-xl">{item.hel.substring(item.hel.indexOf('('))}</span>
-                        <span className="absolute bottom-6 text-sm text-slate-500 uppercase tracking-widest group-hover:opacity-0 transition-opacity font-black bg-slate-950 px-4 py-2 rounded-xl">Girar</span>
+                      <div className="absolute backface-hidden w-full h-full bg-slate-900 rounded-3xl border border-slate-800 flex flex-col justify-center items-center p-6 shadow-inner">
+                        <span className="text-5xl mb-4 opacity-80 group-hover:scale-110 transition-transform">{item.icon}</span>
+                        <span className="text-3xl font-serif text-amber-500 mb-2 font-bold greek-text text-center">{item.hel.split(' ')[0]}</span>
+                        <span className="text-slate-400 font-medium text-sm">{item.hel.substring(item.hel.indexOf('('))}</span>
                       </div>
 
-                      <div className="absolute w-full h-full rounded-[2.5rem] rotate-y-180 overflow-hidden" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
-                        <div className="w-full h-full bg-slate-900 border-4 border-amber-500 flex flex-col justify-center items-center p-8 shadow-[inset_0_0_80px_rgba(245,158,11,0.15)] relative">
-                          <div className="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-amber-600 to-amber-300"></div>
-                          <h4 className="text-amber-500 text-base uppercase tracking-widest mb-6 font-black border-b border-amber-500/30 pb-3 w-full text-center">Derivados Castellanos</h4>
-                          <ul className="space-y-4 w-full">
+                      <div className="absolute w-full h-full rounded-3xl rotate-y-180 overflow-hidden" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                        <div className="w-full h-full bg-slate-800 border-2 border-amber-500 flex flex-col justify-center items-center p-6 relative">
+                          <h4 className="text-amber-500 text-xs uppercase tracking-widest mb-4 font-black border-b border-amber-500/30 pb-2 w-full text-center">Derivados</h4>
+                          <ul className="space-y-2 w-full">
                             {item.der.map((palabra, pIdx) => (
-                              <li key={pIdx} className="bg-slate-950/80 px-5 py-3 rounded-xl text-slate-200 font-medium text-center shadow-md border border-slate-800 text-xl hover:bg-slate-800 transition-colors">
+                              <li key={pIdx} className="bg-slate-900 px-3 py-2 rounded-lg text-slate-200 font-medium text-center shadow-sm border border-slate-700 text-sm">
                                 {palabra}
                               </li>
                             ))}
@@ -1151,56 +1156,58 @@
           );
         }
 
+        // ==========================================
+        // MAIN APP COMPONENT
+        // ==========================================
         function App() {
           const [activeTab, setActiveTab] = useState(1);
+
+          const menuItems = [
+            { id: 1, title: "Morfología Nominal", icon: "🏛️" },
+            { id: 2, title: "Análisis Profundo", icon: "📖" },
+            { id: 3, title: "Sistema Verbal", icon: "⚙️" },
+            { id: 4, title: "Traducción Textual", icon: "📜" },
+            { id: 5, title: "Literatura Griega", icon: "🎭" },
+            { id: 6, title: "Etimología", icon: "🌳" }
+          ];
 
           return (
             <div className="h-screen flex flex-col md:flex-row overflow-hidden bg-slate-950">
               
-              <nav className="w-full md:w-80 bg-slate-900 border-r border-slate-800 shadow-2xl flex-shrink-0 flex flex-col z-20 relative">
-                <div className="p-10 pb-6 border-b border-slate-800 bg-slate-950/30">
-                  <div className="w-16 h-16 bg-amber-500 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(245,158,11,0.4)]">
-                    <span className="text-3xl font-serif text-slate-950 font-black">ΑΩ</span>
+              <nav className="w-full md:w-72 bg-slate-900 border-r border-slate-800 shadow-2xl flex-shrink-0 flex flex-col z-20 relative">
+                <div className="p-8 pb-5 border-b border-slate-800 bg-slate-950/30">
+                  <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+                    <span className="text-2xl font-serif text-slate-950 font-black">ΑΩ</span>
                   </div>
-                  <h1 className="text-3xl font-black text-amber-500 tracking-wider uppercase mb-2">GRIEGO II</h1>
-                  <p className="text-base text-slate-400 font-medium tracking-wide">Resolución Académica</p>
+                  <h1 className="text-2xl font-black text-amber-500 tracking-wider uppercase mb-1">GRIEGO II</h1>
+                  <p className="text-sm text-slate-400 font-medium tracking-wide">Resolución Tarea 3</p>
                 </div>
-                <ul className="space-y-2 p-6 flex-1 overflow-y-auto">
-                  {[
-                    { id: 1, title: "Morfología Nominal", icon: "🏛️" },
-                    { id: 2, title: "Análisis Profundo", icon: "📖" },
-                    { id: 3, title: "Sistema Verbal", icon: "⚙️" },
-                    { id: 4, title: "Traducción Textual", icon: "📜" },
-                    { id: 5, title: "Literatura Griega", icon: "🎭" },
-                    { id: 6, title: "Etimología", icon: "🌳" },
-                  ].map((tab) => (
+                <ul className="space-y-2 p-4 flex-1 overflow-y-auto">
+                  {menuItems.map((tab) => (
                     <li key={tab.id}>
                       <button
                         onClick={() => setActiveTab(tab.id)}
-                        className={`w-full flex items-center px-5 py-5 rounded-2xl transition-all duration-300 font-bold text-lg group ${
+                        className={`w-full flex items-center px-4 py-4 rounded-xl transition-all duration-300 font-bold text-sm group ${
                           activeTab === tab.id 
-                            ? "bg-slate-800 text-amber-400 shadow-lg border border-slate-700/80 scale-[1.02]" 
+                            ? "bg-slate-800 text-amber-400 shadow-lg border border-slate-700/80" 
                             : "hover:bg-slate-800/40 text-slate-400 hover:text-slate-200 border border-transparent"
                         }`}
                       >
-                        <span className={`text-2xl mr-4 transition-transform duration-300 ${activeTab === tab.id ? 'scale-125 drop-shadow-md' : 'group-hover:scale-125'}`}>{tab.icon}</span>
+                        <span className={`text-xl mr-3 transition-transform duration-300 ${activeTab === tab.id ? 'scale-110 drop-shadow-md' : 'group-hover:scale-110'}`}>{tab.icon}</span>
                         <span className="tracking-wide">{tab.title}</span>
                         {activeTab === tab.id && (
-                          <div className="ml-auto w-2 h-2 rounded-full bg-amber-400 animate-pulse shadow-[0_0_10px_#facc15]"></div>
+                          <div className="ml-auto w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse shadow-[0_0_8px_#facc15]"></div>
                         )}
                       </button>
                     </li>
                   ))}
                 </ul>
-                <div className="p-6 border-t border-slate-800 text-sm text-slate-500 font-medium text-center bg-slate-950/30 uppercase tracking-widest">
-                  IES San José de la Rinconada
-                </div>
               </nav>
 
               <main className="flex-1 overflow-y-auto h-screen relative bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-slate-950 scroll-smooth">
                 <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }}></div>
                 
-                <div className="max-w-7xl mx-auto relative z-10 p-8 md:p-14 pb-24">
+                <div className="max-w-6xl mx-auto relative z-10 p-6 md:p-12 pb-20">
                   {activeTab === 1 && <MorfologiaNominal />}
                   {activeTab === 2 && <Pregunta2 />}
                   {activeTab === 3 && <SistemaVerbal />}
