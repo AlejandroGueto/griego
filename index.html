@@ -264,19 +264,22 @@
 
               {/* CUADROS LADO A LADO POR PESTAÑAS */}
               {subTab === '1decl' && (
-                <div className="space-y-8 animate-fade-in">
+                <div className="space-y-10 animate-fade-in">
                   <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl overflow-hidden">
-                    <h3 className="text-2xl font-bold text-amber-400 mb-6 border-b border-slate-800 pb-3">1ª Declinación: Femeninos y Masculinos</h3>
-                    <p className="text-base text-slate-400 mb-6 font-light">Se caracteriza por temas terminados en -α y -η. El plural es idéntico para todos los subtipos.</p>
+                    <h3 className="text-3xl font-bold text-amber-400 mb-4 border-b border-slate-800 pb-3">La 1ª Declinación (Temas en -α / -η)</h3>
+                    <p className="text-base text-slate-300 mb-6 font-light leading-relaxed">
+                      La primera declinación agrupa mayoritariamente a sustantivos <strong>femeninos</strong> y a un grupo menor de <strong>masculinos</strong>. Originalmente, todos los temas terminaban en alfa larga (ᾱ) o breve (ᾰ). Sin embargo, en el dialecto jónico-ático (el que estudiamos), la alfa larga original se transformó en <strong>eta (η)</strong>, excepto cuando iba precedida de las letras <strong>ρ, ε, ι (rho, épsilon, iota)</strong>, dando lugar a los tres subtipos de femeninos.
+                    </p>
                     
+                    <h4 className="text-xl font-bold text-emerald-400 mb-4 mt-8">1. Femeninos</h4>
                     <div className="overflow-x-auto pb-4">
                       <table className="w-full text-center text-lg bg-slate-950 rounded-2xl shadow-inner border border-slate-800">
                         <thead>
                           <tr className="text-slate-400 text-xs font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/80">
                             <th rowSpan="2" className="p-4 border-r border-slate-800">Caso</th>
-                            <th colSpan="2" className="p-4 border-r border-slate-800">Alfa Pura (Fem)<br/><span className="text-emerald-400 font-serif lowercase font-bold text-base">ἡμέρα, -ας</span></th>
-                            <th colSpan="2" className="p-4 border-r border-slate-800">Eta (Fem)<br/><span className="text-emerald-400 font-serif lowercase font-bold text-base">νίκη, -ης</span></th>
-                            <th colSpan="2" className="p-4">Masculino Eta<br/><span className="text-amber-500 font-serif lowercase font-bold text-base">πολίτης, -ου</span></th>
+                            <th colSpan="2" className="p-4 border-r border-slate-800">Alfa Pura (tras ρ,ε,ι)<br/><span className="text-emerald-400 font-serif lowercase font-bold text-base">ἡμέρα, -ας</span></th>
+                            <th colSpan="2" className="p-4 border-r border-slate-800">Alfa Mixta (Genitivo en -ης)<br/><span className="text-emerald-400 font-serif lowercase font-bold text-base">δόξα, -ης</span></th>
+                            <th colSpan="2" className="p-4">Eta<br/><span className="text-emerald-400 font-serif lowercase font-bold text-base">νίκη, -ης</span></th>
                           </tr>
                           <tr className="text-slate-500 text-[11px] font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/40">
                             <th className="p-3 border-r border-slate-800">Singular</th><th className="p-3 border-r border-slate-800">Plural</th>
@@ -288,31 +291,76 @@
                           <tr className="hover:bg-slate-900/50">
                             <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Nom</td>
                             <td className="border-r border-slate-800/50"><W r="ἡμέρ" e="α"/></td><td className="border-r border-slate-800"><W r="ἡμέρ" e="αι"/></td>
-                            <td className="border-r border-slate-800/50"><W r="νίκ" e="η"/></td><td className="border-r border-slate-800"><W r="νίκ" e="αι"/></td>
-                            <td className="border-r border-slate-800/50"><W r="πολίτ" e="ης"/></td><td><W r="πολῖτ" e="αι"/></td>
+                            <td className="border-r border-slate-800/50"><W r="δόξ" e="α"/></td><td className="border-r border-slate-800"><W r="δόξ" e="αι"/></td>
+                            <td className="border-r border-slate-800/50"><W r="νίκ" e="η"/></td><td><W r="νίκ" e="αι"/></td>
                           </tr>
                           <tr className="hover:bg-slate-900/50">
                             <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Voc</td>
                             <td className="border-r border-slate-800/50"><W r="ἡμέρ" e="α"/></td><td className="border-r border-slate-800"><W r="ἡμέρ" e="αι"/></td>
-                            <td className="border-r border-slate-800/50"><W r="νίκ" e="η"/></td><td className="border-r border-slate-800"><W r="νίκ" e="αι"/></td>
-                            <td className="border-r border-slate-800/50"><W r="πολῖτ" e="α"/></td><td><W r="πολῖτ" e="αι"/></td>
+                            <td className="border-r border-slate-800/50"><W r="δόξ" e="α"/></td><td className="border-r border-slate-800"><W r="δόξ" e="αι"/></td>
+                            <td className="border-r border-slate-800/50"><W r="νίκ" e="η"/></td><td><W r="νίκ" e="αι"/></td>
                           </tr>
                           <tr className="hover:bg-slate-900/50">
                             <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Acu</td>
                             <td className="border-r border-slate-800/50"><W r="ἡμέρ" e="αν"/></td><td className="border-r border-slate-800"><W r="ἡμέρ" e="ας"/></td>
-                            <td className="border-r border-slate-800/50"><W r="νίκ" e="ην"/></td><td className="border-r border-slate-800"><W r="νίκ" e="ας"/></td>
-                            <td className="border-r border-slate-800/50"><W r="πολίτ" e="ην"/></td><td><W r="πολίτ" e="ας"/></td>
+                            <td className="border-r border-slate-800/50"><W r="δόξ" e="αν"/></td><td className="border-r border-slate-800"><W r="δόξ" e="ας"/></td>
+                            <td className="border-r border-slate-800/50"><W r="νίκ" e="ην"/></td><td><W r="νίκ" e="ας"/></td>
                           </tr>
                           <tr className="hover:bg-slate-900/50">
                             <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Gen</td>
                             <td className="border-r border-slate-800/50"><W r="ἡμέρ" e="ας"/></td><td className="border-r border-slate-800"><W r="ἡμερ" e="ῶν"/></td>
-                            <td className="border-r border-slate-800/50"><W r="νίκ" e="ης"/></td><td className="border-r border-slate-800"><W r="νικ" e="ῶν"/></td>
-                            <td className="border-r border-slate-800/50"><W r="πολίτ" e="ου"/></td><td><W r="πολιτ" e="ῶν"/></td>
+                            <td className="border-r border-slate-800/50"><W r="δόξ" e="ης"/></td><td className="border-r border-slate-800"><W r="δοξ" e="ῶν"/></td>
+                            <td className="border-r border-slate-800/50"><W r="νίκ" e="ης"/></td><td><W r="νικ" e="ῶν"/></td>
                           </tr>
                           <tr className="hover:bg-slate-900/50">
                             <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Dat</td>
                             <td className="border-r border-slate-800/50"><W r="ἡμέρ" e="ᾳ"/></td><td className="border-r border-slate-800"><W r="ἡμέρ" e="αις"/></td>
-                            <td className="border-r border-slate-800/50"><W r="νίκ" e="ῃ"/></td><td className="border-r border-slate-800"><W r="νίκ" e="αις"/></td>
+                            <td className="border-r border-slate-800/50"><W r="δόξ" e="ῃ"/></td><td className="border-r border-slate-800"><W r="δόξ" e="αις"/></td>
+                            <td className="border-r border-slate-800/50"><W r="νίκ" e="ῃ"/></td><td><W r="νίκ" e="αις"/></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <h4 className="text-xl font-bold text-blue-400 mb-4 mt-10">2. Masculinos</h4>
+                    <p className="text-sm text-slate-400 mb-4 font-light">Se diferencian de los femeninos porque su Nominativo Singular termina en <strong>-ς</strong> y su Genitivo Singular ha tomado prestada la desinencia <strong>-ου</strong> de la 2ª declinación.</p>
+                    <div className="overflow-x-auto pb-4">
+                      <table className="w-full text-center text-lg bg-slate-950 rounded-2xl shadow-inner border border-slate-800">
+                        <thead>
+                          <tr className="text-slate-400 text-xs font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/80">
+                            <th rowSpan="2" className="p-4 border-r border-slate-800">Caso</th>
+                            <th colSpan="2" className="p-4 border-r border-slate-800">Masculino en Alfa<br/><span className="text-blue-400 font-serif lowercase font-bold text-base">νεανίας, -ου</span></th>
+                            <th colSpan="2" className="p-4">Masculino en Eta<br/><span className="text-blue-400 font-serif lowercase font-bold text-base">πολίτης, -ου</span></th>
+                          </tr>
+                          <tr className="text-slate-500 text-[11px] font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/40">
+                            <th className="p-3 border-r border-slate-800">Singular</th><th className="p-3 border-r border-slate-800">Plural</th>
+                            <th className="p-3 border-r border-slate-800">Singular</th><th className="p-3">Plural</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200">
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Nom</td>
+                            <td className="border-r border-slate-800/50"><W r="νεανί" e="ας"/></td><td className="border-r border-slate-800"><W r="νεανί" e="αι"/></td>
+                            <td className="border-r border-slate-800/50"><W r="πολίτ" e="ης"/></td><td><W r="πολῖτ" e="αι"/></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Voc</td>
+                            <td className="border-r border-slate-800/50"><W r="νεανί" e="α"/></td><td className="border-r border-slate-800"><W r="νεανί" e="αι"/></td>
+                            <td className="border-r border-slate-800/50"><W r="πολῖτ" e="α"/> / <W r="πολῖτ" e="η"/></td><td><W r="πολῖτ" e="αι"/></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Acu</td>
+                            <td className="border-r border-slate-800/50"><W r="νεανί" e="αν"/></td><td className="border-r border-slate-800"><W r="νεανί" e="ας"/></td>
+                            <td className="border-r border-slate-800/50"><W r="πολίτ" e="ην"/></td><td><W r="πολίτ" e="ας"/></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Gen</td>
+                            <td className="border-r border-slate-800/50"><W r="νεανί" e="ου"/></td><td className="border-r border-slate-800"><W r="νεανι" e="ῶν"/></td>
+                            <td className="border-r border-slate-800/50"><W r="πολίτ" e="ου"/></td><td><W r="πολιτ" e="ῶν"/></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Dat</td>
+                            <td className="border-r border-slate-800/50"><W r="νεανί" e="ᾳ"/></td><td className="border-r border-slate-800"><W r="νεανί" e="αις"/></td>
                             <td className="border-r border-slate-800/50"><W r="πολίτ" e="ῃ"/></td><td><W r="πολίτ" e="αις"/></td>
                           </tr>
                         </tbody>
@@ -441,52 +489,98 @@
               )}
 
               {subTab === 'adj' && (
-                <div className="space-y-6 animate-fade-in">
-                  <div className="grid lg:grid-cols-2 gap-8">
-                    <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl">
-                      <h3 className="text-2xl font-bold text-indigo-400 mb-6 border-b border-slate-800 pb-3">Clase 1 (Declinación 2ª y 1ª)</h3>
-                      <div className="space-y-6">
-                        <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800">
-                          <p className="text-white font-bold mb-2 text-lg">3 Terminaciones (Tipo 2-1-2)</p>
-                          <p className="text-sm text-slate-400 mb-4 font-light">Masc y Neutro por la 2ª, Fem por la 1ª.</p>
-                          <div className="font-serif text-2xl flex justify-between text-slate-200">
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-2">Masc</span><W r="δίκαι" e="ος"/></span>
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-2">Fem</span><W r="δικαί" e="α"/></span>
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-2">Neu</span><W r="δίκαι" e="ον"/></span>
-                          </div>
-                        </div>
-                        <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800">
-                          <p className="text-white font-bold mb-2 text-lg">2 Terminaciones (Tipo 2-2)</p>
-                          <p className="text-sm text-slate-400 mb-4 font-light">Compuestos. Masc/Fem comparten forma.</p>
-                          <div className="font-serif text-2xl flex justify-around text-slate-200">
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-2">Masc/Fem</span><W r="ἄλογ" e="ος"/></span>
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-2">Neutro</span><W r="ἄλογ" e="ον"/></span>
-                          </div>
-                        </div>
-                      </div>
+                <div className="space-y-10 animate-fade-in">
+                  <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl">
+                    <h3 className="text-3xl font-bold text-indigo-400 mb-6 border-b border-slate-800 pb-3">Taxonomía de los Adjetivos</h3>
+                    <p className="text-base text-slate-300 font-light leading-relaxed mb-6">
+                      El adjetivo griego no tiene una declinación propia. Para formar sus géneros (Masculino, Femenino, Neutro), "pide prestadas" las terminaciones de las declinaciones de los sustantivos (la 1ª, la 2ª y la 3ª). Dependiendo de qué declinaciones mezclen, se dividen en <strong>Clase 1</strong> y <strong>Clase 2</strong>.
+                    </p>
+
+                    <h4 className="text-2xl font-bold text-white mb-6 mt-10">Adjetivos de la Clase 1 (Tipo 2-1-2)</h4>
+                    <p className="text-sm text-slate-400 mb-4 font-light">El Masculino y el Neutro se declinan por la 2ª declinación. El Femenino se declina por la 1ª (alfa pura si la raíz termina en ρ,ε,ι; eta en el resto de casos).</p>
+                    
+                    <div className="overflow-x-auto pb-4">
+                      <table className="w-full text-center text-lg bg-slate-950 rounded-2xl shadow-inner border border-slate-800">
+                        <thead>
+                          <tr className="text-slate-400 text-xs font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/80">
+                            <th rowSpan="2" className="p-4 border-r border-slate-800">Caso</th>
+                            <th colSpan="3" className="p-4 border-r border-slate-800">Singular</th>
+                            <th colSpan="3" className="p-4">Plural</th>
+                          </tr>
+                          <tr className="text-slate-500 text-[11px] font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/40">
+                            <th className="p-3 border-r border-slate-800 text-blue-400">Masc (2ª)</th><th className="p-3 border-r border-slate-800 text-pink-400">Fem (1ª)</th><th className="p-3 border-r border-slate-800 text-emerald-400">Neu (2ª)</th>
+                            <th className="p-3 border-r border-slate-800 text-blue-400">Masc</th><th className="p-3 border-r border-slate-800 text-pink-400">Fem</th><th className="p-3 text-emerald-400">Neu</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200 font-serif">
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Nom</td>
+                            <td className="border-r border-slate-800/50"><W r="δίκαι" e="ος"/></td><td className="border-r border-slate-800/50"><W r="δικαί" e="α"/></td><td className="border-r border-slate-800"><W r="δίκαι" e="ον"/></td>
+                            <td className="border-r border-slate-800/50"><W r="δίκαι" e="οι"/></td><td className="border-r border-slate-800/50"><W r="δίκαι" e="αι"/></td><td><W r="δίκαι" e="α"/></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Voc</td>
+                            <td className="border-r border-slate-800/50"><W r="δίκαι" e="ε"/></td><td className="border-r border-slate-800/50"><W r="δικαί" e="α"/></td><td className="border-r border-slate-800"><W r="δίκαι" e="ον"/></td>
+                            <td className="border-r border-slate-800/50"><W r="δίκαι" e="οι"/></td><td className="border-r border-slate-800/50"><W r="δίκαι" e="αι"/></td><td><W r="δίκαι" e="α"/></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Acu</td>
+                            <td className="border-r border-slate-800/50"><W r="δίκαι" e="ον"/></td><td className="border-r border-slate-800/50"><W r="δικαί" e="αν"/></td><td className="border-r border-slate-800"><W r="δίκαι" e="ον"/></td>
+                            <td className="border-r border-slate-800/50"><W r="δικαί" e="ους"/></td><td className="border-r border-slate-800/50"><W r="δικαί" e="ας"/></td><td><W r="δίκαι" e="α"/></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Gen</td>
+                            <td className="border-r border-slate-800/50"><W r="δικαί" e="ου"/></td><td className="border-r border-slate-800/50"><W r="δικαί" e="ας"/></td><td className="border-r border-slate-800"><W r="δικαί" e="ου"/></td>
+                            <td className="border-r border-slate-800/50"><W r="δικαί" e="ων"/></td><td className="border-r border-slate-800/50"><W r="δικαί" e="ων"/></td><td><W r="δικαί" e="ων"/></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Dat</td>
+                            <td className="border-r border-slate-800/50"><W r="δικαί" e="ῳ"/></td><td className="border-r border-slate-800/50"><W r="δικαί" e="ᾳ"/></td><td className="border-r border-slate-800"><W r="δικαί" e="ῳ"/></td>
+                            <td className="border-r border-slate-800/50"><W r="δικαί" e="οις"/></td><td className="border-r border-slate-800/50"><W r="δικαί" e="αις"/></td><td><W r="δικαί" e="οις"/></td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
 
-                    <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl">
-                      <h3 className="text-2xl font-bold text-emerald-400 mb-6 border-b border-slate-800 pb-3">Clase 2 (Declinación 3ª)</h3>
-                      <div className="space-y-6">
-                        <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800">
-                          <p className="text-white font-bold mb-2 text-lg">3 Terminaciones (Tipo 3-1-3)</p>
-                          <p className="text-sm text-slate-400 mb-4 font-light">M/N por la 3ª, Fem por la 1ª mixta.</p>
-                          <div className="font-serif text-2xl flex justify-between text-slate-200">
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-2">Masc</span><W r="πᾶς" e=""/></span>
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-2">Fem</span><W r="πᾶσ" e="α"/></span>
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-2">Neu</span><W r="πᾶν" e=""/></span>
-                          </div>
-                        </div>
-                        <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800">
-                          <p className="text-white font-bold mb-2 text-lg">2 Terminaciones (Tipo 3-3)</p>
-                          <p className="text-sm text-slate-400 mb-4 font-light">Temas en silbante o nasal (todo por 3ª).</p>
-                          <div className="font-serif text-2xl flex justify-around text-slate-200">
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-2">Masc/Fem</span><W r="ἀληθ" e="ής"/></span>
-                            <span className="flex flex-col items-center"><span className="text-xs font-sans text-slate-500 uppercase tracking-widest mb-2">Neutro</span><W r="ἀληθ" e="ές"/></span>
-                          </div>
-                        </div>
-                      </div>
+                    <h4 className="text-2xl font-bold text-white mb-6 mt-12">Adjetivos de la Clase 2 (Tipo 3-1-3)</h4>
+                    <p className="text-sm text-slate-400 mb-4 font-light">El Masculino y Neutro siguen la 3ª declinación. El Femenino toma el sufijo *-ya, creando siempre una raíz en alfa impura (1ª declinación).</p>
+                    
+                    <div className="overflow-x-auto pb-4">
+                      <table className="w-full text-center text-lg bg-slate-950 rounded-2xl shadow-inner border border-slate-800">
+                        <thead>
+                          <tr className="text-slate-400 text-xs font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/80">
+                            <th rowSpan="2" className="p-4 border-r border-slate-800">Caso</th>
+                            <th colSpan="3" className="p-4 border-r border-slate-800">Singular</th>
+                            <th colSpan="3" className="p-4">Plural</th>
+                          </tr>
+                          <tr className="text-slate-500 text-[11px] font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/40">
+                            <th className="p-3 border-r border-slate-800 text-blue-400">Masc (3ª)</th><th className="p-3 border-r border-slate-800 text-pink-400">Fem (1ª)</th><th className="p-3 border-r border-slate-800 text-emerald-400">Neu (3ª)</th>
+                            <th className="p-3 border-r border-slate-800 text-blue-400">Masc</th><th className="p-3 border-r border-slate-800 text-pink-400">Fem</th><th className="p-3 text-emerald-400">Neu</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200 font-serif">
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">N/V</td>
+                            <td className="border-r border-slate-800/50"><W r="πᾶ" e="ς" /></td><td className="border-r border-slate-800/50"><W r="πᾶσ" e="α" /></td><td className="border-r border-slate-800"><W r="πᾶν" e="" /></td>
+                            <td className="border-r border-slate-800/50"><W r="πάντ" e="ες" /></td><td className="border-r border-slate-800/50"><W r="πᾶσ" e="αι" /></td><td><W r="πάντ" e="α" /></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Acu</td>
+                            <td className="border-r border-slate-800/50"><W r="πάντ" e="α" /></td><td className="border-r border-slate-800/50"><W r="πᾶσ" e="αν" /></td><td className="border-r border-slate-800"><W r="πᾶν" e="" /></td>
+                            <td className="border-r border-slate-800/50"><W r="πάντ" e="ας" /></td><td className="border-r border-slate-800/50"><W r="πάσ" e="ας" /></td><td><W r="πάντ" e="α" /></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Gen</td>
+                            <td className="border-r border-slate-800/50"><W r="παντ" e="ός" /></td><td className="border-r border-slate-800/50"><W r="πάσ" e="ης" /></td><td className="border-r border-slate-800"><W r="παντ" e="ός" /></td>
+                            <td className="border-r border-slate-800/50"><W r="πάντ" e="ων" /></td><td className="border-r border-slate-800/50"><W r="πασ" e="ῶν" /></td><td><W r="πάντ" e="ων" /></td>
+                          </tr>
+                          <tr className="hover:bg-slate-900/50">
+                            <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Dat</td>
+                            <td className="border-r border-slate-800/50"><W r="παντ" e="ί" /></td><td className="border-r border-slate-800/50"><W r="πάσ" e="ῃ" /></td><td className="border-r border-slate-800"><W r="παντ" e="ί" /></td>
+                            <td className="border-r border-slate-800/50"><W r="πᾶ" e="σι" /></td><td className="border-r border-slate-800/50"><W r="πάσ" e="αις" /></td><td><W r="πᾶ" e="σι" /></td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
@@ -495,103 +589,91 @@
               {subTab === 'pron' && (
                 <div className="space-y-10 animate-fade-in">
                   
-                  {/* PERSONALES LADO A LADO */}
+                  {/* DEMOSTRATIVOS LADO A LADO */}
                   <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl overflow-hidden">
-                    <h3 className="text-2xl font-bold text-blue-400 mb-6 border-b border-slate-800 pb-3">Pronombres Personales</h3>
+                    <h3 className="text-3xl font-bold text-amber-500 mb-4 border-b border-slate-800 pb-3">Pronombres Demostrativos</h3>
+                    <p className="text-slate-300 font-light mb-6">Indican la distancia. <strong>ὅδε</strong> (éste, cerca de mí), <strong>οὗτος</strong> (ése, cerca de ti) y <strong>ἐκεῖνος</strong> (aquél, lejos). Aquí tienes la declinación completa de οὗτος (el más complejo por la alternancia de su raíz ου-/αυ- y el uso de τ-/espíritu áspero):</p>
                     <div className="overflow-x-auto pb-4">
                       <table className="w-full text-center text-lg bg-slate-950 rounded-2xl shadow-inner border border-slate-800">
                         <thead>
                           <tr className="text-slate-400 text-xs font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/80">
                             <th rowSpan="2" className="p-4 border-r border-slate-800">Caso</th>
-                            <th colSpan="2" className="p-4 border-r border-slate-800">1ª Persona<br/><span className="text-blue-400 font-serif lowercase font-bold text-base">Yo / Nosotros</span></th>
-                            <th colSpan="2" className="p-4">2ª Persona<br/><span className="text-emerald-400 font-serif lowercase font-bold text-base">Tú / Vosotros</span></th>
+                            <th colSpan="3" className="p-4 border-r border-slate-800">Singular</th>
+                            <th colSpan="3" className="p-4">Plural</th>
                           </tr>
                           <tr className="text-slate-500 text-[11px] font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/40">
-                            <th className="p-3 border-r border-slate-800">Singular</th><th className="p-3 border-r border-slate-800">Plural</th>
-                            <th className="p-3 border-r border-slate-800">Singular</th><th className="p-3">Plural</th>
+                            <th className="p-3 border-r border-slate-800">Masc</th><th className="p-3 border-r border-slate-800">Fem</th><th className="p-3 border-r border-slate-800">Neutro</th>
+                            <th className="p-3 border-r border-slate-800">Masc</th><th className="p-3 border-r border-slate-800">Fem</th><th className="p-3">Neutro</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-800/50 text-slate-200 font-serif">
                           <tr className="hover:bg-slate-900/50">
                             <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Nom</td>
-                            <td className="border-r border-slate-800/50">ἐγώ</td><td className="border-r border-slate-800">ἡμεῖς</td>
-                            <td className="border-r border-slate-800/50">σύ</td><td>ὑμεῖς</td>
+                            <td className="border-r border-slate-800/50">οὗτος</td><td className="border-r border-slate-800/50">αὕτη</td><td className="border-r border-slate-800">τοῦτο</td>
+                            <td className="border-r border-slate-800/50">οὗτοι</td><td className="border-r border-slate-800/50">αὗται</td><td>ταῦτα</td>
                           </tr>
                           <tr className="hover:bg-slate-900/50">
                             <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Acu</td>
-                            <td className="border-r border-slate-800/50">ἐμέ / με</td><td className="border-r border-slate-800">ἡμᾶς</td>
-                            <td className="border-r border-slate-800/50">σέ / σε</td><td>ὑμᾶς</td>
+                            <td className="border-r border-slate-800/50">τοῦτον</td><td className="border-r border-slate-800/50">ταύτην</td><td className="border-r border-slate-800">τοῦτο</td>
+                            <td className="border-r border-slate-800/50">τούτους</td><td className="border-r border-slate-800/50">ταύτας</td><td>ταῦτα</td>
                           </tr>
                           <tr className="hover:bg-slate-900/50">
                             <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Gen</td>
-                            <td className="border-r border-slate-800/50">ἐμοῦ / μου</td><td className="border-r border-slate-800">ἡμῶν</td>
-                            <td className="border-r border-slate-800/50">σοῦ / σου</td><td>ὑμῶν</td>
+                            <td className="border-r border-slate-800/50">τούτου</td><td className="border-r border-slate-800/50">ταύτης</td><td className="border-r border-slate-800">τούτου</td>
+                            <td className="border-r border-slate-800/50">τούτων</td><td className="border-r border-slate-800/50">τούτων</td><td>τούτων</td>
                           </tr>
                           <tr className="hover:bg-slate-900/50">
                             <td className="p-4 text-slate-500 text-sm font-sans font-bold uppercase border-r border-slate-800">Dat</td>
-                            <td className="border-r border-slate-800/50">ἐμοί / μοι</td><td className="border-r border-slate-800">ἡμῖν</td>
-                            <td className="border-r border-slate-800/50">σοί / σοι</td><td>ὑμῖν</td>
+                            <td className="border-r border-slate-800/50">τούτῳ</td><td className="border-r border-slate-800/50">ταύτῃ</td><td className="border-r border-slate-800">τούτῳ</td>
+                            <td className="border-r border-slate-800/50">τούτοις</td><td className="border-r border-slate-800/50">ταύταις</td><td>τούτοις</td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
 
-                  {/* OTROS PRONOMBRES */}
+                  {/* RELATIVOS E INTERROGATIVOS LADO A LADO */}
                   <div className="grid lg:grid-cols-2 gap-8">
-                    <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl">
-                      <h3 className="text-2xl font-bold text-amber-500 mb-6 border-b border-slate-800 pb-3">Posesivos</h3>
-                      <p className="text-base text-slate-300 mb-5 font-light">Se declinan como adjetivos de 3 terminaciones (clase 1):</p>
-                      <ul className="space-y-3 text-xl font-serif text-slate-200 bg-slate-950 p-6 rounded-2xl border border-slate-800">
-                        <li className="flex flex-col"><span className="font-sans text-xs text-slate-500 uppercase tracking-widest mb-1">1ª Sg (Mío)</span> ἐμός, ἐμή, ἐμόν</li>
-                        <li className="flex flex-col"><span className="font-sans text-xs text-slate-500 uppercase tracking-widest mb-1">2ª Sg (Tuyo)</span> σός, σή, σόν</li>
-                        <li className="flex flex-col"><span className="font-sans text-xs text-slate-500 uppercase tracking-widest mb-1">1ª Pl (Nuestro)</span> ἡμέτερος, -α, -ον</li>
-                        <li className="flex flex-col"><span className="font-sans text-xs text-slate-500 uppercase tracking-widest mb-1">2ª Pl (Vuestro)</span> ὑμέτερος, -α, -ον</li>
-                      </ul>
+                    <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h3 className="text-2xl font-bold text-purple-400 mb-4 border-b border-slate-800 pb-3">Pronombre Relativo (ὅς, ἥ, ὅ)</h3>
+                      <p className="text-slate-300 font-light mb-6 text-sm">Se declina exactamente igual que un adjetivo de tres terminaciones (tipo 2-1-2), pero con <strong>espíritu áspero y acento</strong> en todas sus formas. Significa "el cual, la cual, que".</p>
+                      <table className="w-full text-center text-lg bg-slate-950 rounded-xl shadow-inner border border-slate-800">
+                        <thead>
+                          <tr className="text-slate-500 text-[10px] font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/40">
+                            <th className="p-3 border-r border-slate-800">Caso</th><th className="p-3 border-r border-slate-800">Masc</th><th className="p-3 border-r border-slate-800">Fem</th><th className="p-3">Neutro</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200 font-serif">
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase border-r border-slate-800">N Sg</td><td className="border-r border-slate-800/50">ὅς</td><td className="border-r border-slate-800/50">ἥ</td><td>ὅ</td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase border-r border-slate-800">A Sg</td><td className="border-r border-slate-800/50">ὅν</td><td className="border-r border-slate-800/50">ἥν</td><td>ὅ</td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase border-r border-slate-800">G Sg</td><td className="border-r border-slate-800/50">οὗ</td><td className="border-r border-slate-800/50">ἧς</td><td>οὗ</td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase border-r border-slate-800">D Sg</td><td className="border-r border-slate-800/50">ᾧ</td><td className="border-r border-slate-800/50">ᾗ</td><td>ᾧ</td></tr>
+                          {/* Plural sumario */}
+                          <tr className="bg-slate-900/20"><td colSpan="4" className="p-2 text-xs font-sans text-slate-500 italic">Plural sigue la regla general: οἵ, αἵ, ἅ / οὕς...</td></tr>
+                        </tbody>
+                      </table>
                     </div>
 
-                    <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl">
-                      <h3 className="text-2xl font-bold text-pink-400 mb-6 border-b border-slate-800 pb-3">Interrogativo vs Indefinido</h3>
-                      <p className="text-base text-slate-300 mb-5 font-light">Comparten declinación por la 3ª, pero se distinguen por el acento:</p>
-                      <table className="w-full text-center text-xl font-serif bg-slate-950 rounded-2xl border border-slate-800">
-                        <thead><tr className="text-slate-400 text-xs font-sans uppercase border-b border-slate-800 tracking-widest"><th className="p-4">TIPO</th><th className="p-4 border-l border-slate-800">Masc/Fem</th><th className="p-4 border-l border-slate-800">Neutro</th></tr></thead>
-                        <tbody className="divide-y divide-slate-800/50 text-slate-200">
-                          <tr className="hover:bg-slate-900/50"><td className="p-4 text-slate-400 text-xs font-sans font-bold tracking-wide">Interrogativo<br/><span className="font-normal font-light">¿Quién? ¿Qué?</span></td><td className="border-l border-slate-800/50 p-4">τίς <span className="text-xs text-pink-400 block font-sans">(Siempre tónico)</span></td><td className="border-l border-slate-800/50 p-4">τί</td></tr>
-                          <tr className="hover:bg-slate-900/50"><td className="p-4 text-slate-400 text-xs font-sans font-bold tracking-wide">Indefinido<br/><span className="font-normal font-light">Alguien, un tal</span></td><td className="border-l border-slate-800/50 p-4">τις <span className="text-xs text-slate-500 block font-sans">(Enclítico)</span></td><td className="border-l border-slate-800/50 p-4">τι</td></tr>
+                    <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h3 className="text-2xl font-bold text-pink-400 mb-4 border-b border-slate-800 pb-3">Interrogativo (τίς, τί)</h3>
+                      <p className="text-slate-300 font-light mb-6 text-sm">Se declina por la 3ª declinación (tema en -ν). El indefinido es idéntico pero <strong>enclítico</strong> (sin acento propio). El interrogativo siempre lleva <strong>acento agudo</strong>.</p>
+                      <table className="w-full text-center text-lg bg-slate-950 rounded-xl shadow-inner border border-slate-800">
+                        <thead>
+                          <tr className="text-slate-500 text-[10px] font-sans uppercase tracking-widest border-b border-slate-800 bg-slate-900/40">
+                            <th className="p-3 border-r border-slate-800">Caso</th><th className="p-3 border-r border-slate-800">M/F Sg</th><th className="p-3 border-r border-slate-800">Neu Sg</th><th className="p-3 border-r border-slate-800">M/F Pl</th><th className="p-3">Neu Pl</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-800/50 text-slate-200 font-serif">
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase border-r border-slate-800">Nom</td><td className="border-r border-slate-800/50">τίς</td><td className="border-r border-slate-800/50">τί</td><td className="border-r border-slate-800/50">τίνες</td><td>τίνα</td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase border-r border-slate-800">Acu</td><td className="border-r border-slate-800/50">τίνα</td><td className="border-r border-slate-800/50">τί</td><td className="border-r border-slate-800/50">τίνας</td><td>τίνα</td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase border-r border-slate-800">Gen</td><td colSpan="2" className="border-r border-slate-800/50">τίνος / τοῦ</td><td colSpan="2">τίνων</td></tr>
+                          <tr className="hover:bg-slate-900/50"><td className="p-3 text-slate-500 text-xs font-sans font-bold uppercase border-r border-slate-800">Dat</td><td colSpan="2" className="border-r border-slate-800/50">τίνι / τῷ</td><td colSpan="2">τίσι(ν)</td></tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
-
-                  <div className="overflow-x-auto bg-slate-900/80 rounded-3xl border border-slate-800 shadow-2xl">
-                    <table className="w-full text-left border-collapse">
-                      <thead>
-                        <tr className="bg-slate-950 border-b border-slate-800">
-                          <th className="p-8 text-sm uppercase tracking-widest text-slate-400 font-bold">Tipo</th>
-                          <th className="p-8 text-sm uppercase tracking-widest text-slate-400 font-bold">Enunciado Principal</th>
-                          <th className="p-8 text-sm uppercase tracking-widest text-slate-400 font-bold">Características</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-800/50 text-slate-200 text-xl font-light">
-                        <tr className="hover:bg-slate-800/30">
-                          <td className="p-8 font-bold text-emerald-400 font-sans tracking-wide">Demostrativos</td>
-                          <td className="p-8 font-serif text-3xl">οὗτος, αὕτη, τοῦτο <br/><span className="text-lg text-slate-500 font-sans italic">ὅδε... / ἐκεῖνος...</span></td>
-                          <td className="p-8 text-slate-400 text-base leading-relaxed">οὗτος (Ese) tiene un paradigma complejo mezclando raíz en ο-/του-/ταυ-. Sirven de adjetivo y pronombre.</td>
-                        </tr>
-                        <tr className="hover:bg-slate-800/30">
-                          <td className="p-8 font-bold text-purple-400 font-sans tracking-wide">Relativos</td>
-                          <td className="p-8 font-serif text-3xl">ὅς, ἥ, ὅ</td>
-                          <td className="p-8 text-slate-400 text-base leading-relaxed">Llevan siempre espíritu áspero y acento. Sirven como nexo para introducir oraciones subordinadas adjetivas.</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
                 </div>
               )}
-            </div>
-          );
-        }
 
         // ==========================================
         // 4. MAIKADUA A PASET: NAUNEG A PANANGUSIG
@@ -876,9 +958,12 @@
 
               {tense === 'presente' && (
                 <div className="space-y-8 animate-fade-in">
-                  <div className="bg-slate-900 p-8 rounded-3xl border-l-[8px] border-indigo-500 text-lg text-slate-300 shadow-xl font-light">
-                    <strong>Tema de Presente:</strong> Expresa una acción en desarrollo o habitual. Al ser un tiempo primario, usa <strong>desinencias primarias</strong> sin aumento. Su fórmula es: <br/>
-                    <span className="inline-block mt-3 bg-slate-950 px-4 py-2 rounded-xl font-mono text-indigo-300 border border-slate-800">Raíz + Vocal Temática (ο/ε) + Desinencias Primarias</span>
+                  <div className="bg-slate-900 p-8 rounded-3xl border-l-[8px] border-indigo-500 text-lg text-slate-300 shadow-xl font-light mb-8">
+                    <h3 className="text-2xl font-bold text-indigo-400 mb-4 uppercase tracking-widest">Tema de Presente</h3>
+                    <p>Expresa una acción durativa, en pleno desarrollo. Al ser el tiempo cronológico "presente" (tiempo primario), utiliza <strong>desinencias primarias</strong> y por tanto <strong>NUNCA lleva aumento</strong> en ninguno de sus modos.</p>
+                    <div className="mt-4 bg-slate-950 p-4 rounded-xl font-mono text-indigo-300 border border-slate-800 text-center">
+                      Raíz + Vocal Temática (ο/ε) + Desinencias Primarias
+                    </div>
                   </div>
                   <div className="grid xl:grid-cols-2 gap-8">
                     <div className="bg-slate-900/80 rounded-[2rem] border border-slate-800 shadow-2xl overflow-hidden">
@@ -951,12 +1036,13 @@
                 </div>
               )}
 
-              {tense === 'imperfecto' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="bg-pink-900/20 p-8 rounded-3xl border-l-[8px] border-pink-500 text-lg text-slate-300 shadow-xl font-light">
-                    <strong>Pretérito Imperfecto:</strong> Expresa una acción pasada durativa (en proceso). Al ser un tiempo histórico, requiere <strong>Aumento</strong> y <strong>desinencias secundarias</strong>.<br/>
-                    <span className="inline-block mt-3 bg-slate-950 px-4 py-2 rounded-xl font-mono text-pink-300 border border-pink-900/50">Aumento (ἐ) + Raíz + Vocal Temática (ο/ε) + Desinencias Secundarias</span>
-                    <br/><br/><span className="text-base text-slate-400 italic">Nota crucial: Al ser un tiempo que estrictamente indica pasado, no puede existir en modo Imperativo ni Infinitivo (solo Indicativo).</span>
+              <div className="bg-pink-900/20 p-8 rounded-3xl border-l-[8px] border-pink-500 text-lg text-slate-300 shadow-xl font-light mb-8">
+                    <h3 className="text-2xl font-bold text-pink-400 mb-4 uppercase tracking-widest">Pretérito Imperfecto</h3>
+                    <p>Expresa una acción en desarrollo anclada en el pasado ("yo desataba", "yo estaba desatando"). Al pertenecer al pasado, exige obligatoriamente el <strong>Aumento (ἐ-)</strong> y el uso de <strong>Desinencias Secundarias</strong>.</p>
+                    <div className="mt-4 bg-slate-950 p-4 rounded-xl font-mono text-pink-300 border border-pink-900/50 text-center">
+                      Aumento (ἐ) + Raíz + Vocal Temática (ο/ε) + Des. Secundarias
+                    </div>
+                    <p className="mt-4 text-base text-slate-400 font-bold bg-slate-950/50 p-3 rounded-lg text-center">⚠️ ¡Crucial! Al indicar pasado cronológico, este tiempo SOLO puede existir en modo Indicativo (no existe ni Imperativo ni Infinitivo de imperfecto).</p>
                   </div>
 
                   <div className="grid xl:grid-cols-2 gap-8">
@@ -991,11 +1077,13 @@
                 </div>
               )}
 
-              {tense === 'futuro' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="bg-purple-900/20 p-8 rounded-3xl border-l-[8px] border-purple-500 text-lg text-slate-300 shadow-xl font-light">
-                    <strong>Futuro Sigmático:</strong> Expresa una acción prospectiva. Para formarlo, se inserta la característica temporal <strong className="text-purple-400">-σ-</strong> entre la raíz y la vocal temática. Al no ser un tiempo pasado, <strong>NO lleva aumento</strong> y usa desinencias primarias.<br/>
-                    <span className="inline-block mt-3 bg-slate-950 px-4 py-2 rounded-xl font-mono text-purple-300 border border-purple-900/50">Raíz + σ + Vocal Temática (ο/ε) + Desinencias Primarias</span>
+              <div className="bg-purple-900/20 p-8 rounded-3xl border-l-[8px] border-purple-500 text-lg text-slate-300 shadow-xl font-light mb-8">
+                    <h3 className="text-2xl font-bold text-purple-400 mb-4 uppercase tracking-widest">Futuro Sigmático</h3>
+                    <p>La marca universal del futuro griego es la inserción de la consonante <strong>sigma (-σ-)</strong> entre la raíz verbal y la vocal temática. Usa desinencias primarias (porque no es pasado, así que no lleva aumento).</p>
+                    <div className="mt-4 bg-slate-950 p-4 rounded-xl font-mono text-purple-300 border border-purple-900/50 text-center">
+                      Raíz + σ (Característica) + Vocal Temática (ο/ε) + Des. Primarias
+                    </div>
+                    <p className="mt-4 text-base text-slate-400 italic">Si la raíz del verbo termina en oclusiva (π, β, φ / κ, γ, χ), al chocar con la sigma generará una letra doble (ψ o ξ).</p>
                   </div>
 
                   <div className="grid xl:grid-cols-2 gap-8">
@@ -1047,12 +1135,13 @@
                 </div>
               )}
 
-              {tense === 'aoristo' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="bg-amber-900/20 p-8 rounded-3xl border-l-[8px] border-amber-500 text-lg text-slate-300 shadow-xl font-light">
-                    <strong>Aoristo Sigmático (1º Aoristo):</strong> Expresa una acción pasada de aspecto perfectivo (vista como un punto finalizado). Al ser un tiempo histórico de indicativo lleva <strong>Aumento</strong>. Su característica es la sigma (-σ-) y su vocal temática es la alfa (-α-).<br/>
-                    <span className="inline-block mt-3 bg-slate-950 px-4 py-2 rounded-xl font-mono text-amber-300 border border-amber-900/50">Aumento + Raíz + σ + α + Desinencias Secundarias</span>
-                    <br/><br/><span className="text-base text-slate-400 italic">¡Importante! Modos como el Imperativo o el Infinitivo NUNCA llevan aumento porque no indican tiempo, solo aspecto.</span>
+              <div className="bg-amber-900/20 p-8 rounded-3xl border-l-[8px] border-amber-500 text-lg text-slate-300 shadow-xl font-light mb-8">
+                    <h3 className="text-2xl font-bold text-amber-500 mb-4 uppercase tracking-widest">Aoristo Sigmático (1º Aoristo)</h3>
+                    <p>El aoristo es el tiempo griego por excelencia. Expresa una acción pasada de aspecto <strong>perfectivo</strong> (vista como un punto finalizado: "yo desaté"). En Indicativo, como indica pasado, lleva <strong>Aumento</strong>. Su marca es la sigma <strong>-σ-</strong> y su vocal de unión es siempre la alfa <strong>-α-</strong>.</p>
+                    <div className="mt-4 bg-slate-950 p-4 rounded-xl font-mono text-amber-300 border border-amber-900/50 text-center">
+                      Aumento + Raíz + σ + α + Desinencias Secundarias
+                    </div>
+                    <p className="mt-4 text-base text-slate-400 font-bold bg-slate-950/50 p-3 rounded-lg text-center">⚠️ Recuerda la regla de oro: ¡El Aumento es solo para el Indicativo! Si formas el Imperativo o el Infinitivo de Aoristo, DEBES quitarle el aumento.</p>
                   </div>
 
                   <div className="grid xl:grid-cols-2 gap-8">
