@@ -212,33 +212,46 @@
                 ))}
               </div>
 
-              {/* TEORÍA GENERAL DE MORFOLOGÍA NOMINAL */}
-              <div className="bg-slate-900/80 p-8 rounded-3xl border border-slate-800 shadow-xl mb-8">
-                <h3 className="text-2xl font-bold text-amber-500 mb-4">Fundamentos de la Flexión Nominal</h3>
-                <p className="text-slate-300 leading-relaxed mb-6 font-light">En griego antiguo, los sustantivos, adjetivos y pronombres se <strong>declinan</strong>. Esto significa que la raíz de la palabra no cambia, pero se le añaden sufijos (desinencias) para indicar su función sintáctica en la oración. Al declinar una palabra expresamos tres accidentes gramaticales: el caso, el número y el género.</p>
+              {/* TEORÍA GENERAL DE MORFOLOGÍA NOMINAL MASIVA */}
+              <div className="bg-slate-900/80 p-10 rounded-[2.5rem] border border-slate-800 shadow-2xl mb-10 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+                <h3 className="text-3xl font-black text-amber-500 mb-6 border-b border-slate-800 pb-4">Fundamentos de la Flexión Nominal</h3>
+                <p className="text-slate-300 leading-relaxed mb-8 font-light text-lg">
+                  El griego antiguo es una lengua flexiva. Esto significa que las palabras (sustantivos, adjetivos y pronombres) no usan tantas preposiciones como el español, sino que <strong>alteran su terminación (desinencia)</strong> para indicar su función sintáctica en la oración. La parte invariable de la palabra se llama <em>raíz</em> o <em>tema</em>.
+                </p>
                 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-inner">
-                    <h4 className="text-lg font-bold text-emerald-400 mb-3 border-b border-slate-800 pb-2">1. Los 5 Casos Griegos</h4>
-                    <ul className="space-y-3 text-sm text-slate-300 font-light">
-                      <li><strong className="text-emerald-300">Nominativo:</strong> Sujeto y Atributo. <em>(¿Quién realiza la acción?)</em></li>
-                      <li><strong className="text-emerald-300">Vocativo:</strong> Apelación o llamada. <em>(¡Oh, amigo!)</em></li>
-                      <li><strong className="text-emerald-300">Acusativo:</strong> Complemento Directo y dirección. <em>(¿Qué se recibe?)</em></li>
-                      <li><strong className="text-emerald-300">Genitivo:</strong> Complemento del Nombre (posesión/origen). <em>(¿De quién?)</em></li>
-                      <li><strong className="text-emerald-300">Dativo:</strong> Complemento Indirecto. <em>(¿A quién / Para quién?)</em></li>
+                <div className="grid lg:grid-cols-2 gap-8 mb-8">
+                  <div className="bg-slate-950/80 p-8 rounded-3xl border border-slate-800 shadow-inner relative">
+                    <div className="absolute top-0 left-0 w-2 h-full bg-emerald-500 rounded-l-3xl"></div>
+                    <h4 className="text-xl font-bold text-emerald-400 mb-4 flex items-center"><span className="text-2xl mr-3">🧭</span> Los 5 Casos y su Función</h4>
+                    <p className="text-sm text-slate-400 mb-4">El caso es la forma que adopta la palabra para expresar su papel en la frase:</p>
+                    <ul className="space-y-4 text-base text-slate-300 font-light">
+                      <li className="flex flex-col"><strong className="text-emerald-300 uppercase tracking-widest text-xs mb-1">Nominativo (El actor)</strong> Sirve para el <em>Sujeto</em> y el <em>Atributo</em>. Nombra al que realiza la acción.</li>
+                      <li className="flex flex-col"><strong className="text-emerald-300 uppercase tracking-widest text-xs mb-1">Vocativo (La llamada)</strong> Sirve para llamar la atención del oyente (apelación). Es independiente de la oración.</li>
+                      <li className="flex flex-col"><strong className="text-emerald-300 uppercase tracking-widest text-xs mb-1">Acusativo (El límite)</strong> Expresa el <em>Complemento Directo</em> (lo que sufre la acción) y la <em>dirección</em> (con preposiciones).</li>
+                      <li className="flex flex-col"><strong className="text-emerald-300 uppercase tracking-widest text-xs mb-1">Genitivo (El origen)</strong> Expresa el <em>Complemento del Nombre</em> (posesión, pertenencia, materia) y el punto de partida o separación.</li>
+                      <li className="flex flex-col"><strong className="text-emerald-300 uppercase tracking-widest text-xs mb-1">Dativo (El receptor)</strong> Expresa el <em>Complemento Indirecto</em> (a quién beneficia el daño/provecho), el instrumento y el lugar.</li>
                     </ul>
                   </div>
 
-                  <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-inner">
-                    <h4 className="text-lg font-bold text-blue-400 mb-3 border-b border-slate-800 pb-2">2. Género y Número</h4>
-                    <p className="text-sm text-slate-300 mb-3 font-light">El griego distingue tres géneros: <strong className="text-white">Masculino, Femenino y Neutro</strong>. El neutro se usa para conceptos abstractos/inanimados y tiene una regla inviolable: su Nominativo, Vocativo y Acusativo son siempre idénticos.</p>
-                    <p className="text-sm text-slate-300 font-light">En número, existe el Singular, el Plural y restos del <strong>Dual</strong> (usado para órganos pares anatómicos como los ojos o las manos).</p>
-                  </div>
+                  <div className="space-y-8">
+                    <div className="bg-slate-950/80 p-8 rounded-3xl border border-slate-800 shadow-inner relative">
+                      <div className="absolute top-0 left-0 w-2 h-full bg-blue-500 rounded-l-3xl"></div>
+                      <h4 className="text-xl font-bold text-blue-400 mb-3 flex items-center"><span className="text-2xl mr-3">⚧️</span> Género y Número</h4>
+                      <p className="text-sm text-slate-300 font-light leading-relaxed">
+                        El griego distingue tres géneros: <strong className="text-white">Masculino, Femenino y Neutro</strong>. El neutro representa realidades inanimadas, resultados de acciones o conceptos abstractos. Posee una regla de oro inviolable: <strong className="text-blue-300">Su Nominativo, Vocativo y Acusativo son siempre idénticos</strong> (y en plural siempre acaban en alfa <em>-α</em>).<br/><br/>
+                        En cuanto al número, además de Singular y Plural, el griego conserva restos del antiquísimo <strong>Dual</strong>, usado para designar pares naturales (los dos ojos, las dos manos, dos caballos tirando de un carro).
+                      </p>
+                    </div>
 
-                  <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-inner">
-                    <h4 className="text-lg font-bold text-purple-400 mb-3 border-b border-slate-800 pb-2">3. Adjetivos y Pronombres</h4>
-                    <p className="text-sm text-slate-300 mb-3 font-light"><strong className="text-purple-300">Adjetivos:</strong> Deben concordar obligatoriamente en género, número y caso con el sustantivo al que acompañan. Se dividen en clases según qué declinación utilicen.</p>
-                    <p className="text-sm text-slate-300 font-light"><strong className="text-purple-300">Pronombres:</strong> Sustituyen al nombre. Los personales tienen formas "fuertes" (con acento para dar énfasis) y formas "débiles" (enclíticas).</p>
+                    <div className="bg-slate-950/80 p-8 rounded-3xl border border-slate-800 shadow-inner relative">
+                      <div className="absolute top-0 left-0 w-2 h-full bg-purple-500 rounded-l-3xl"></div>
+                      <h4 className="text-xl font-bold text-purple-400 mb-3 flex items-center"><span className="text-2xl mr-3">✨</span> Adjetivos y Pronombres</h4>
+                      <p className="text-sm text-slate-300 font-light leading-relaxed">
+                        <strong className="text-purple-300">Los Adjetivos</strong> son dependientes: deben concordar obligatoriamente en <em>género, número y caso</em> con el sustantivo al que determinan, adaptando su terminación a través de las tres declinaciones.<br/><br/>
+                        <strong className="text-purple-300">Los Pronombres</strong> ("en lugar del nombre") estructuran el discurso. Los personales distinguen entre formas <em>tónicas</em> (usadas con preposiciones o para dar énfasis) y formas <em>átonas o enclíticas</em> (que se apoyan en la palabra anterior y sirven para un uso normal y fluido).
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -775,7 +788,8 @@
             { id: 'presente', name: 'Presente' },
             { id: 'imperfecto', name: 'Imperfecto' },
             { id: 'futuro', name: 'Futuro' },
-            { id: 'aoristo', name: 'Aoristo' }
+            { id: 'aoristo', name: 'Aoristo' },
+            { id: 'contractos', name: 'V. Contractos' } // <-- ¡LÍNEA NUEVA!
           ];
 
           return (
@@ -794,83 +808,92 @@
               </div>
 
               {tense === 'teoria' && (
-                <div className="space-y-8 animate-fade-in">
-                  <div className="bg-slate-900/80 p-10 rounded-3xl border border-slate-800 shadow-xl">
-                    <h3 className="text-3xl font-serif text-amber-500 mb-6 font-bold text-center">La Anatomía Matemática del Verbo Griego</h3>
-                    <p className="text-slate-300 leading-relaxed mb-10 text-center max-w-4xl mx-auto font-light text-lg">El verbo griego es como un rompecabezas lógico. Una sola palabra nos indica <strong>persona, número, tiempo, aspecto, modo y voz</strong> aglutinando morfemas alrededor de una raíz léxica.</p>
+                <div className="space-y-10 animate-fade-in">
+                  <div className="bg-slate-900/80 p-12 rounded-[2.5rem] border border-slate-800 shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px]"></div>
+                    <h3 className="text-4xl font-serif text-amber-500 mb-6 font-bold text-center drop-shadow-md">La Ecuación del Verbo Griego</h3>
+                    <p className="text-slate-300 leading-relaxed mb-12 text-center max-w-4xl mx-auto font-light text-xl">El verbo es el núcleo del idioma. Una sola palabra es un microcosmos que encierra <strong>persona, número, tiempo, aspecto, modo y voz</strong> aglutinando piezas matemáticas (morfemas) alrededor de su raíz (lexema).</p>
                     
-                    <div className="flex flex-wrap justify-center items-center gap-4 text-xl font-serif mb-12">
-                      <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col items-center shadow-inner">
-                        <span className="text-[11px] font-sans text-slate-500 uppercase tracking-widest mb-2 font-bold">1. Aumento</span>
-                        <span className="text-pink-400 font-bold bg-pink-500/10 px-4 py-1.5 rounded-lg">ἐ</span>
+                    <div className="flex flex-wrap justify-center items-center gap-4 text-2xl font-serif mb-16">
+                      <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center shadow-inner hover:scale-105 transition-transform">
+                        <span className="text-[12px] font-sans text-slate-500 uppercase tracking-widest mb-3 font-black">1. Aumento</span>
+                        <span className="text-pink-400 font-bold bg-pink-500/10 px-5 py-2 rounded-xl border border-pink-500/20">ἐ</span>
                       </div>
                       <span className="text-slate-600 font-sans">+</span>
-                      <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col items-center shadow-inner">
-                        <span className="text-[11px] font-sans text-slate-500 uppercase tracking-widest mb-2 font-bold">2. Raíz</span>
-                        <span className="text-emerald-400 font-bold bg-emerald-500/10 px-4 py-1.5 rounded-lg">λύ</span>
+                      <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center shadow-inner hover:scale-105 transition-transform">
+                        <span className="text-[12px] font-sans text-slate-500 uppercase tracking-widest mb-3 font-black">2. Raíz</span>
+                        <span className="text-emerald-400 font-bold bg-emerald-500/10 px-5 py-2 rounded-xl border border-emerald-500/20">λύ</span>
                       </div>
                       <span className="text-slate-600 font-sans">+</span>
-                      <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col items-center shadow-inner">
-                        <span className="text-[11px] font-sans text-slate-500 uppercase tracking-widest mb-2 font-bold">3. Caract.</span>
-                        <span className="text-purple-400 font-bold bg-purple-500/10 px-4 py-1.5 rounded-lg">σ</span>
+                      <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center shadow-inner hover:scale-105 transition-transform">
+                        <span className="text-[12px] font-sans text-slate-500 uppercase tracking-widest mb-3 font-black">3. Caract.</span>
+                        <span className="text-purple-400 font-bold bg-purple-500/10 px-5 py-2 rounded-xl border border-purple-500/20">σ</span>
                       </div>
                       <span className="text-slate-600 font-sans">+</span>
-                      <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col items-center shadow-inner">
-                        <span className="text-[11px] font-sans text-slate-500 uppercase tracking-widest mb-2 font-bold">4. V. Temática</span>
-                        <span className="text-blue-400 font-bold bg-blue-500/10 px-4 py-1.5 rounded-lg">α</span>
+                      <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center shadow-inner hover:scale-105 transition-transform">
+                        <span className="text-[12px] font-sans text-slate-500 uppercase tracking-widest mb-3 font-black">4. V. Temática</span>
+                        <span className="text-blue-400 font-bold bg-blue-500/10 px-5 py-2 rounded-xl border border-blue-500/20">α</span>
                       </div>
                       <span className="text-slate-600 font-sans">+</span>
-                      <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col items-center shadow-inner">
-                        <span className="text-[11px] font-sans text-slate-500 uppercase tracking-widest mb-2 font-bold">5. Desinencia</span>
-                        <span className="text-amber-500 font-bold bg-amber-500/10 px-4 py-1.5 rounded-lg">μεν</span>
+                      <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center shadow-inner hover:scale-105 transition-transform">
+                        <span className="text-[12px] font-sans text-slate-500 uppercase tracking-widest mb-3 font-black">5. Desinencia</span>
+                        <span className="text-amber-500 font-bold bg-amber-500/10 px-5 py-2 rounded-xl border border-amber-500/20">μεν</span>
                       </div>
                     </div>
 
-                    <div className="grid lg:grid-cols-3 gap-8">
-                      {/* Tiempos y Aspecto */}
-                      <div className="bg-slate-950 p-8 rounded-3xl border border-slate-800">
-                        <h4 className="text-xl font-bold text-pink-400 mb-4 border-b border-slate-800 pb-3 flex items-center"><span className="text-2xl mr-2">⏳</span> Tiempo y Aspecto</h4>
-                        <p className="text-sm text-slate-300 mb-4 font-light">Para los griegos era más importante el <strong>aspecto</strong> (cómo transcurre la acción) que el tiempo cronológico en sí.</p>
-                        <ul className="space-y-3 text-sm text-slate-400 font-light">
-                          <li><strong className="text-slate-200">Presente/Imperfecto:</strong> Aspecto <em>durativo</em> (acción en desarrollo).</li>
-                          <li><strong className="text-slate-200">Aoristo:</strong> Aspecto <em>puntual/perfectivo</em> (acción terminada y vista como un punto en el tiempo).</li>
-                          <li><strong className="text-slate-200">Futuro:</strong> Aspecto prospectivo.</li>
-                        </ul>
+                    <div className="grid xl:grid-cols-2 gap-10">
+                      {/* Aspecto y Modos */}
+                      <div className="space-y-8">
+                        <div className="bg-slate-950/80 p-8 rounded-3xl border border-slate-800">
+                          <h4 className="text-2xl font-bold text-pink-400 mb-4 border-b border-slate-800 pb-3 flex items-center"><span className="text-3xl mr-3">⏳</span> Tiempo y Aspecto (Aumento)</h4>
+                          <p className="text-base text-slate-300 mb-5 font-light">
+                            Para los griegos, el <strong>aspecto</strong> (cómo transcurre la acción) era más vital que el tiempo cronológico. El <strong className="text-white">Aumento</strong> (esa épsilon inicial <em className="text-pink-400 font-serif">ἐ-</em>) es la "etiqueta" que se pone a un verbo para anclarlo en el <strong>pasado</strong>. Solo los tiempos históricos del indicativo lo llevan.
+                          </p>
+                          <ul className="space-y-3 text-sm text-slate-400 font-light border-l-4 border-slate-800 pl-4">
+                            <li><strong className="text-slate-200">Pres/Imperf:</strong> Aspecto <em>durativo</em> (acción en proceso "yo desataba").</li>
+                            <li><strong className="text-slate-200">Aoristo:</strong> Aspecto <em>perfectivo</em> (acción terminada vista como un punto "yo desaté").</li>
+                            <li><strong className="text-slate-200">Perfecto:</strong> Aspecto <em>estático</em> (acción acabada cuyo resultado sigue vigente "yo he desatado").</li>
+                          </ul>
+                        </div>
+
+                        <div className="bg-slate-950/80 p-8 rounded-3xl border border-slate-800">
+                          <h4 className="text-2xl font-bold text-blue-400 mb-4 border-b border-slate-800 pb-3 flex items-center"><span className="text-3xl mr-3">🧭</span> Los Modos Griegos</h4>
+                          <ul className="space-y-4 text-base text-slate-300 font-light">
+                            <li className="flex flex-col"><strong className="text-blue-300 text-sm">Indicativo:</strong> Expresa la realidad y el hecho objetivo. Es el único modo que expresa "tiempo" real (pasado, presente, futuro).</li>
+                            <li className="flex flex-col"><strong className="text-blue-300 text-sm">Subjuntivo:</strong> El modo de la eventualidad, la exhortación ("¡Vayamos!") o la deliberación. Se reconoce por alargar sus vocales temáticas a ω/η.</li>
+                            <li className="flex flex-col"><strong className="text-blue-300 text-sm">Optativo:</strong> El modo del deseo puro ("¡Ojalá llueva!") o la posibilidad lejana. Su marca característica es el diptongo -οι- / -αι-.</li>
+                            <li className="flex flex-col"><strong className="text-blue-300 text-sm">Imperativo:</strong> Ruego, mandato o prohibición.</li>
+                          </ul>
+                        </div>
                       </div>
 
-                      {/* Modos */}
-                      <div className="bg-slate-950 p-8 rounded-3xl border border-slate-800">
-                        <h4 className="text-xl font-bold text-blue-400 mb-4 border-b border-slate-800 pb-3 flex items-center"><span className="text-2xl mr-2">🧭</span> Los Modos</h4>
-                        <p className="text-sm text-slate-300 mb-4 font-light">Expresan la actitud del hablante frente a la acción que enuncia.</p>
-                        <ul className="space-y-3 text-sm text-slate-400 font-light">
-                          <li><strong className="text-blue-300">Indicativo:</strong> Expresa la realidad objetiva.</li>
-                          <li><strong className="text-blue-300">Subjuntivo:</strong> Expresa eventualidad o voluntad.</li>
-                          <li><strong className="text-blue-300">Optativo:</strong> El modo del deseo puro o la posibilidad.</li>
-                          <li><strong className="text-blue-300">Imperativo:</strong> Expresa ruego o mandato.</li>
-                        </ul>
-                      </div>
+                      {/* La Voz Media EXPANSIÓN MASIVA */}
+                      <div className="bg-gradient-to-br from-slate-950 to-purple-950/20 p-10 rounded-3xl border-2 border-purple-500/40 shadow-[0_0_40px_rgba(168,85,247,0.15)] relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500/20 rounded-full blur-[60px]"></div>
+                        <h4 className="text-3xl font-black text-purple-400 mb-6 border-b border-purple-500/30 pb-4 flex items-center relative z-10"><span className="text-4xl mr-4">🗣️</span> El Misterio de la Voz Media</h4>
+                        <div className="relative z-10 space-y-6 text-slate-300 text-lg font-light leading-relaxed">
+                          <p>En español solo tenemos dos voces: Activa (yo lavo el coche) y Pasiva (el coche es lavado por mí). El griego antiguo inventó una tercera vía: <strong>La Voz Media</strong>.</p>
+                          
+                          <p>Morfológicamente, la voz media utiliza las mismas desinencias que la voz pasiva en los tiempos de presente, imperfecto y perfecto. Sin embargo, su significado es totalmente distinto.</p>
+                          
+                          <div className="bg-slate-900/80 border border-slate-700 p-6 rounded-2xl space-y-4">
+                            <h5 className="font-bold text-white uppercase tracking-widest text-sm">Usos y Traducción</h5>
+                            <p><strong className="text-purple-300 block">1. Valor Reflexivo / De Interés:</strong><br/> El sujeto ejecuta la acción, pero con un especial interés en el resultado, o recayendo sobre sí mismo.<br/>
+                            <span className="font-serif text-xl bg-slate-950 p-2 rounded mt-2 block w-fit border border-slate-800">λούω (Lavo a otro) ➡️ λούομαι (Me lavo)</span></p>
 
-                      {/* Las Voces (Énfasis en Voz Media) */}
-                      <div className="bg-slate-950 p-8 rounded-3xl border-2 border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/20 rounded-full blur-[40px]"></div>
-                        <h4 className="text-xl font-bold text-purple-400 mb-4 border-b border-slate-800 pb-3 flex items-center relative z-10"><span className="text-2xl mr-2">🗣️</span> La Voz Media</h4>
-                        <p className="text-sm text-slate-300 mb-3 font-light relative z-10">
-                          A diferencia de nuestro idioma, el griego inventó la <strong>Voz Media</strong>.
-                        </p>
-                        <p className="text-sm text-slate-300 mb-4 font-light relative z-10">
-                          En ella, el sujeto es activo, pero la acción <strong>recae íntimamente en su propio interés o sobre sí mismo</strong>.
-                        </p>
-                        <div className="bg-slate-900 border border-slate-700 p-4 rounded-xl text-sm text-slate-400 relative z-10 space-y-2">
-                          <p><strong className="text-purple-300">V. Activa:</strong> λούω (Lavo a otro)</p>
-                          <p><strong className="text-purple-300">V. Media:</strong> λούομαι (Me lavo)</p>
-                          <p className="pt-2 border-t border-slate-800 mt-2 text-xs italic">Verbos Deponentes: Tienen forma media pero traducción activa.</p>
+                            <p className="pt-4 border-t border-slate-700/50"><strong className="text-purple-300 block">2. Valor Recíproco:</strong><br/> Acción compartida entre varios sujetos.<br/>
+                            <span className="font-serif text-xl bg-slate-950 p-2 rounded mt-2 block w-fit border border-slate-800">μάχομαι (lucho contra alguien mutuamente)</span></p>
+
+                            <p className="pt-4 border-t border-slate-700/50"><strong className="text-amber-500 block">3. Verbos Deponentes:</strong><br/> Son la mayor trampa para los estudiantes. Algunos verbos perdieron su forma activa con los siglos y solo se conjugan en voz media, pero <strong>se traducen en voz activa</strong> obligatoriamente.<br/>
+                            <span className="font-serif text-xl bg-slate-950 p-2 rounded mt-2 inline-block border border-slate-800 mr-2">ἔρχομαι (yo voy)</span>
+                            <span className="font-serif text-xl bg-slate-950 p-2 rounded mt-2 inline-block border border-slate-800">βούλομαι (yo quiero)</span></p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               )}
-
               {tense === 'presente' && (
                 <div className="space-y-6 animate-fade-in">
                   <div className="bg-slate-900 p-6 rounded-2xl border-l-4 border-indigo-500 text-sm text-slate-300">
@@ -1002,6 +1025,113 @@
                   <div className="bg-amber-900/20 border border-amber-500/30 p-6 rounded-2xl border-l-4 border-l-amber-500 text-sm text-slate-300">
                     Aoristo Sigmático: Acción pasada de aspecto perfectivo (puntual). <strong>Aum</strong> + Raíz + <strong className="text-purple-400">σ</strong> + V.T. <strong className="text-blue-400">α</strong> + <strong>Des. Secundarias</strong>. <br/><span className="italic text-slate-400">Recuerda: El Imperativo y el Infinitivo NUNCA llevan aumento.</span>
                   </div>
+                    {/* APARTADO NUEVO: VERBOS CONTRACTOS */}
+              {tense === 'contractos' && (
+                <div className="space-y-10 animate-fade-in">
+                  <div className="bg-slate-900/80 p-10 rounded-[2.5rem] border-l-[8px] border-emerald-500 shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px]"></div>
+                    <h3 className="text-4xl font-black text-white mb-6 relative z-10 flex items-center">
+                      <span className="text-emerald-400 mr-4">🔗</span> El choque vocálico: Verbos Contractos
+                    </h3>
+                    <p className="text-slate-300 text-lg leading-relaxed font-light relative z-10 max-w-5xl">
+                      En griego, la mayoría de verbos terminan en <strong>-ω</strong> pura (ej. <em>λύ-ω</em>). Sin embargo, existe un grupo enorme de verbos cuya raíz léxica termina en una vocal breve (<strong>-α, -ε, -ο</strong>). Al encontrarse esta vocal final de la raíz con la vocal temática de la desinencia (ο/ε), se produce un "choque vocálico" o <strong>contracción</strong>.
+                    </p>
+                    
+                    <div className="grid md:grid-cols-3 gap-6 mt-10 relative z-10">
+                      <div className="bg-slate-950 border border-slate-800 p-6 rounded-2xl shadow-inner text-center">
+                        <span className="block text-amber-500 text-4xl font-serif font-bold mb-2">α + ε/ο</span>
+                        <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">Verbos en -άω (τιμάω)</h4>
+                        <p className="text-slate-400 text-sm">Predomina la vocal <strong>α/ω</strong> de timbre abierto.</p>
+                      </div>
+                      <div className="bg-slate-950 border border-slate-800 p-6 rounded-2xl shadow-inner text-center">
+                        <span className="block text-amber-500 text-4xl font-serif font-bold mb-2">ε + ε/ο</span>
+                        <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">Verbos en -έω (ποιέω)</h4>
+                        <p className="text-slate-400 text-sm">Generan los diptongos falsos <strong>ει / ου</strong>.</p>
+                      </div>
+                      <div className="bg-slate-950 border border-slate-800 p-6 rounded-2xl shadow-inner text-center">
+                        <span className="block text-amber-500 text-4xl font-serif font-bold mb-2">ο + ε/ο</span>
+                        <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-2">Verbos en -όω (δηλόω)</h4>
+                        <p className="text-slate-400 text-sm">Absorben todo hacia la vocal velar <strong>ω / ου</strong>.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* TABLAS DE CONTRACTOS LADO A LADO */}
+                  <div className="grid xl:grid-cols-3 gap-8">
+                    {/* TIMAO */}
+                    <div className="bg-slate-900 rounded-3xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h4 className="bg-slate-950 text-center py-5 font-black text-xl font-serif text-white border-b border-slate-800 tracking-wider">τιμάω (Honrar)</h4>
+                      <div className="overflow-x-auto p-6">
+                        <table className="w-full text-center text-lg font-serif">
+                          <thead>
+                            <tr className="text-slate-500 text-[10px] font-sans uppercase tracking-widest border-b border-slate-800">
+                              <th className="pb-3 text-left">Pers</th>
+                              <th className="pb-3">Sin contraer</th>
+                              <th className="pb-3 text-amber-400">Contraído</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-800/30 text-slate-200">
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">1S</td><td className="text-slate-400 italic">τιμά-ω</td><td className="text-amber-400 font-bold text-2xl greek-text">τιμῶ</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">2S</td><td className="text-slate-400 italic">τιμά-εις</td><td className="text-amber-400 font-bold text-2xl greek-text">τιμᾷς</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">3S</td><td className="text-slate-400 italic">τιμά-ει</td><td className="text-amber-400 font-bold text-2xl greek-text">τιμᾷ</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">1P</td><td className="text-slate-400 italic">τιμά-ομεν</td><td className="text-amber-400 font-bold text-2xl greek-text">τιμῶμεν</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">2P</td><td className="text-slate-400 italic">τιμά-ετε</td><td className="text-amber-400 font-bold text-2xl greek-text">τιμᾶτε</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">3P</td><td className="text-slate-400 italic">τιμά-ουσι</td><td className="text-amber-400 font-bold text-2xl greek-text">τιμῶσι</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* POIEO */}
+                    <div className="bg-slate-900 rounded-3xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h4 className="bg-slate-950 text-center py-5 font-black text-xl font-serif text-white border-b border-slate-800 tracking-wider">ποιέω (Hacer)</h4>
+                      <div className="overflow-x-auto p-6">
+                        <table className="w-full text-center text-lg font-serif">
+                          <thead>
+                            <tr className="text-slate-500 text-[10px] font-sans uppercase tracking-widest border-b border-slate-800">
+                              <th className="pb-3 text-left">Pers</th>
+                              <th className="pb-3">Sin contraer</th>
+                              <th className="pb-3 text-emerald-400">Contraído</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-800/30 text-slate-200">
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">1S</td><td className="text-slate-400 italic">ποιέ-ω</td><td className="text-emerald-400 font-bold text-2xl greek-text">ποιῶ</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">2S</td><td className="text-slate-400 italic">ποιέ-εις</td><td className="text-emerald-400 font-bold text-2xl greek-text">ποιεῖς</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">3S</td><td className="text-slate-400 italic">ποιέ-ει</td><td className="text-emerald-400 font-bold text-2xl greek-text">ποιεῖ</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">1P</td><td className="text-slate-400 italic">ποιέ-ομεν</td><td className="text-emerald-400 font-bold text-2xl greek-text">ποιοῦμεν</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">2P</td><td className="text-slate-400 italic">ποιέ-ετε</td><td className="text-emerald-400 font-bold text-2xl greek-text">ποιεῖτε</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">3P</td><td className="text-slate-400 italic">ποιέ-ουσι</td><td className="text-emerald-400 font-bold text-2xl greek-text">ποιοῦσι</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* DELOO */}
+                    <div className="bg-slate-900 rounded-3xl border border-slate-800 shadow-xl overflow-hidden">
+                      <h4 className="bg-slate-950 text-center py-5 font-black text-xl font-serif text-white border-b border-slate-800 tracking-wider">δηλόω (Mostrar)</h4>
+                      <div className="overflow-x-auto p-6">
+                        <table className="w-full text-center text-lg font-serif">
+                          <thead>
+                            <tr className="text-slate-500 text-[10px] font-sans uppercase tracking-widest border-b border-slate-800">
+                              <th className="pb-3 text-left">Pers</th>
+                              <th className="pb-3">Sin contraer</th>
+                              <th className="pb-3 text-purple-400">Contraído</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-800/30 text-slate-200">
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">1S</td><td className="text-slate-400 italic">δηλό-ω</td><td className="text-purple-400 font-bold text-2xl greek-text">δηλῶ</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">2S</td><td className="text-slate-400 italic">δηλό-εις</td><td className="text-purple-400 font-bold text-2xl greek-text">δηλοῖς</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">3S</td><td className="text-slate-400 italic">δηλό-ει</td><td className="text-purple-400 font-bold text-2xl greek-text">δηλοῖ</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">1P</td><td className="text-slate-400 italic">δηλό-ομεν</td><td className="text-purple-400 font-bold text-2xl greek-text">δηλοῦμεν</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">2P</td><td className="text-slate-400 italic">δηλό-ετε</td><td className="text-purple-400 font-bold text-2xl greek-text">δηλοῦτε</td></tr>
+                            <tr className="hover:bg-slate-800/30"><td className="py-4 text-left font-sans text-xs font-bold text-slate-500">3P</td><td className="text-slate-400 italic">δηλό-ουσι</td><td className="text-purple-400 font-bold text-2xl greek-text">δηλοῦσι</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
                   <div className="grid xl:grid-cols-2 gap-6">
                     <div className="bg-slate-900/80 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
                       <h4 className="bg-slate-950 text-center py-3 font-black uppercase text-sm tracking-widest text-slate-400">Voz Activa</h4>
